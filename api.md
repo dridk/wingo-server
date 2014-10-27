@@ -9,6 +9,7 @@ Config model contains different kind of static parameters.
 Notes model contains all data for each footprint. *limit.max* is the pocket tool limit. *limit.current* is the actual count of total amount of tooks.
 
     Notes {
+        id              [key]
         author          [index]
         anonymous       [bool]
         message         [text]
@@ -24,6 +25,7 @@ Notes model contains all data for each footprint. *limit.max* is the pocket tool
 User is the model which contains data about user. It contains a particular field called pockets, which is a copy from *Notes* and represent the Poket.
 
     User {
+        id          [key]
         email       [string]
         password    [string]
         nickname    [string]
@@ -35,6 +37,7 @@ User is the model which contains data about user. It contains a particular field
 Comments is the the comments...
 
     Comments {
+        id              [key]
         note_id         [key]
         comment         [String]
         author          [key]
