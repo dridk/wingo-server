@@ -1,4 +1,4 @@
-==MODELS==
+#MODELS
 Config model contains different kind of static parameters.
     
     Config {
@@ -40,10 +40,8 @@ Comments is the the comments...
         author          [key]
     }
 
-== ENDPOINT ==
-
-=== CONFIG ===
-
+#ENDPOINT
+##CONFIG
 [GET] /config/
 
     Request:{}
@@ -55,8 +53,7 @@ Comments is the the comments...
     version             : 1.0      
     }
 
-=== NOTES ===
-
+##NOTES
 [GET] /notes/search 
 
     Request: 
@@ -66,8 +63,7 @@ Comments is the the comments...
         search:"cute dogs"
     }
 
-Response:
-
+    Response:
     Body: [{
         author.name: "ikit"
         author.avatar: "http://gravatar.png"
@@ -123,7 +119,7 @@ Response:
     Request: {}
     Response:{}
 
-===COMMENTS ===
+##COMMENTS
 
 [GET] /notes/{id}/comments/
     
@@ -174,7 +170,7 @@ Response:
   
 
 
-=== USER ===
+##USER
 
 [GET] /users/{id}
 
@@ -208,23 +204,23 @@ Response:
     }
 
 Summary : 
-[GET] /config/
-[GET] /notes/search 
-[GET] /notes/{id}
-[DELETE] /notes/id
-[GET] /notes/{id}/comments/
-[POST] /notes/{id}/comments/
-[DELETE] /comments/{id}
-[GET] /comments/{id}
-[GET] /tags
-[GET] /users/{id}
-[UPDATE] /users/{id}
-[POST] /users/login
-[POST] /users/logout
-[GET]  /users/me
-[GET] /users/{id}/pockets
-[POST] /users/
-[GET] /users/{id}/pockets
+*[GET] /config/
+*[GET] /notes/search 
+*[GET] /notes/{id}
+*[DELETE] /notes/id
+*[GET] /notes/{id}/comments/
+*[POST] /notes/{id}/comments/
+*[DELETE] /comments/{id}
+*[GET] /comments/{id}
+*[GET] /tags
+*[GET] /users/{id}
+*[UPDATE] /users/{id}
+*[POST] /users/login
+*[POST] /users/logout
+*[GET]  /users/me
+*[GET] /users/{id}/pockets
+*[POST] /users/
+*[GET] /users/{id}/pockets
 
 
 
