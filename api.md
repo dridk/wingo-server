@@ -207,23 +207,23 @@ Comments is the the comments...
     }
 
 Summary : 
-*[GET] /config/
-*[GET] /notes/search 
-*[GET] /notes/{id}
-*[DELETE] /notes/id
-*[GET] /notes/{id}/comments/
-*[POST] /notes/{id}/comments/
-*[DELETE] /comments/{id}
-*[GET] /comments/{id}
-*[GET] /tags
-*[GET] /users/{id}
-*[UPDATE] /users/{id}
-*[POST] /users/login
-*[POST] /users/logout
-*[GET]  /users/me
-*[GET] /users/{id}/pockets
-*[POST] /users/
-*[GET] /users/{id}/pockets
+[GET] /config/
+[GET] /notes/search?order=recent&radius=50&search=cute dogs
+[GET] /notes/{id}
+[DELETE] /notes/id
+[GET] /notes/{id}/comments/
+[POST] /notes/{id}/comments/
+[DELETE] /comments/{id}
+[GET] /comments/{id}
+[GET] /tags?radius=50
+[GET] /users/{id}
+[UPDATE] /users/{id}
+[POST] /users/login
+[POST] /users/logout
+[GET]  /users/me
+[GET] /users/{id}/pockets
+[POST] /users/
+[GET] /users/{id}/pockets
 
 
 
