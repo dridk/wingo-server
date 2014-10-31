@@ -31,7 +31,3 @@ class Comment(Document):
 	author  = ReferenceField(User, required=True)
 	comment = StringField()
 
-class Config(Document):
-	allowed_radius = ListField(IntField())
-	message_length = IntField()
-	version        = StringField()
