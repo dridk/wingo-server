@@ -1,7 +1,7 @@
 
 from loremipsum import *
 from random import randint
-from api.models import *
+from wingo.models import *
 
 print("GENERATE DATABASE ... ")
 connect('wingo') 
