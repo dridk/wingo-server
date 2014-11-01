@@ -26,9 +26,11 @@ class TagResource(restful.Resource):
 		notes = Note.objects(location__near=location, location__max_distance=radius).only("tags")
 		tags = set()
 		
+		#Get all uniq tags in a set 
 		for note in notes:
 			[tags.add(tag) for tag in note.tags]
 
+		#Compute how many tags for each tags
 		results = []
 		for tag in tags:
 			item = {"name":tag, "count":notes.filter(tags__contains=tag).count()}
