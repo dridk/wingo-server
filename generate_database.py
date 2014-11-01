@@ -45,15 +45,16 @@ defautLocation = [
 [43.86959,-79.26208],
 [40.74917,-73.98529]
 ]
-defautUser = User.objects.first()
 
 
 for loc in defautLocation:
 	note = Note()
-	note.author = defautUser
+	note.author = User.objects[randint(0,2)]
 	note.message = genText()
 	note.location=loc
 	note.takes = randint(0,300)
+
+	note.tags = ["cat","dog"]
 	note.save()
 
 

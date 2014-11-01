@@ -6,12 +6,16 @@ from models import Note
 
 class NoteCollection(restful.Resource):
 	def get(self):
-		#http :5000/notes/search?at=43.8,-79
+		#http :5000/notes/search?at=43.82186,-79.42456&radius=1000
 
 		location = request.args.get('at').split(",")
-		print location
-		notes = Note.objects(location__near=location, location__max_distance=50)
+		radius   = int(request.args.get("radius", 50))
 		
+		location = [float(i) for i in location]
+
+
+		notes = Note.objects(location__near=location, location__max_distance=radius)	
+
 		results = []
 		for note in notes :
 			r = dict()
@@ -26,4 +30,4 @@ class NoteCollection(restful.Resource):
 			
 			results.append(r)
 
-		return SuccessResponse(results)
+		return SuccessResponse(results )

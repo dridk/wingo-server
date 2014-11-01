@@ -19,7 +19,7 @@ class Note(Document):
 	message    = StringField(required = True, max_length=MSG_LENGTH)
 	picture    = URLField()
 	timestamp  = DateTimeField(default=datetime.now, required=True)
-	location   = GeoPointField(required=True)
+	location   = PointField(required=True, auto_index=True)
 	expiration = DateTimeField()
 	takes      = IntField()
 	limit      = IntField()
