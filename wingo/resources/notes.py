@@ -11,7 +11,7 @@ from flask import current_app
 class NoteCollection(restful.Resource):
 	def get(self):
 		
-		#http :5000/notes/search at==43.82186,-79.42456 radius==100 order=recent query=cat
+		#http :5000/notes at==43.82186,-79.42456 radius==100 order=recent query=cat
 		#Create args parsing 
 		parser = reqparse.RequestParser()
 		parser.add_argument('radius', type=int, help='Set a valid radius according to config', 
@@ -19,7 +19,7 @@ class NoteCollection(restful.Resource):
 
 		parser.add_argument('at', type=str, help='coordinate (at) must be defined', default="43.82186,-79.42456")
 		parser.add_argument('order', type=str, help='set recent or popular',choices=["recent","popular"], default="recent")
-		parser.add_argument('query', type=str, help='add a keyword to searchg', default="")
+		parser.add_argument('query', type=str, help='add a keyword to search', default=None)
 		parser.add_argument('page', type=int, help='which page do you want')
 		args = parser.parse_args()
 
@@ -37,21 +37,28 @@ class NoteCollection(restful.Resource):
 		print "query    : {}".format(query)
 
 		#Get notes
-		if (order == "popular"):
-			notes = Note.objects(location__near=location, location__max_distance=radius, tags__contains=query).order_by("-takes")
+
+		if query is None :
+			if (order == "popular"):
+				notes = Note.objects(location__near=location, location__max_distance=radius).order_by("-takes")
+			else:
+				notes = Note.objects(location__near=location, location__max_distance=radius).order_by("timestamp")
+
 		else:
-			notes = Note.objects(location__near=location, location__max_distance=radius, tags__contains=query).order_by("timestamp")
+			if (order == "popular"):
+				notes = Note.objects(location__near=location, location__max_distance=radius, tags__contains=query).order_by("-takes")
+			else:
+				notes = Note.objects(location__near=location, location__max_distance=radius, tags__contains=query).order_by("timestamp")
+
+
 
 		results = []
 		for note in notes :
 			r = dict()
 
 			if note.anonymous is False:
-				gravatar_hash = hashlib.md5("sacha@labsquare.org".strip().lower()).hexdigest()
-				r["author"] = {"nickname":note.author.nickname, 
-								"avatar":"http://www.gravatar.com/avatar/"+gravatar_hash+".png"
-							  }
-
+				r["author"] = {"nickname":note.author.nickname, "avatar" :note.author.avatar }
+			r["id"]   		= str(note.id)
 			r["anonymous"]  = note.anonymous
 			r["message"]    = note.message
 			r["location"]   = note.location["coordinates"]
@@ -106,7 +113,32 @@ class NoteCollection(restful.Resource):
 
 class NoteResource(restful.Resource):
 	def get(self, note_id):
-		pass
+
+		try:
+			note = Note.objects.get(id=note_id)
+		except Exception, e:
+			abort(e.message)
+
+
+		results  = dict()
+		if note.anonymous is False:
+			results["author"] = {"nickname":note.author.nickname, "avatar" :note.author.avatar }
+
+		results["anonymous"]  = note.anonymous
+		results["message"]    = note.message
+		results["location"]   = note.location["coordinates"]
+		results["expiration"] = str(note.expiration)
+		results["timestamp"]  = str(note.timestamp)
+		results["takes"]      = note.takes
+		results["limit"]      =note.limit
+		results["tags"]       =note.tags
+
+
+		
+		return SuccessResponse(results)
+
+
+		
 
 #======================================================================================================
 	def delete(self,note_id):
