@@ -164,11 +164,15 @@ Comments is the the comments...
 [GET] /tags
     
     Request: {
+        at :43.82186,-79.42456
         radius: 50
     }
 
     Response:{
-    tags: ["apple","dog","cute"]
+    [
+    "name":"dog"
+    "count":25
+    ]
     }
   
 
