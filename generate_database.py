@@ -118,8 +118,6 @@ tags = [
 
 
 
-
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # GENERATION                                                                #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -129,6 +127,7 @@ dateDelta    = 7*24*60   # in minutes
 radiusByArea = 500.0     # in meters
 notesByArea  = [15, 30]  # min and max notes by area
 commByNote   = [1, 15]   # min and max comments by notes (~ 50% of notes will have comments)
+maxTaken     = 300
 
 
 connect(dbName) 
@@ -170,12 +169,23 @@ for loc in locations:
 
 	# generate notes arround
 	for nP in notePositions:
+		# limit/take
+		limit = -1 # no limit by default
+		if randint(0,2) != 0:
+			limit = randint(1,100) * 10
+
+		mTaken = maxTaken;
+		if limit > 0:
+			mTaken = limit
+		taken = randint(0,mTaken)
+
 		note = Note()
 		note.anonymous = randint(0,2) != 0
 		note.author = User.objects[randint(0,userMax-1)]
 		note.message = loc[0] + " : " + genText(120) + genTags(randint(1,3), tags)
 		note.location=nP
-		note.takes = randint(0,300)
+		note.takes = taken
+		note.limit = limit
 		note.timestamp = currentTime - timedelta(0, 0, 0, 0, randint(0, dateDelta))
 		note.save()
 
