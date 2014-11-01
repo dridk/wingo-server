@@ -145,8 +145,8 @@ for i in range(0, userMax):
 	usr = data[i]["user"]
 	User(email=usr["email"],
 		password=usr["md5"],
-		nickname=usr["username"]).save()
-		# avatar=usr["thumbnail"]
+		nickname=usr["username"],
+		avatar=usr["picture"]["thumbnail"]).save()
 
 print("   >> " + bcolors.FAIL + str(userMax) + bcolors.ENDC + " users created")
 
