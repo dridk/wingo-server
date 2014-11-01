@@ -9,7 +9,7 @@ import hashlib
 class NoteCollection(restful.Resource):
 	def get(self):
 		
-		#http :5000/notes/search at==43.82186,-79.42456 radius==100
+		#http :5000/notes/search at==43.82186,-79.42456 radius==100 order=recent query=cat
 
 		
 		#Create args parsing 
