@@ -38,7 +38,7 @@ def genText(maxLen):
 # To generate a new position from a start position, an angle and a distance (lat/lon, degree, meter)
 def computeNewPointFrom(lat1, lon1, bearing, distance):
 	#constants
-	dR = distance / (6373 * 1000)
+	dR = (distance / 1000.0) / 6373.0
 	deg2rad = math.pi/180.0
 
 	# convert angle in radian
@@ -46,12 +46,11 @@ def computeNewPointFrom(lat1, lon1, bearing, distance):
 	lon1 = lon1 * deg2rad
 	brng = bearing * deg2rad
 
-	# compute new position
 	lat2 = math.asin( math.sin(lat1) * math.cos(dR) + math.cos(lat1) * math.sin(dR) * math.cos(brng) )
 	lon2 = lon1 + math.atan2(math.sin(brng) * math.sin(dR) * math.cos(lat1), math.cos(dR) - math.sin(lat1) * math.sin(lat2))
 
 	# convert back to degree
-	rad2deg = 180 / math.pi
+	rad2deg = 180.0 / math.pi
 	return [lat2 * rad2deg, lon2 * rad2deg]
 
 
@@ -127,7 +126,7 @@ tags = [
 dbName       = 'wingo'
 userMax      = 40        # to get more (max 200) need dev account with key - using randomuser.me website api
 dateDelta    = 7*24*60   # in minutes
-radiusByArea = 500       # in meters
+radiusByArea = 500.0     # in meters
 notesByArea  = [15, 30]  # min and max notes by area
 commByNote   = [1, 15]   # min and max comments by notes (~ 50% of notes will have comments)
 
