@@ -1,7 +1,9 @@
 from datetime import datetime
 from mongoengine import *
-MSG_LENGTH = 255
+import config
 
+
+ 
 
 class User(Document):
 	email    = EmailField(required=True)
@@ -16,7 +18,7 @@ class User(Document):
 class Note(Document):
 	author     = ReferenceField(User, required=True)
 	anonymous  = BooleanField(required=True, default = True)
-	message    = StringField(required = True, max_length=255)
+	message    = StringField(required = True, max_length=config.MAX_NOTE_LENGTH)
 	picture    = URLField()
 	timestamp  = DateTimeField(default=datetime.now, required=True)
 	location   = PointField(required=True, auto_index=True)
