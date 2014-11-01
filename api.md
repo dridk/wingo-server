@@ -17,8 +17,8 @@ Notes model contains all data for each footprint. *limit.max* is the pocket tool
         timestamp       [time]
         location        [Point]
         expiration      [Date]
-        limit.current   [int] The current count of tooks
-        limit.max       [int] The maximum allowed tooks. -1 means infinite
+        takes           [int] The current count of tooks
+        limit           [int] The maximum allowed tooks. -1 means infinite
         tags            [list]Tags from text,to perform search
     }
 
@@ -76,8 +76,8 @@ Comments is the the comments...
         timestamp:2014-08-23T18:05:46Z
         location:[47.3590900,3.3852100]
         expiration:2014-08-23T18:05:46Z
-        limit.current: 143
-        limit.max:200
+        takes: 143
+        limit:200
         tags:["dog","funny"]
     }]
 
@@ -208,7 +208,7 @@ Comments is the the comments...
 
 Summary : 
 [GET] /config/
-[GET] /notes/search?order=recent&radius=50&search=cute dogs
+[GET] /notes/search?at=40.74917,-73.98529&order=recent&radius=50&query=cute dogs
 [GET] /notes/{id}
 [DELETE] /notes/id
 [GET] /notes/{id}/comments/
