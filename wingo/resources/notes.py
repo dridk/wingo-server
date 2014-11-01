@@ -4,6 +4,7 @@ from flask.ext import restful
 from flask.ext.restful import reqparse
 from common.util import *
 from models import Note
+import hashlib
 
 class NoteCollection(restful.Resource):
 	def get(self):
@@ -17,20 +18,17 @@ class NoteCollection(restful.Resource):
 		parser.add_argument('at', type=str, help='coordinate (at) must be defined', default=[43.82186,-79.42456])
 		parser.add_argument('order', type=str, help='set recent or popular',choices=["recent","popular"], default="recent")
 		parser.add_argument('query', type=str, help='add a keyword to searchg')
+		parser.add_argument('page', type=int, help='which page do you want')
+
 
 		args = parser.parse_args()
-
-
-		print args["query"]
-
-
-
 
 		#Get args
 		radius   = args["radius"]
 		order    = args["order"]
-		location = [float(i) for i in args["at"].split(",")]
 		query    = args["query"]
+		location = [float(i) for i in args["at"].split(",")]
+
 
 		print "radius:    {}".format(radius)
 		print "latitude:  {}".format(location[0])
@@ -50,6 +48,13 @@ class NoteCollection(restful.Resource):
 		results = []
 		for note in notes :
 			r = dict()
+
+			if note.anonymous is False:
+				gravatar_hash = hashlib.md5("sacha@labsquare.org".strip().lower()).hexdigest()
+				r["author"] = {"nickname":note.author.nickname, 
+								"avatar":"http://www.gravatar.com/avatar/"+gravatar_hash+".png"
+							  }
+
 			r["anonymous"]  = note.anonymous
 			r["message"]    = note.message
 			r["location"]   = note.location["coordinates"]
