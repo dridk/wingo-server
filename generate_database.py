@@ -60,9 +60,9 @@ def genPackedPosition(lat, lon, radius, nbr):
 
 
 def genTags(nbr, tags):
-	result = []
+	result = ""
 	for i in range(0, nbr):
-		result.append(tags[randint(0, len(tags) -1)])
+		result += " #" + tags[randint(0, len(tags) -1)]
 	return result
 
 
@@ -118,8 +118,6 @@ tags = [
 
 
 
-
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # GENERATION                                                                #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -129,6 +127,7 @@ dateDelta    = 7*24*60   # in minutes
 radiusByArea = 500.0     # in meters
 notesByArea  = [15, 30]  # min and max notes by area
 commByNote   = [1, 15]   # min and max comments by notes (~ 50% of notes will have comments)
+maxTaken     = 300
 
 
 connect(dbName) 
@@ -145,8 +144,8 @@ for i in range(0, userMax):
 	usr = data[i]["user"]
 	User(email=usr["email"],
 		password=usr["md5"],
-		nickname=usr["username"]).save()
-		# avatar=usr["thumbnail"]
+		nickname=usr["username"],
+		avatar=usr["picture"]["thumbnail"]).save()
 
 print("   >> " + bcolors.FAIL + str(userMax) + bcolors.ENDC + " users created")
 
@@ -170,14 +169,24 @@ for loc in locations:
 
 	# generate notes arround
 	for nP in notePositions:
+		# limit/take
+		limit = -1 # no limit by default
+		if randint(0,2) != 0:
+			limit = randint(1,100) * 10
+
+		mTaken = maxTaken;
+		if limit > 0:
+			mTaken = limit
+		taken = randint(0,mTaken)
+
 		note = Note()
 		note.anonymous = randint(0,2) != 0
 		note.author = User.objects[randint(0,userMax-1)]
-		note.message = loc[0] + " : " + genText(120)
+		note.message = loc[0] + " : " + genText(120) + genTags(randint(1,3), tags)
 		note.location=nP
-		note.takes = randint(0,300)
+		note.takes = taken
+		note.limit = limit
 		note.timestamp = currentTime - timedelta(0, 0, 0, 0, randint(0, dateDelta))
-		note.tags = genTags(randint(1,3), tags)
 		note.save()
 
 	msg = "   > {0:20} ".format(loc[0] + " :") + bcolors.WARN + str(noteCount + 1) + bcolors.ENDC + " notes generated arround"
