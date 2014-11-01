@@ -23,7 +23,7 @@ class Note(Document):
 	location   = PointField(required=True, auto_index=True)
 	expiration = DateTimeField()
 	takes      = IntField()
-	limit      = IntField()
+	limit      = IntField(default=-1)
 	tags       = ListField(StringField())
 	def __str__(self):
 		return str(self.timestamp)
@@ -32,5 +32,6 @@ class Note(Document):
 
 class Comment(Document):
 	author  = ReferenceField(User, required=True)
+	note    = ReferenceField(Note, required=True)
 	comment = StringField()
 
