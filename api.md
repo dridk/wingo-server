@@ -92,7 +92,7 @@ Comments is the the comments...
         picture:"http://img.wigo/5242424.png"
         location:[47.3590900,3.3852100]
         expiration:2014-08-23T18:05:46Z
-        limit.max:200
+        limit:200
     }
 
     Response:{}
