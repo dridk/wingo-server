@@ -3,7 +3,20 @@ from mongoengine import *
 import config
 
 
- 
+class Cache(EmbeddedDocument):
+	location  = PointField(required=True)
+	radius    = IntField(equired=True)
+	filters   = StringField(required = True)
+	date      = DateTimeField(required=True)
+	cachePath = StringField(required=True)
+
+class Device(EmbeddedDocument):
+	uid   = UUIDField(required=True)
+	name  = StringField()
+#	cache = Cache()
+
+
+
 
 class User(Document):
 	email    = EmailField(required=True)
@@ -11,6 +24,8 @@ class User(Document):
 	nickname = StringField(required=True)
 	avatar   = URLField()
 	pockets  = ListField(IntField)
+	devices  = ListField()
+
 
 	def __str__(self):
 		return str(self.nickname)
