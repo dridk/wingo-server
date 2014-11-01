@@ -15,3 +15,8 @@ def SuccessResponse(data):
 def ErrorResponse(message="Unknown", code="111"):
 	results = {"success":False, "message":message, "error_code":code}
 	return results
+
+
+
+def tagsFromText(text):
+	return [i for i in a.split(" ") if i.startswith("#")]

@@ -1,6 +1,5 @@
 from datetime import datetime
 from mongoengine import *
-
 MSG_LENGTH = 255
 
 
@@ -28,6 +27,9 @@ class Note(Document):
 	def __str__(self):
 		return str(self.timestamp)
 
+	def clean(self):
+		#Extract tags when saving notes
+		self.tags = [i for i in self.message.split(" ") if i.startswith("#")]
 
 
 class Comment(Document):
