@@ -24,6 +24,8 @@ class Note(Document):
 	takes      = IntField()
 	limit      = IntField()
 	tags       = ListField(StringField())
+	def __str__(self):
+		return str(self.timestamp)
 
 
 
