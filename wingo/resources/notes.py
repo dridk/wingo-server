@@ -6,7 +6,8 @@ from common.util import *
 from models import *
 import hashlib
 from flask import current_app
-
+from bson.objectid import ObjectId
+from bson.errors import *
 #======================================================================================================
 class NoteCollection(restful.Resource):
 	def get(self):
@@ -114,11 +115,14 @@ class NoteCollection(restful.Resource):
 class NoteResource(restful.Resource):
 	def get(self, note_id):
 
+	
 		try:
-			note = Note.objects.get(id=note_id)
-		except Exception, e:
-			abort(e.message)
-
+			note_id = ObjectId(note_id)
+			note = Note.objects.get(pk=note_id)
+		except InvalidId, e:
+			return ErrorResponse(e.message)
+		except:
+			return ErrorResponse("Cannot find id")			
 
 		results  = dict()
 		if note.anonymous is False:
@@ -142,5 +146,18 @@ class NoteResource(restful.Resource):
 
 #======================================================================================================
 	def delete(self,note_id):
-		pass
+		note_id = ObjectId(note_id)
+		try:
+			note = Note.objects.get(id=note_id)
+			note.delete()
+		except Exception, e:
+			abort(e.message)
+
+		return SuccessResponse()	
+
+
+
+
+
+
 #======================================================================================================
