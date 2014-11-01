@@ -1,6 +1,6 @@
 import json
 
-def SuccessResponse(data):
+def SuccessResponse(data = None):
 	if data is None:
 		results = {"success":True}
 	else:

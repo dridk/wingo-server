@@ -148,11 +148,15 @@ class NoteResource(restful.Resource):
 	def delete(self,note_id):
 		note_id = ObjectId(note_id)
 		try:
+			note_id = ObjectId(note_id)
 			note = Note.objects.get(id=note_id)
 			note.delete()
-		except Exception, e:
-			abort(e.message)
+		except InvalidId, e:
+			return ErrorResponse(e.message)
+		except:
+			return ErrorResponse("Cannot find id")	
 
+					
 		return SuccessResponse()	
 
 
