@@ -3,7 +3,7 @@ Config model contains different kind of static parameters.
     
     Config {
         allowed_radius    [list]15meter, 20 meter ...
-        message_length    [int] maximum message length
+        max_note_length    [int] maximum message length
     }
 
 Notes model contains all data for each footprint. *limit.max* is the pocket tool limit. *limit.current* is the actual count of total amount of tooks.
@@ -52,7 +52,7 @@ Comments is the the comments...
     Response:
     {
     allowed_radius      : [15,20,60,100]
-    message_length      : 255   
+    max_note_length     : 255   
     version             : 1.0      
     }
 

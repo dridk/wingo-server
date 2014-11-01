@@ -5,13 +5,15 @@ from flask.ext.restful import reqparse
 from common.util import *
 from models import Note
 import hashlib
+from flask import current_app
 
 class NoteCollection(restful.Resource):
 	def get(self):
 		
 		#http :5000/notes/search at==43.82186,-79.42456 radius==100 order=recent query=cat
 
-		
+		print current_app.config["VERSION"]
+
 		#Create args parsing 
 		parser = reqparse.RequestParser()
 		parser.add_argument('radius', type=int, help='Rate cannot be converted', default=50)
