@@ -16,10 +16,12 @@ class NoteCollection(restful.Resource):
 
 		#Create args parsing 
 		parser = reqparse.RequestParser()
-		parser.add_argument('radius', type=int, help='Rate cannot be converted', default=50)
+		parser.add_argument('radius', type=int, help='Set a valid radius according to config', 
+			default=50)
+
 		parser.add_argument('at', type=str, help='coordinate (at) must be defined', default=[43.82186,-79.42456])
 		parser.add_argument('order', type=str, help='set recent or popular',choices=["recent","popular"], default="recent")
-		parser.add_argument('query', type=str, help='add a keyword to searchg')
+		parser.add_argument('query', type=str, help='add a keyword to searchg', default="")
 		parser.add_argument('page', type=int, help='which page do you want')
 
 
@@ -40,7 +42,7 @@ class NoteCollection(restful.Resource):
 
 		#Get notes
 		if (order == "popular"):
-			notes = Note.objects(location__near=location, location__max_distance=radius, tags__contains=query).order_by("takes")
+			notes = Note.objects(location__near=location, location__max_distance=radius, tags__contains=query).order_by("-takes")
 		else:
 			notes = Note.objects(location__near=location, location__max_distance=radius, tags__contains=query).order_by("timestamp")
 
