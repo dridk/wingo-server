@@ -8,6 +8,7 @@ class User(Document):
 	email    = EmailField(required=True)
 	password = StringField(required=True)
 	nickname = StringField(required=True)
+	avatar   = URLField()
 	pockets  = ListField(IntField)
 
 	def __str__(self):
