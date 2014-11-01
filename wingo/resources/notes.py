@@ -1,19 +1,17 @@
 from flask import Flask
 from flask import request
 from flask.ext import restful
-from flask.ext.restful import reqparse
+from flask.ext.restful import reqparse, abort
 from common.util import *
-from models import Note
+from models import *
 import hashlib
 from flask import current_app
 
+#======================================================================================================
 class NoteCollection(restful.Resource):
 	def get(self):
 		
 		#http :5000/notes/search at==43.82186,-79.42456 radius==100 order=recent query=cat
-
-		print current_app.config["VERSION"]
-
 		#Create args parsing 
 		parser = reqparse.RequestParser()
 		parser.add_argument('radius', type=int, help='Set a valid radius according to config', 
@@ -23,8 +21,6 @@ class NoteCollection(restful.Resource):
 		parser.add_argument('order', type=str, help='set recent or popular',choices=["recent","popular"], default="recent")
 		parser.add_argument('query', type=str, help='add a keyword to searchg', default="")
 		parser.add_argument('page', type=int, help='which page do you want')
-
-
 		args = parser.parse_args()
 
 		#Get args
@@ -46,9 +42,6 @@ class NoteCollection(restful.Resource):
 		else:
 			notes = Note.objects(location__near=location, location__max_distance=radius, tags__contains=query).order_by("timestamp")
 
-
-
-
 		results = []
 		for note in notes :
 			r = dict()
@@ -68,6 +61,54 @@ class NoteCollection(restful.Resource):
 			r["limit"]      =note.limit
 			r["tags"]       =note.tags
 			results.append(r)
-
-		
 		return SuccessResponse(results )
+
+#======================================================================================================
+
+	def post(self):
+		#http POST :5000/notes at:=[43.82186,-79.42456] anonymous:=false -v
+
+		parser = reqparse.RequestParser()
+		parser.add_argument('author', type=str, help='user id')
+		parser.add_argument('at', type=list, help='coordinate (at) must be defined', default="0,0")
+		parser.add_argument('anonymous', type=bool, help='set anonymous true or false', default="true")
+		parser.add_argument('picture', type=str, help='should be a link',default=None)
+		parser.add_argument('message', type=str, help='add a keyword to searchg', default=None)
+		parser.add_argument('expiration', type=str, help='set a date in format', default=None)
+		parser.add_argument('limit', type=int, help='maximum takes',default=-1)
+		args = parser.parse_args()
+
+		note = Note();
+
+		print args["at"]
+		print type(args["at"])
+
+
+		try:
+			user = User.objects.get(id=args["author"])
+		except:
+			return ErrorResponse("user doesn't exists")
+		
+		note.author = user
+		note.anonymous = args["anonymous"]
+		note.picture=args["picture"]
+		note.location  = args["at"]
+		note.message = args["message"]
+
+		try:
+			note.save()
+		except Exception, e:
+			return ErrorResponse(e.message)
+
+		return SuccessResponse(str(note.id))
+
+#======================================================================================================
+
+class NoteResource(restful.Resource):
+	def get(self, note_id):
+		pass
+
+#======================================================================================================
+	def delete(self,note_id):
+		pass
+#======================================================================================================

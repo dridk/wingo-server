@@ -17,7 +17,7 @@ class User(Document):
 class Note(Document):
 	author     = ReferenceField(User, required=True)
 	anonymous  = BooleanField(required=True, default = True)
-	message    = StringField(required = True, max_length=MSG_LENGTH)
+	message    = StringField(required = True, max_length=255)
 	picture    = URLField()
 	timestamp  = DateTimeField(default=datetime.now, required=True)
 	location   = PointField(required=True, auto_index=True)

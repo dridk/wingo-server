@@ -15,7 +15,7 @@ mongo.connect(app.config["DATABASE"])
 
 
 
-api.add_resource(NoteCollection, '/notes/search')
+api.add_resource(NoteCollection, '/notes')
 api.add_resource(ConfigResource, '/config')
 api.add_resource(TagResource, '/tags')
 
