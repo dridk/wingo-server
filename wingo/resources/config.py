@@ -15,4 +15,4 @@ class ConfigResource(restful.Resource):
 		"max_note_length":current_app.config["MAX_NOTE_LENGTH"]
 		}
 
-		return results
+		return SuccessResponse(results)
