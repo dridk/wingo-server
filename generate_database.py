@@ -60,9 +60,9 @@ def genPackedPosition(lat, lon, radius, nbr):
 
 
 def genTags(nbr, tags):
-	result = []
+	result = ""
 	for i in range(0, nbr):
-		result.append(tags[randint(0, len(tags) -1)])
+		result += " #" + tags[randint(0, len(tags) -1)]
 	return result
 
 
@@ -173,11 +173,10 @@ for loc in locations:
 		note = Note()
 		note.anonymous = randint(0,2) != 0
 		note.author = User.objects[randint(0,userMax-1)]
-		note.message = loc[0] + " : " + genText(120)
+		note.message = loc[0] + " : " + genText(120) + genTags(randint(1,3), tags)
 		note.location=nP
 		note.takes = randint(0,300)
 		note.timestamp = currentTime - timedelta(0, 0, 0, 0, randint(0, dateDelta))
-		note.tags = genTags(randint(1,3), tags)
 		note.save()
 
 	msg = "   > {0:20} ".format(loc[0] + " :") + bcolors.WARN + str(noteCount + 1) + bcolors.ENDC + " notes generated arround"
