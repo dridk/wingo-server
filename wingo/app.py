@@ -3,6 +3,7 @@ from flask.ext import restful
 import mongoengine as mongo
 from models import * 
 from resources.notes import *
+from resources.comments import *
 from resources.config import *
 from resources.tags import *
 

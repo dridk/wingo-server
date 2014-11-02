@@ -8,6 +8,7 @@ from random import randint
 from wingo.models import *
 import json
 import requests
+import sys 
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -147,6 +148,9 @@ for i in range(0, userMax):
 		nickname=usr["username"],
 		avatar=usr["picture"]["thumbnail"]).save()
 
+	sys.stdout.write("   > {0:2}/{1:2} users created".format(i, userMax) + "\r")
+	sys.stdout.flush()
+
 print("   >> " + bcolors.FAIL + str(userMax) + bcolors.ENDC + " users created")
 
 
@@ -192,7 +196,7 @@ for loc in locations:
 	msg = "   > {0:20} ".format(loc[0] + " :") + bcolors.WARN + str(noteCount + 1) + bcolors.ENDC + " notes generated arround"
 	print(msg)
 
-print("   >> total " + bcolors.FAIL + str(totalNotesCount) + bcolors.ENDC + " notes have been generated ")
+print("   >> total " + bcolors.FAIL + str(totalNotesCount) + bcolors.ENDC + " notes have been generated        ")
 
 
 
@@ -203,8 +207,11 @@ Comment.drop_collection()
 totalCommsCount = 0
 
 notes = Note.objects.all()
+idx = 0
 for note in notes:
-	if randint(0, 2) == 1:
+	idx+=1
+	if randint(0, 1) == 1:
+
 
 		maxCom = randint(1, 10)
 		totalCommsCount += maxCom
@@ -212,12 +219,14 @@ for note in notes:
 		date = note.timestamp
 
 		for i in range(0, maxCom):
-			
 			comment = Comment()
 			comment.author = User.objects[randint(0,userMax-1)]
 			comment.date = date + timedelta(0, 0, 0, 0, 1) # add comment each minute
 			comment.note = note
 			comment.comment = genText(100)
-			comment.save()
 
-print("   >> total " + bcolors.FAIL + str(totalCommsCount) + bcolors.ENDC + " comments have been generated ")
+			sys.stdout.write("   > parsing note {0:3}/{1:3} : {2} comments created ".format(idx,len(notes),totalCommsCount) + "\r")
+			sys.stdout.flush()
+
+
+print("   >> total " + bcolors.FAIL + str(totalCommsCount) + bcolors.ENDC + " comments have been generated            ")
