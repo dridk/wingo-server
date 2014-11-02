@@ -34,8 +34,8 @@ class NoteCollection(restful.Resource):
 		print "radius:    {}".format(radius)
 		print "latitude:  {}".format(location[0])
 		print "longitude: {}".format(location[1])
-		print "order    : {}".format(order)
-		print "query    : {}".format(query)
+		print "order:     {}".format(order)
+		print "query:     {}".format(query)
 
 		#Get notes
 
@@ -88,8 +88,14 @@ class NoteCollection(restful.Resource):
 
 		note = Note();
 
-		print args["at"]
-		print type(args["at"])
+		
+		print "author:    {}".format(args["author"])
+		print "at:        {}".format(args["at"])
+		print "anonymous: {}".format(args["anonymous"])
+		print "picture:   {}".format(args["picture"])
+		print "message:   {}".format(args["message"])
+		print "expiration:{}".format(args["expiration"])
+		print "limit:     {}".format(args["limit"])
 
 
 		try:

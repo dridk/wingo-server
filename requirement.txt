@@ -8,5 +8,5 @@ httpie==0.8.0
 loremipsum==1.0.2
 mongoengine==0.8.7
 simplejson
-
+request
 
