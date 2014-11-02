@@ -40,7 +40,6 @@ class Note(Document):
 
 class Comment(Document):
 	author  = ReferenceField(User, required=True)
-	note    = ReferenceField(Note, required=True)
 	comment = StringField()
 	date    = DateTimeField(required=True)
 

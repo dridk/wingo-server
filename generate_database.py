@@ -148,7 +148,7 @@ for i in range(0, userMax):
 		nickname=usr["username"],
 		avatar=usr["picture"]["thumbnail"]).save()
 
-	sys.stdout.write("   > {0:2}/{1:2} users created".format(i, userMax) + "\r")
+	sys.stdout.write("   >> {0}/{1}".format(i, userMax) + "\r")
 	sys.stdout.flush()
 
 print("   >> " + bcolors.FAIL + str(userMax) + bcolors.ENDC + " users created")
@@ -224,6 +224,7 @@ for note in notes:
 			comment.date = date + timedelta(0, 0, 0, 0, 1) # add comment each minute
 			comment.note = note
 			comment.comment = genText(100)
+			comment.save()
 
 			sys.stdout.write("   > parsing note {0:3}/{1:3} : {2} comments created ".format(idx,len(notes),totalCommsCount) + "\r")
 			sys.stdout.flush()
