@@ -5,7 +5,7 @@ import config
 
 class Cache(EmbeddedDocument):
 	location  = PointField(required=True)
-	radius    = IntField(equired=True)
+	radius    = IntField(required=True)
 	filters   = StringField(required = True)
 	date      = DateTimeField(required=True)
 	cachePath = StringField(required=True)
@@ -13,7 +13,7 @@ class Cache(EmbeddedDocument):
 class Device(EmbeddedDocument):
 	uid   = UUIDField(required=True)
 	name  = StringField()
-#	cache = Cache()
+	cache = Cache()
 
 
 
@@ -24,7 +24,7 @@ class User(Document):
 	nickname = StringField(required=True)
 	avatar   = URLField()
 	pockets  = ListField(IntField)
-	devices  = ListField()
+	devices  = ListField(Device)
 
 
 	def __str__(self):
