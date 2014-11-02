@@ -203,15 +203,14 @@ print("   >> total " + bcolors.FAIL + str(totalNotesCount) + bcolors.ENDC + " no
 
 # ---------------------------------------------------------------------------
 print(bcolors.HEADER +" - COMMENTS generation :" + bcolors.ENDC)
-Comment.drop_collection()
 totalCommsCount = 0
 
 notes = Note.objects.all()
 idx = 0
+maxN = len(notes)
 for note in notes:
 	idx+=1
 	if randint(0, 1) == 1:
-
 
 		maxCom = randint(1, 10)
 		totalCommsCount += maxCom
@@ -222,12 +221,13 @@ for note in notes:
 			comment = Comment()
 			comment.author = User.objects[randint(0,userMax-1)]
 			comment.date = date + timedelta(0, 0, 0, 0, 1) # add comment each minute
-			comment.note = note
-			comment.comment = genText(100)
-			comment.save()
+			comment.message = genText(100)
+			note.comments.append(comment)
 
-			sys.stdout.write("   > parsing note {0:3}/{1:3} : {2} comments created ".format(idx,len(notes),totalCommsCount) + "\r")
+			sys.stdout.write("   > parsing note {0:3}/{1:3} : {2} comments created ".format(idx,maxN,totalCommsCount) + "\r")
 			sys.stdout.flush()
+
+		note.save()
 
 
 print("   >> total " + bcolors.FAIL + str(totalCommsCount) + bcolors.ENDC + " comments have been generated            ")
