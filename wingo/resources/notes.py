@@ -99,7 +99,11 @@ class NoteCollection(restful.Resource):
 
 
 		try:
-			user = User.objects.get(id=args["author"])
+			#TIPS.. TO TEST ALPHA VERSION 
+			if (args["author"] == "darwin"):
+				user = User.objects.first()
+			else:
+				user = User.objects.get(id=args["author"])
 		except:
 			return ErrorResponse("user doesn't exists")
 		
