@@ -11,18 +11,18 @@ import requests
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-# TOOLS                                                                     #
+# TOOLS																	 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # http://www.movable-type.co.uk/scripts/latlong.html
 
 # Color in shell
 class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARN = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
+	HEADER = '\033[95m'
+	OKBLUE = '\033[94m'
+	OKGREEN = '\033[92m'
+	WARN = '\033[93m'
+	FAIL = '\033[91m'
+	ENDC = '\033[0m'
 
 
 # To generate 255 txt.
@@ -67,7 +67,7 @@ def genTags(nbr, tags):
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-# Static DATA                                                               #
+# Static DATA															   #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 
@@ -119,15 +119,15 @@ tags = [
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-# GENERATION                                                                #
+# GENERATION																#
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-dbName       = 'wingo'
-userMax      = 40        # to get more (max 200) need dev account with key - using randomuser.me website api
-dateDelta    = 7*24*60   # in minutes
-radiusByArea = 500.0     # in meters
+dbName	   	 = 'wingo'
+userMax	  	 = 40		# to get more (max 200) need dev account with key - using randomuser.me website api
+dateDelta	 = 7*24*60   # in minutes
+radiusByArea = 500.0	 # in meters
 notesByArea  = [15, 30]  # min and max notes by area
 commByNote   = [1, 15]   # min and max comments by notes (~ 50% of notes will have comments)
-maxTaken     = 300
+maxTaken	 = 300
 
 
 connect(dbName) 
