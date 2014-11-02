@@ -17,6 +17,8 @@ mongo.connect(app.config["DATABASE"])
 
 api.add_resource(NoteCollection, '/notes')
 api.add_resource(NoteResource, '/notes/<string:note_id>')
+api.add_resource(CommentCollection, '/notes/<string:note_id>/comments')
+api.add_resource(CommentResource, '/comment/<string:comment_id>')
 api.add_resource(ConfigResource, '/config')
 api.add_resource(TagResource, '/tags')
 
