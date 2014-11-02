@@ -133,47 +133,47 @@ class CommentResource(restful.Resource):
 	
 		try:
 			comment_id = ObjectId(comment_id)
-			comment = Note.objects.get(pk=comment_id)
+			comment = Comment.objects.get(pk=comment_id)
 		except InvalidId, e:
 			return ErrorResponse(e.message)
 		except:
-			return ErrorResponse("Comment doesn't exists")			
+			return ErrorResponse("Comment doesn't exists")
+
+
+		if config.DEBUG:
+			print "comment id : {0}".format(comment_id)
+
 
 		results  = dict()
-		if note.anonymous is False:
-			results["author"] = {"nickname":note.author.nickname, "avatar" :note.author.avatar }
-
-		results["anonymous"]  = note.anonymous
-		results["message"]    = note.message
-		results["location"]   = note.location["coordinates"]
-		results["expiration"] = str(note.expiration)
-		results["timestamp"]  = str(note.timestamp)
-		results["takes"]      = note.takes
-		results["limit"]      =note.limit
-		results["tags"]       =note.tags
-
+		results["comment"] = comment.comment
+		results["author"]  = comment.author
+		results["date"]    = comment.date
+		
 
 		return SuccessResponse(results)
 		
 
-#======================================================================================================
-	def delete(self,note_id):
-		note_id = ObjectId(note_id)
+# ---------------------------------------------------------------------------
+
+	def delete(self,comment_id):
+		""" DELETE handler for the request /comments/{id}
+			Delete the comment {id}
+		"""
+
 		try:
-			note_id = ObjectId(note_id)
-			note = Note.objects.get(id=note_id)
-			note.delete()
+			comment_id = ObjectId(comment_id)
+			comment = Comment.objects.get(id=comment_id)
+			comment.delete()
+
+			if config.DEBUG:
+				print "Comment (id ={0}) deleted".format(comment_id)
+
 		except InvalidId, e:
 			return ErrorResponse(e.message)
 		except:
-			return ErrorResponse("Cannot find id")	
-
+			return ErrorResponse("Comment doesn't exists")
 					
 		return SuccessResponse()	
 
 
 
-
-
-
-#======================================================================================================
