@@ -17,6 +17,11 @@ class User(Document):
 
 
 
+class Comment(EmbeddedDocument):
+	author    = ReferenceField(User, required=True)
+	message   = StringField()
+	timestamp = DateTimeField(required=True,default=datetime.now)
+
 
 class Note(Document):
 	author     = ReferenceField(User, required=True)
@@ -29,7 +34,7 @@ class Note(Document):
 	takes      = IntField()
 	limit      = IntField(default=-1)
 	tags       = ListField(StringField())
-	comments   = ListField(ReferenceField("Comment"))
+	comments   = ListField(EmbeddedDocumentField(Comment))
 	def __str__(self):
 		return str(self.timestamp)
 
@@ -37,11 +42,5 @@ class Note(Document):
 		#Extract tags when saving notes
 		self.tags = [i for i in self.message.split(" ") if i.startswith("#")]
 
-
-class Comment(Document):
-	author  = ReferenceField(User, required=True)
-	note    = ReferenceField(Note, required=True)
-	comment = StringField()
-	date    = DateTimeField(required=True)
 
 
