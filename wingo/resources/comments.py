@@ -24,7 +24,7 @@ class CommentCollection(restful.Resource):
 			Return the list comments of the note {id}
 			page : int from 1 to max_int
 		"""
-		#http :5000/notes/54558058a5dec553a9aa50b9/comments
+		#http :5000/notes/5456a3aba5dec50388f5b210/comments
 
 		# Retrieve the note and all its comments
 		try:
@@ -54,19 +54,27 @@ class CommentCollection(restful.Resource):
 
 		# Build result
 		results  = dict()
-		results["startElement"] = startElement
-		results["startPage"]    = 1
-		results["countElement"] = countElement
-		results["comments"]     = dict()
-
+		results["comments"]     = []
+		totalCount = 0
 
 		for idx, comment in enumerate(note.comments):
 			if idx < startElement:
 				continue
 			if idx > startElement + countElement:
 				break
-			results["comments"].append(comment)
 
+			jComm = dict()
+			jComm["author"]    = {"nickname":comment.author.nickname, "avatar" :comment.author.avatar }
+			jComm["message"]   = comment.message
+			jComm["timestamp"] = str(comment.timestamp)
+
+			results["comments"].append(jComm)
+			totalCount += 1
+
+		results["startElement"] = startElement
+		results["startPage"]    = 1
+		results["countElement"] = totalCount
+		results["totalElement"] = len(note.comments)
 		
 		return SuccessResponse(results)
 
@@ -110,7 +118,6 @@ class CommentCollection(restful.Resource):
 		# Create new comment
 		comment = Comment();
 		comment.author = user
-		comment.note = note
 		comment.comment = args["comment"]
 
 		try:
