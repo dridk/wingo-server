@@ -15,6 +15,9 @@ class User(Document):
 	def __str__(self):
 		return str(self.nickname)
 
+
+
+
 class Note(Document):
 	author     = ReferenceField(User, required=True)
 	anonymous  = BooleanField(required=True, default = True)
@@ -26,6 +29,7 @@ class Note(Document):
 	takes      = IntField()
 	limit      = IntField(default=-1)
 	tags       = ListField(StringField())
+	comments   = ListField(ReferenceField("Comment"))
 	def __str__(self):
 		return str(self.timestamp)
 
@@ -38,4 +42,6 @@ class Comment(Document):
 	author  = ReferenceField(User, required=True)
 	note    = ReferenceField(Note, required=True)
 	comment = StringField()
+	date    = DateTimeField(required=True)
+
 

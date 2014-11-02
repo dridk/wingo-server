@@ -198,6 +198,26 @@ print("   >> total " + bcolors.FAIL + str(totalNotesCount) + bcolors.ENDC + " no
 
 
 # ---------------------------------------------------------------------------
-# Comments
+print(bcolors.HEADER +" - COMMENTS generation :" + bcolors.ENDC)
+Comment.drop_collection()
+totalCommsCount = 0
 
+notes = Note.objects.all()
+for note in notes:
+	if randint(0, 2) == 1:
 
+		maxCom = randint(1, 10)
+		totalCommsCount += maxCom
+		note.comments = []
+		date = note.timestamp
+
+		for i in range(0, maxCom):
+			
+			comment = Comment()
+			comment.author = User.objects[randint(0,userMax-1)]
+			comment.date = date + timedelta(0, 0, 0, 0, 1) # add comment each minute
+			comment.note = note
+			comment.comment = genText(100)
+			comment.save()
+
+print("   >> total " + bcolors.FAIL + str(totalCommsCount) + bcolors.ENDC + " comments have been generated ")
