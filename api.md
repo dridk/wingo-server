@@ -212,7 +212,10 @@ Comments is the the comments...
 
 Summary : 
 [GET] /config/
-[GET] /notes/search?at=40.74917,-73.98529&order=recent&radius=50&query=cute dogs
+[GET] /
+
+
+notes/search?at=40.74917,-73.98529&order=recent&radius=50&query=cute dogs
 [GET] /notes/{id}
 [DELETE] /notes/id
 [GET] /notes/{id}/comments/

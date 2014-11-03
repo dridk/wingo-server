@@ -23,6 +23,8 @@ class NoteCollection(restful.Resource):
 		parser.add_argument('order',type=str,   help='set recent or popular',choices=["recent","popular"], default="recent")
 		parser.add_argument('query',type=str,   help='add a keyword to search', default=None)
 		parser.add_argument('page', type=int,   help='which page do you want')
+		
+
 		args = parser.parse_args()
 
 		#Get args
@@ -88,7 +90,11 @@ class NoteCollection(restful.Resource):
 		parser.add_argument('message',   type=str,   help='Message should be added', required=True)
 		parser.add_argument('expiration',type=str,   help='set a date in format')
 		parser.add_argument('limit',     type=int,   help='maximum takes',default=-1)
+		
+
+		
 		args = parser.parse_args()
+	
 
 		note = Note();
 
