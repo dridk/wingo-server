@@ -29,12 +29,17 @@ class Note(Document):
 	message    = StringField(required = True, max_length=config.MAX_NOTE_LENGTH)
 	picture    = URLField()
 	timestamp  = DateTimeField(default=datetime.now, required=True)
-	location   = PointField(required=True, auto_index=True)
+	location   = PointField(required=True)
 	expiration = DateTimeField()
 	takes      = IntField()
 	limit      = IntField(default=-1)
 	tags       = ListField(StringField())
 	comments   = ListField(EmbeddedDocumentField(Comment))
+	
+
+	
+
+
 	def __str__(self):
 		return str(self.timestamp)
 

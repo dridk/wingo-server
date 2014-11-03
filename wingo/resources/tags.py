@@ -14,12 +14,12 @@ class TagResource(restful.Resource):
 		#Create args parsing 
 		parser = reqparse.RequestParser()
 		parser.add_argument('radius', type=int,help='Set a valid radius according to config',default=100)
-		parser.add_argument('at', type=str, help='coordinate (at) must be defined', default="43.82186,-79.42456")
-
+		parser.add_argument('lat',    type=float, help='latitude should be a float', default=43.82186)
+		parser.add_argument('lon',    type=float, help='latitude should be a float', default=43.82186)
 		args = parser.parse_args()
 		#Get args
 		radius   = args["radius"]
-		location = [float(i) for i in args["at"].split(",")]
+		location = [args["lat"], args["lon"]]
 
 
 
