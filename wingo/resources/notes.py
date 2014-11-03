@@ -15,14 +15,11 @@ class NoteCollection(restful.Resource):
 		#http :5000/notes at==43.82186,-79.42456 radius==100 order=recent query=cat
 		#Create args parsing 
 		parser = reqparse.RequestParser()
-		parser.add_argument('radius', type=int, help='Set a valid radius according to config', 
-			default=50)
-
-		parser.add_argument('lat',  type=float, help='latitude should be a floating number',required=True)
-		parser.add_argument('lon',  type=float, help='longitude should be a floating number', required=True)
-		parser.add_argument('order',type=str,   help='set recent or popular',choices=["recent","popular"], default="recent")
-		parser.add_argument('query',type=str,   help='add a keyword to search', default=None)
-		parser.add_argument('page', type=int,   help='which page do you want')
+		parser.add_argument('radius',type=int,   help='Set a valid radius', default=50)
+		parser.add_argument('lat',   type=float, help='lat is missing or not well defined ',required=True)
+		parser.add_argument('lon',   type=float, help='long is missing or not well defined', required=True)
+		parser.add_argument('order', type=str,   help='order is missing[recent or popular]',choices=["recent","popular"], default="recent")
+		parser.add_argument('query', type=str,   help='query is missing', default=None)
 		
 
 
@@ -85,15 +82,15 @@ class NoteCollection(restful.Resource):
 		#http POST :5000/notes at:=[43.82186,-79.42456] anonymous:=false -v
 
 		parser = reqparse.RequestParser()
-		parser.add_argument('author',    type=str,   help='user id')
-		parser.add_argument('lat',       type=float, help='latitude should be a float', default=43.82186)
-		parser.add_argument('lon',       type=float, help='latitude should be a float', default=43.82186)
-		parser.add_argument('anonymous', type=bool, help='set anonymous true or false', default=True)
-		parser.add_argument('picture',   type=str,   help='should be a link')
-		parser.add_argument('message',   type=str,   help='Message should be added', required=True)
-		parser.add_argument('expiration',type=str,   help='set a date in format')
-		parser.add_argument('limit',     type=int,   help='maximum takes',default=-1)
-		
+		parser.add_argument('author',    type=str,   help='Author is not defined')
+		parser.add_argument('lat',       type=float, help='lat is missing or not well defined ',required=True)
+		parser.add_argument('lon',       type=float, help='long is missing or not well defined', required=True)
+		parser.add_argument('anonymous', type=bool,  help='set anonymous true or false', default=True)
+		parser.add_argument('picture',   type=str,   help='picture link is wrong')
+		parser.add_argument('message',   type=str,   help='message is missing', required=True)
+		parser.add_argument('expiration',type=str,   help='expiration is not well defined')
+		parser.add_argument('limit',     type=int,   help='limit is not well defined',default=-1)
+
 
 		
 		args = parser.parse_args()

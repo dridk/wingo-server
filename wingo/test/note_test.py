@@ -11,13 +11,14 @@ class NoteViewTest(unittest.TestCase):
 		connect("wingoTest")
 
 	def test_get_notes(self):
-		data = self.app.get('/notes').data
-		check_json(data)
+		data = self.app.get('/notes?lat=43.82186&lon=-79.42456').data
+		array= check_json(data)
+		check_success(array) 
 
 	def test_post_notes(self):
 		data = self.app.get('/notes').data
 		headers = {'content-type': 'application/json'}
-		payload = {"author":"darwin", "message":"this is a test"}
+		payload = {"author":"darwin", "message":"this is a test", "lat":43.82186,"lon":-79.42456}
 		data =self.app.post("/notes",headers=headers,data=json.dumps(payload)).data 
 		array = check_json(data)
 		check_success(array) 
