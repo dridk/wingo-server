@@ -8,8 +8,9 @@ class NoteViewTest(unittest.TestCase):
 		self.app = app.test_client()
 
 	def test_config(self):
-		# rv = self.app.get('/config')
-		print "TEST"
+		rv = self.app.get('/config')
+		print rv.data
+		
         
 		
         
