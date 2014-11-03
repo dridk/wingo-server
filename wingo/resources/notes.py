@@ -18,22 +18,24 @@ class NoteCollection(restful.Resource):
 		parser.add_argument('radius', type=int, help='Set a valid radius according to config', 
 			default=50)
 
-		parser.add_argument('at', type=str, help='coordinate (at) must be defined', default="43.82186,-79.42456")
-		parser.add_argument('order', type=str, help='set recent or popular',choices=["recent","popular"], default="recent")
-		parser.add_argument('query', type=str, help='add a keyword to search', default=None)
-		parser.add_argument('page', type=int, help='which page do you want')
+		parser.add_argument('lat',  type=float, help='latitude should be a floating number', default=43.82186)
+		parser.add_argument('lon',  type=float, help='longitude should be a floating number', default=-79.42456)
+		parser.add_argument('order',type=str,   help='set recent or popular',choices=["recent","popular"], default="recent")
+		parser.add_argument('query',type=str,   help='add a keyword to search', default=None)
+		parser.add_argument('page', type=int,   help='which page do you want')
 		args = parser.parse_args()
 
 		#Get args
 		radius   = args["radius"]
 		order    = args["order"]
 		query    = args["query"]
-		location = [float(i) for i in args["at"].split(",")]
-
-
+		lat      = args["lat"]
+		lon      = args["lon"]
+		location = [lat,lon]
+		
 		print "radius:    {}".format(radius)
-		print "latitude:  {}".format(location[0])
-		print "longitude: {}".format(location[1])
+		print "latitude:  {}".format(lat)
+		print "longitude: {}".format(lon)
 		print "order:     {}".format(order)
 		print "query:     {}".format(query)
 
@@ -62,7 +64,8 @@ class NoteCollection(restful.Resource):
 			r["id"]   		= str(note.id)
 			r["anonymous"]  = note.anonymous
 			r["message"]    = note.message
-			r["location"]   = note.location["coordinates"]
+			r["lat"]        = note.location["coordinates"][0]
+			r["long"]       = note.location["coordinates"][1]
 			r["expiration"] = str(note.expiration)
 			r["timestamp"]  = str(note.timestamp)
 			r["takes"]      = note.takes
@@ -77,20 +80,22 @@ class NoteCollection(restful.Resource):
 		#http POST :5000/notes at:=[43.82186,-79.42456] anonymous:=false -v
 
 		parser = reqparse.RequestParser()
-		parser.add_argument('author', type=str, help='user id')
-		parser.add_argument('at', type=list, help='coordinate (at) must be defined', default="0,0")
-		parser.add_argument('anonymous', type=bool, help='set anonymous true or false', default="true")
-		parser.add_argument('picture', type=str, help='should be a link',default=None)
-		parser.add_argument('message', type=str, help='add a keyword to searchg', default=None)
-		parser.add_argument('expiration', type=str, help='set a date in format', default=None)
-		parser.add_argument('limit', type=int, help='maximum takes',default=-1)
+		parser.add_argument('author',    type=str,   help='user id')
+		parser.add_argument('lat',       type=float, help='latitude should be a float', default=43.82186)
+		parser.add_argument('lon',       type=float, help='latitude should be a float', default=43.82186)
+		parser.add_argument('anonymous', type=bool, help='set anonymous true or false', default=True)
+		parser.add_argument('picture',   type=str,   help='should be a link')
+		parser.add_argument('message',   type=str,   help='Message should be added', required=True)
+		parser.add_argument('expiration',type=str,   help='set a date in format')
+		parser.add_argument('limit',     type=int,   help='maximum takes',default=-1)
 		args = parser.parse_args()
 
 		note = Note();
 
 		
 		print "author:    {}".format(args["author"])
-		print "at:        {}".format(args["at"])
+		print "latitude:  {}".format(args["lat"])
+		print "longitude: {}".format(args["lon"])
 		print "anonymous: {}".format(args["anonymous"])
 		print "picture:   {}".format(args["picture"])
 		print "message:   {}".format(args["message"])
@@ -107,12 +112,12 @@ class NoteCollection(restful.Resource):
 		except:
 			return ErrorResponse("user doesn't exists")
 		
-		note.author = user
+		note.author    = user
 		note.anonymous = args["anonymous"]
-		note.picture=args["picture"]
-		note.location  = args["at"]
-		note.message = args["message"]
-
+		note.picture   = args["picture"]
+		note.location  = [args["lat"], args["lon"]]
+		note.message   = args["message"]
+		
 		try:
 			note.save()
 		except Exception, e:
