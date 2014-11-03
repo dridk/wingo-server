@@ -1,7 +1,7 @@
 import unittest
 import requests 
 import json 
-from test.user_test import *
+from test.note_test import *
 
 
 #TYPE pyrg run_test.py -v
