@@ -17,14 +17,10 @@ class NoteViewTest(unittest.TestCase):
 	def test_post_notes(self):
 		data = self.app.get('/notes').data
 		headers = {'content-type': 'application/json'}
-		payload = {"author":"darwin"}
+		payload = {"author":"darwin", "message":"this is a test"}
 		data =self.app.post("/notes",headers=headers,data=json.dumps(payload)).data 
-		print data
-		# array = check_json(data)
-		# check_success(array)
-
-
-		print "SALUT"
+		array = check_json(data)
+		check_success(array) 
 		
 
 
