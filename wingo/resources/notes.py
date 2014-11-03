@@ -24,11 +24,8 @@ class NoteCollection(restful.Resource):
 		parser.add_argument('query',type=str,   help='add a keyword to search', default=None)
 		parser.add_argument('page', type=int,   help='which page do you want')
 		
-		try:
-			args = parser.parse_args()
-		except Exception, e:
-			return ErrorResponse("YAGAAAAAAAAAAAAAA")
 
+		args = parser.parse_args()
 
 		#Get args
 		radius   = args["radius"]

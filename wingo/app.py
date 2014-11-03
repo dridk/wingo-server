@@ -6,6 +6,7 @@ from resources.notes import *
 from resources.comments import *
 from resources.config import *
 from resources.tags import *
+from common.util import *
 
 class ExceptionAwareApi(restful.Api):
     def handle_error(self, e):
@@ -18,7 +19,7 @@ class ExceptionAwareApi(restful.Api):
 			message = "Unknown Error"
 		
 		code= 400
-		results = {"success":"false", "message": message}
+		results = ErrorResponse(message,code)
 		return self.make_response(results, code)
 
 
