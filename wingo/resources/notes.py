@@ -18,12 +18,15 @@ class NoteCollection(restful.Resource):
 		parser.add_argument('radius', type=int, help='Set a valid radius according to config', 
 			default=50)
 
-		parser.add_argument('lat',  type=float, help='latitude should be a floating number', default=43.82186)
-		parser.add_argument('lon',  type=float, help='longitude should be a floating number', default=-79.42456)
+		parser.add_argument('lat',  type=float, help='latitude should be a floating number',required=True)
+		parser.add_argument('lon',  type=float, help='longitude should be a floating number', required=True)
 		parser.add_argument('order',type=str,   help='set recent or popular',choices=["recent","popular"], default="recent")
 		parser.add_argument('query',type=str,   help='add a keyword to search', default=None)
 		parser.add_argument('page', type=int,   help='which page do you want')
 		
+
+
+
 
 		args = parser.parse_args()
 
