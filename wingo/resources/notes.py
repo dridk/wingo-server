@@ -35,11 +35,11 @@ class NoteCollection(restful.Resource):
 		lon      = args["lon"]
 		location = [lat,lon]
 		
-		print "radius:    {}".format(radius)
-		print "latitude:  {}".format(lat)
-		print "longitude: {}".format(lon)
-		print "order:     {}".format(order)
-		print "query:     {}".format(query)
+		# print "radius:    {}".format(radius)
+		# print "latitude:  {}".format(lat)
+		# print "longitude: {}".format(lon)
+		# print "order:     {}".format(order)
+		# print "query:     {}".format(query)
 
 		#Get notes
 
@@ -99,14 +99,14 @@ class NoteCollection(restful.Resource):
 		note = Note();
 
 		
-		print "author:    {}".format(args["author"])
-		print "latitude:  {}".format(args["lat"])
-		print "longitude: {}".format(args["lon"])
-		print "anonymous: {}".format(args["anonymous"])
-		print "picture:   {}".format(args["picture"])
-		print "message:   {}".format(args["message"])
-		print "expiration:{}".format(args["expiration"])
-		print "limit:     {}".format(args["limit"])
+		# print "author:    {}".format(args["author"])
+		# print "latitude:  {}".format(args["lat"])
+		# print "longitude: {}".format(args["lon"])
+		# print "anonymous: {}".format(args["anonymous"])
+		# print "picture:   {}".format(args["picture"])
+		# print "message:   {}".format(args["message"])
+		# print "expiration:{}".format(args["expiration"])
+		# print "limit:     {}".format(args["limit"])
 
 
 		try:
@@ -136,6 +136,7 @@ class NoteCollection(restful.Resource):
 class NoteResource(restful.Resource):
 	def get(self, note_id):
 
+		print note_id
 	
 		try:
 			note_id = ObjectId(note_id)

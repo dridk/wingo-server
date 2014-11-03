@@ -4,16 +4,25 @@ import json
 from app import app
 from mongoengine import connect
 from test.util import *
+from models import *
+
 
 class NoteViewTest(unittest.TestCase):
 	def setUp(self):
-		self.app = app.test_client()
-		connect("wingoTest")
+		self.app  = app.test_client()
+
+
+	def test_get_one_note(self):
+		uri = "/notes/{}".format(str(Note.objects.first().id))
+		data = self.app.get(uri).data
+
+	
 
 	def test_get_notes(self):
-		data = self.app.get('/notes?lat=43.82186&lon=-79.42456').data
-		array= check_json(data)
-		check_success(array) 
+		uri = '/notes?lat=43.82186&lon=-79.42456'
+		data = self.app.get(uri).data
+
+
 
 	def test_post_notes(self):
 		data = self.app.get('/notes').data
