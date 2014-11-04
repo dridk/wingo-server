@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Not done for the moment"
+#python wingo/dbtools/benchDB.py $*

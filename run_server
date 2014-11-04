@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+python wingo/app.py

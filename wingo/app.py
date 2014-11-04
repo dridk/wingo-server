@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
 from flask import Flask
 from flask.ext import restful
 import mongoengine as mongo

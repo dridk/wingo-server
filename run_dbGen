@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+python wingo/dbtools/gen_database.py $*
