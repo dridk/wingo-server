@@ -9,8 +9,8 @@ import sys
 import mongoengine as mongo
 
 
-from wingo.dbtools import *
-#import wingo.models
+from ..models import *
+from gen_utils import *
 
 
 
@@ -65,6 +65,10 @@ parser.add_argument('-s', '--silent', dest='verbose', action='store_false', defa
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 args = parser.parse_args()
+
+
+#Set verbose mode :
+dbToolVerboseMode = args.verbose
 
 
 msg("Connect to database")

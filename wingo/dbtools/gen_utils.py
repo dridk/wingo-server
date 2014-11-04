@@ -4,6 +4,9 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 
+dbToolVerboseMode = True
+
+
 # color in shell
 class bC:
 	H = '\033[95m' # Header 	(purple)
@@ -15,22 +18,22 @@ class bC:
 
 # Print messages
 def msg(message):
-	if args.verbose:
+	if dbToolVerboseMode:
 		print message
 
 def error(message, exception=None):
-	if args.verbose:
+	if dbToolVerboseMode:
 		print bC.F + "Error : " + bC.E + message
 		if exception is not None:
 			print bC.F + "Exception : " + bC.E + exception.message
 
 def warn(message):
-	if args.verbose:
+	if dbToolVerboseMode:
 		print bC.W + "Warning : " + bC.E + message
 
 
 def head(message):
-	if args.verbose:
+	if dbToolVerboseMode:
 		print bC.H + " - " + message + bC.E
 
 def g(message):
