@@ -1,10 +1,12 @@
 import unittest
 import requests 
 import json 
-from app import app
+
 from mongoengine import connect
-from test.util import *
-from models import *
+
+from ..app import app
+from ..models import *
+from ..test import *
 
 
 class NoteViewTest(unittest.TestCase):
