@@ -4,8 +4,8 @@ import json
 
 from mongoengine import connect
 
-from wingo.app import app
-from wingo.models import *
+from app import app
+from models import *
 from test.util import *
 
 

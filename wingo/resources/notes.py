@@ -7,7 +7,7 @@ from bson.objectid import ObjectId
 from bson.errors import *
 import hashlib
 from util import SuccessResponse,ErrorResponse
-from models import Note
+from models import Note, User
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
 # It doesnt' work instead ! 
 #from common.util import *
