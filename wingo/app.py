@@ -10,26 +10,26 @@ from resources.notes import *
 from resources.comments import *
 from resources.config import *
 from resources.tags import *
-from common.util import *
+from models import *
 
 
 
-class ExceptionAwareApi(restful.Api):
-    def handle_error(self, e):
+# class ExceptionAwareApi(restful.Api):
+#     def handle_error(self, e):
 
-    	message = str(e)
-    	if hasattr(e,"data"):
-			data = getattr(e, 'data')
-			if "message" in data:
-				message = data["message"]
+#     	message = str(e)
+#     	if hasattr(e,"data"):
+# 			data = getattr(e, 'data')
+# 			if "message" in data:
+# 				message = data["message"]
 
-	code= 400
-	results = ErrorResponse(message,code)
-	return self.make_response(results, code)
+# 	code= 400
+# 	results = ErrorResponse(message,code)
+# 	return self.make_response(results, code)
 
 
 app = Flask(__name__)
-api = ExceptionAwareApi(app)
+api = restful.Api(app)
 
 #load configuration from config.py 
 app.config.from_pyfile("config.py")

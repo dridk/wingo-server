@@ -2,4 +2,4 @@
 # -*- coding: utf-8 -*-
 # vim: ai ts=4 sts=4 et sw=4 nu
 
-__all__ = ['comments', 'config', 'notes', 'tags']
+__all__ = ['comments', 'config', 'notes', 'tags','util']

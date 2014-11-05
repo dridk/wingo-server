@@ -6,8 +6,10 @@ from flask.ext.restful import reqparse, abort
 from bson.objectid import ObjectId
 from bson.errors import *
 import hashlib
-
+from util import SuccessResponse,ErrorResponse
+from models import Note
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
+# It doesnt' work instead ! 
 #from common.util import *
 #from models import *
 
@@ -21,8 +23,8 @@ class NoteCollection(restful.Resource):
 		#Create args parsing 
 		parser = reqparse.RequestParser()
 		parser.add_argument('radius',type=int,   help='Set a valid radius', default=50)
-		parser.add_argument('lat',   type=float, help='lat is missing or not well defined ',required=True)
-		parser.add_argument('lon',   type=float, help='long is missing or not well defined', required=True)
+		parser.add_argument('lat',   type=float, help='lat is missing or not well defined ', default=43.82186)
+		parser.add_argument('lon',   type=float, help='long is missing or not well defined', default=-79.42456)
 		parser.add_argument('order', type=str,   help='order is missing[recent or popular]',choices=["recent","popular"], default="recent")
 		parser.add_argument('query', type=str,   help='query is missing', default=None)
 		
@@ -119,7 +121,7 @@ class NoteCollection(restful.Resource):
 			if (args["author"] == "darwin"):
 				user = User.objects.first()
 			else:
-				user = User.objects.get(id=args["author"])
+				user = User.objects.get(pk=args["author"])
 		except:
 			return ErrorResponse("user doesn't exists")
 		
@@ -144,7 +146,6 @@ class NoteResource(restful.Resource):
 		print note_id
 	
 		try:
-			note_id = ObjectId(note_id)
 			note = Note.objects.get(pk=note_id)
 		except InvalidId, e:
 			return ErrorResponse(e.message)

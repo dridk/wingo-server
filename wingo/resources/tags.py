@@ -3,7 +3,7 @@ from flask import request
 from flask.ext import restful
 from flask.ext.restful import reqparse
 from flask import current_app
-
+from util import SuccessResponse,ErrorResponse
 
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
 #from models import Note
