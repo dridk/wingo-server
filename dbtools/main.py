@@ -23,7 +23,7 @@ from dbtools.tpl import *
 parser = argparse.ArgumentParser(description="Wingo database generation tool.\n")
 
 
-parser.add_argument('-tpl', dest='tplFiles', type=str, choices=['XuFu', 'Toulouse', 'Brest', 'Toronto', 'Caen', 'France', 'World'], nargs='+', default=None,
+parser.add_argument('-tpl', dest='tplFiles', type=str, choices=['XuFu', 'TU', 'Cities3', 'France', 'World'], nargs='+', default=None,
                    help="load one or more template file and generate data according it.")
 
 
@@ -101,6 +101,8 @@ if args.tplFiles is not None:
 	for tpl in args.tplFiles:
 		if tpl == 'XuFu':
 			xufu.genData()
+		elif tpl == 'TU':
+			tu.genData()
 
 
 else:
