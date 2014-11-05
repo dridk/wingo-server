@@ -1,4 +1,4 @@
 #!/bin/bash
 
-python -m test.note_test $*
+python -m test.run_test $*
 #python ./test/run_test.py $*

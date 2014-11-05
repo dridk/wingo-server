@@ -1,5 +1,6 @@
 import json	
-from wingo.models import *
+
+#from wingo.models import *
 
 
 
