@@ -9,6 +9,7 @@ from models import *
 from test.util import *
 
 
+
 class NoteViewTest(unittest.TestCase):
 	def setUp(self):
 		self.app  = app.test_client()
@@ -17,7 +18,7 @@ class NoteViewTest(unittest.TestCase):
 	def test_get_one_note(self):
 		uri = "/notes/{}".format(str(Note.objects.first().id))
 		data = self.app.get(uri).data
-		print data
+		print_json(data)
 		print Note.objects.first().id
 
 	
@@ -26,6 +27,7 @@ class NoteViewTest(unittest.TestCase):
 		pass
 		uri = '/notes?lat=43.82186&lon=-79.42456'
 		data = self.app.get(uri).data
+		print_json(data)
 
 
 
@@ -34,7 +36,7 @@ class NoteViewTest(unittest.TestCase):
 		headers = {'content-type': 'application/json'}
 		payload = {"author":"darwin", "message":"this is a test", "lat":43.82186,"lon":-79.42456}
 		data =self.app.post("/notes",headers=headers,data=json.dumps(payload)).data 
-		print data
+		print_json(data)
 		array = check_json(data)
 		check_success(array) 
 		pass

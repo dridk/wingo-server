@@ -1,5 +1,7 @@
 import json	
-
+from pygments import highlight
+from pygments.lexers import JsonLexer
+from pygments.formatters import TerminalFormatter
 #from wingo.models import *
 
 
@@ -24,3 +26,6 @@ def create_user(count = 1):
 	user.password = "test"
 	user.save()
 	return user
+
+def print_json(data):
+	print highlight(data, JsonLexer(), TerminalFormatter())
