@@ -220,11 +220,19 @@ Comments is the the comments...
 
     }
 
+
+[GET] /places?lat=40.74917,-73.98529
+
+Request: {}
+
+    Response:{
+        address : "43 rue des acadiens"
+        map : "http://here.truc.fr"
+    }
+
+
 Summary : 
 [GET] /config/
-[GET] /
-
-
 notes/search?lat=40.74917&lon=-73.98529&order=recent&radius=50&query=cute dogs
 [GET] /notes/{id}
 [DELETE] /notes/id
@@ -242,8 +250,8 @@ notes/search?lat=40.74917&lon=-73.98529&order=recent&radius=50&query=cute dogs
 [POST] /users/
 [GET] /users/{id}/pockets
 
-#News
-[GET] /places?lat=40.74917,-73.98529&radius=50
+
+
 
 
 
