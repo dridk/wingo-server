@@ -9,8 +9,9 @@ import sys
 import mongoengine as mongo
 
 
-from ..models import *
-from gen_utils import *
+from wingo.models import *
+from dbtools import *
+from dbtools.gen_utils import * # to be able to use directly msg(), err(), ...
 
 
 

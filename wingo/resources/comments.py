@@ -1,16 +1,17 @@
 from flask import Flask
 from flask import request
+from flask import current_app
 from flask.ext import restful
 from flask.ext.restful import reqparse, abort
-from common.util import *
 import hashlib
-from flask import current_app
 from bson.objectid import ObjectId
 from bson.errors import *
 
-import config
-from models import *
 
+# 'wingo' import must be done from root level (app, test, dbGen, ...)
+#from models import *
+#from common.util import *
+#import config
 
 
 

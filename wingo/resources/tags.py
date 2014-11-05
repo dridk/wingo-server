@@ -2,10 +2,12 @@ from flask import Flask
 from flask import request
 from flask.ext import restful
 from flask.ext.restful import reqparse
-from common.util import *
 from flask import current_app
 
-from models import Note
+
+# 'wingo' import must be done from root level (app, test, dbGen, ...)
+#from models import Note
+#from common.util import *
 
 
 class TagResource(restful.Resource):

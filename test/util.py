@@ -1,5 +1,7 @@
 import json	
-from ..models import *
+from wingo.models import *
+
+
 
 #DATA is a JSON STRING
 def check_json(data):

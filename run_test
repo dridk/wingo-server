@@ -1,4 +1,4 @@
 #!/bin/bash
 
-
-python -m wingo.test.run_test.py $*
+python -m test.note_test $*
+#python ./test/run_test.py $*

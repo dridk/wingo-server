@@ -3,4 +3,4 @@
 # vim: ai ts=4 sts=4 et sw=4 nu
 
 # To allow import *
-__all__ = ["gen_database", "gen_note", "gen_utils"]
+__all__ = ["gen_utils", "gen_note"]

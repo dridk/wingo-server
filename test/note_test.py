@@ -4,9 +4,9 @@ import json
 
 from mongoengine import connect
 
-from ..app import app
-from ..models import *
-from ..test import *
+from wingo.app import app
+from wingo.models import *
+#from test import *
 
 
 class NoteViewTest(unittest.TestCase):
@@ -23,6 +23,7 @@ class NoteViewTest(unittest.TestCase):
 	def test_get_notes(self):
 		uri = '/notes?lat=43.82186&lon=-79.42456'
 		data = self.app.get(uri).data
+		print "TEST"
 
 
 

@@ -5,12 +5,14 @@
 from flask import Flask
 from flask.ext import restful
 import mongoengine as mongo
-from models import * 
+
 from resources.notes import *
 from resources.comments import *
 from resources.config import *
 from resources.tags import *
 from common.util import *
+
+
 
 class ExceptionAwareApi(restful.Api):
     def handle_error(self, e):
@@ -24,7 +26,6 @@ class ExceptionAwareApi(restful.Api):
 	code= 400
 	results = ErrorResponse(message,code)
 	return self.make_response(results, code)
-
 
 
 app = Flask(__name__)

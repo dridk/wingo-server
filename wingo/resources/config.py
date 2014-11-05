@@ -2,8 +2,11 @@ from flask import Flask
 from flask import request
 from flask.ext import restful
 from flask.ext.restful import reqparse
-from common.util import *
 from flask import current_app
+
+
+# 'wingo' import must be done from root level (app, test, dbGen, ...)
+#from common.util import *
 
 
 class ConfigResource(restful.Resource):
