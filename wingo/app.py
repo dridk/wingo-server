@@ -27,7 +27,6 @@ from models import *
 # 	results = ErrorResponse(message,code)
 # 	return self.make_response(results, code)
 
-
 app = Flask(__name__)
 api = restful.Api(app)
 
@@ -35,7 +34,7 @@ api = restful.Api(app)
 app.config.from_pyfile("config.py")
 mongo.connect(app.config["DATABASE"])
 
-
+print "testing :" + str(app.config["DATABASE"])
 
 api.add_resource(NoteCollection, '/notes')
 api.add_resource(NoteResource, '/notes/<string:note_id>')
