@@ -41,7 +41,7 @@ class Note(Document):
 
 
 	def __str__(self):
-		return str(self.timestamp)
+		return str(self.message)
 
 	def clean(self):
 		#Extract tags when saving notes

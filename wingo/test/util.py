@@ -2,7 +2,43 @@ import json
 from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import TerminalFormatter
-#from wingo.models import *
+from models import User,Note
+
+# http://universimmedia.pagesperso-orange.fr/geo/loc.htm
+places = [{
+	"name": "Home #maison",
+	"location" : [49.17970,-0.37282]
+},
+{
+	"name": "School",
+	"location" : [49.18375,-0.36809]
+},
+{
+	"name": "Library",
+	"location" : [49.18014,-0.37074]
+},
+{
+	"name": "University #study",
+	"location" : [49.18895, 	-0.36386]
+},
+
+{
+	"name": "Herouville",
+	"location" : [49.20103, 	-0.33770]
+},
+
+{
+	"name": "Ouestream #eau #maison",
+	"location" : [49.27666, 	-0.25866]
+},
+{
+	"name": "Rouen",
+	"location" : [49.44323, 	1.09997]
+	
+}]
+
+
+
 
 
 
@@ -19,13 +55,19 @@ def check_success(obj):
 
 
 
-def create_user(count = 1):
-	user = User()
-	user.nickname = "test"
-	user.email    = "test@test.fr"
-	user.password = "test"
+def generate_data():
+	Note.drop_collection()
+	User.drop_collection()
+
+	user = User(nickname="test", email="test@test.fr", password="test")
 	user.save()
-	return user
+
+	for place in places:
+		Note(location=place["location"], message=place["name"], author=user).save()
+
+	
+
+
 
 def print_json(data):
 	print highlight(data, JsonLexer(), TerminalFormatter())
