@@ -62,6 +62,8 @@ Comments is the the comments...
     Request: 
     {
         order: ["recent","popular"]
+        lat: 444
+        lon:444
         radius: 50
         search:"cute dogs"
     }
@@ -71,6 +73,8 @@ Comments is the the comments...
         author.name: "ikit"
         author.avatar: "http://gravatar.png"
         anonymous:true
+        lat:43.4535
+        lon:-4.4345
         message:"There is a cute dog in the place"
         picture:"http://img.wigo/5242424.png"
         timestamp:2014-08-23T18:05:46Z
@@ -90,7 +94,8 @@ Comments is the the comments...
         anonymous:true
         message:"There is a cute dog in the place"
         picture:"http://img.wigo/5242424.png"
-        location:[47.3590900,3.3852100]
+        lat:47.3590900
+        lon:3.3852100
         expiration:2014-08-23T18:05:46Z
         limit:200
     }
@@ -105,6 +110,8 @@ Comments is the the comments...
         author.name: "ikit"
         author.avatar: "http://gravatar.png"
         anonymous:true
+        lat:43.4535
+        lon:-4.4345
         message:"There is a cute dog in the place"
         picture:"http://img.wigo/5242424.png"
         timestamp:2014-08-23T18:05:46Z
@@ -164,7 +171,8 @@ Comments is the the comments...
 [GET] /tags
     
     Request: {
-        at :43.82186,-79.42456
+        lat :43.82186
+        lon:-79.42456
         radius: 50
     }
 
@@ -197,6 +205,8 @@ Comments is the the comments...
         author.name: "ikit"
         author.avatar: "http://gravatar.png"
         anonymous:true
+        lat:43.4535
+        lon:-4.4345
         message:"There is a cute dog in the place"
         picture:"http://img.wigo/5242424.png"
         timestamp:2014-08-23T18:05:46Z
@@ -215,7 +225,7 @@ Summary :
 [GET] /
 
 
-notes/search?at=40.74917,-73.98529&order=recent&radius=50&query=cute dogs
+notes/search?lat=40.74917&lon=-73.98529&order=recent&radius=50&query=cute dogs
 [GET] /notes/{id}
 [DELETE] /notes/id
 [GET] /notes/{id}/comments/
@@ -231,6 +241,9 @@ notes/search?at=40.74917,-73.98529&order=recent&radius=50&query=cute dogs
 [GET] /users/{id}/pockets
 [POST] /users/
 [GET] /users/{id}/pockets
+
+#News
+[GET] /places?lat=40.74917,-73.98529&radius=50
 
 
 
