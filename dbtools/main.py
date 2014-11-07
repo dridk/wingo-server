@@ -11,7 +11,8 @@ import mongoengine as mongo
 
 from wingo.models import *
 from dbtools import *
-from dbtools.gen_utils import * # to be able to use directly msg(), err(), ...
+from dbtools.utils import * # to be able to use directly msg(), err(), ...
+from dbtools.tpl import *
 
 
 
@@ -22,7 +23,7 @@ from dbtools.gen_utils import * # to be able to use directly msg(), err(), ...
 parser = argparse.ArgumentParser(description="Wingo database generation tool.\n")
 
 
-parser.add_argument('-tpl', dest='tplFile', type=str, choices=['Toulouse', 'Brest', 'Toronto', 'Caen', 'France', 'World'], nargs='+', default=None,
+parser.add_argument('-tpl', dest='tplFiles', type=str, choices=['XuFu', 'TU', 'Cities3', 'France', 'World'], nargs='+', default=None,
                    help="load one or more template file and generate data according it.")
 
 
@@ -40,11 +41,11 @@ parser.add_argument('-c', '--count', dest='count', type=int, default=100,
                    help='the number of note that will be generated. Default is 100.')
 
 
-parser.add_argument('-db', dest='database', type=str, default='wingo',
-                   help="the database name to use. Default is 'wingo'.")
+parser.add_argument('-db', dest='database', type=str, default='wingo_test',
+                   help="the database name to use. Default is 'wingo_test'.")
 
-parser.add_argument('-nd', '--NODROP', dest='dropDB', action='store_false', default=True,
-                   help="don't drop the database before doing the generation. New data will be added to the old ones.")
+parser.add_argument('-d', '--DROP', dest='dropDB', action='store_true', default=False,
+                   help="drop the database before doing the generation.")
 
 
 parser.add_argument('-s', '--silent', dest='verbose', action='store_false', default=True,
@@ -72,7 +73,7 @@ args = parser.parse_args()
 dbToolVerboseMode = args.verbose
 
 
-msg("Connect to database")
+msg("Connect to database '" + r(args.database) + "'")
 try:
 	connect(args.database) 
 except Exception, e:
@@ -82,7 +83,7 @@ except Exception, e:
 
 # Check if need to drop the database 
 if args.dropDB:
-	msg("Database " + y("dropped"))
+	msg("Database dropped. Old data will be " + r("erased") + ".")
 	try:
 		Note.drop_collection()
 		User.drop_collection()
@@ -90,13 +91,19 @@ if args.dropDB:
 		error("Drop collection failled", e)
 		sys.exit(110) # DB drop error
 else:
-	msg("Database not dropped")
+	msg("Database not dropped. Data will be " + r("merged") + ".")
 
 
 # Using template
-if args.tplFile is not None:
-	msg("Template file used for the generation " + lst2str(args.tplFile))
+if args.tplFiles is not None:
+	msg("Template file used for the generation " + lst2str(args.tplFiles))
 	
+	for tpl in args.tplFiles:
+		if tpl == 'XuFu':
+			xufu.genData()
+		elif tpl == 'TU':
+			tu.genData()
+
 
 else:
 	# using search or location ?
