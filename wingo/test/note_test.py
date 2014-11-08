@@ -49,7 +49,7 @@ class NoteViewTest(unittest.TestCase):
 		array = check_json(data)
 
 	def test_get_tags(self):
-		uri = '/tags?lat='+current_location[0]+'&lon='+current_location[1]+'&radius=10000'
+		uri = '/tags?lat='+current_location[0]+'&lon='+current_location[1]+'&radius=1000'
 		data = self.app.get(uri).data
 		print_json(data)
 		array = check_json(data)

@@ -29,7 +29,7 @@ class Note(Document):
 	message    = StringField(required = True, max_length=config.MAX_NOTE_LENGTH)
 	picture    = URLField()
 	timestamp  = DateTimeField(default=datetime.now, required=True)
-	location   = PointField(required=True)
+	location   = PointField()
 	expiration = DateTimeField()
 	takes      = IntField()
 	limit      = IntField(default=-1)

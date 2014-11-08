@@ -26,7 +26,14 @@ class TagResource(restful.Resource):
 
 
 
-		notes = Note.objects(location__near=location, location__max_distance=radius).only("tags")
+		# notes = Note.objects(location__geo_within_center=[location,radius]).only("tags")
+
+		#notes = Note.objects(location__near={"type": "Point", "coordinates": [0, 0]}).only("tags")
+		
+		notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).only("tags")
+
+
+
 		tags = set()
 		
 		#Get all uniq tags in a set 

@@ -14,7 +14,7 @@ places = [{
 	"location" : [49.18375,-0.36809]
 },
 {
-	"name": "Library",
+	"name": "#test Library",
 	"location" : [49.18014,-0.37074]
 },
 {
@@ -23,7 +23,7 @@ places = [{
 },
 
 {
-	"name": "Herouville",
+	"name": "#test Herouville",
 	"location" : [49.20103, 	-0.33770]
 },
 
