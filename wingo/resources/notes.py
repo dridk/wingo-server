@@ -158,7 +158,9 @@ class NoteResource(restful.Resource):
 
 		results["anonymous"]  = note.anonymous
 		results["message"]    = note.message
-		results["location"]   = note.location["coordinates"]
+		results["message"]    = note.message
+		results["lat"]   = note.location["coordinates"][0]
+		results["lon"]   = note.location["coordinates"][1]
 		results["expiration"] = str(note.expiration)
 		results["timestamp"]  = str(note.timestamp)
 		results["takes"]      = note.takes
