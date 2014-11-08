@@ -5,6 +5,7 @@
 from flask import Flask
 from flask.ext import restful
 import mongoengine as mongo
+from flask import render_template
 
 from resources.notes import *
 from resources.comments import *
@@ -42,6 +43,11 @@ api.add_resource(CommentCollection, '/notes/<string:note_id>/comments')
 #api.add_resource(CommentResource, '/comment/<string:comment_id>')
 api.add_resource(ConfigResource, '/config')
 api.add_resource(TagResource, '/tags')
+
+
+@app.route("/")
+def hello():
+	return render_template('home.html')
 
 
 if __name__ == '__main__':

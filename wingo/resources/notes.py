@@ -74,7 +74,7 @@ class NoteCollection(restful.Resource):
 			r["anonymous"]  = note.anonymous
 			r["message"]    = note.message
 			r["lat"]        = float(note.location["coordinates"][0])
-			r["long"]       = float(note.location["coordinates"][1])
+			r["lon"]       = float(note.location["coordinates"][1])
 			r["expiration"] = str(note.expiration)
 			r["timestamp"]  = str(note.timestamp)
 			r["takes"]      = note.takes
