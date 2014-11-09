@@ -49,6 +49,11 @@ api.add_resource(TagResource, '/tags')
 def hello():
 	return render_template('home.html')
 
+@app.before_request
+def check_request():
+	print request.headers
+	print  request.headers.get("FROM","nobody")
+	return 
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
