@@ -54,13 +54,13 @@ class NoteCollection(restful.Resource):
 			if (order == "popular"):
 				notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-takes")
 			else:
-				notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("timestamp")
+				notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp")
 
 		else:
 			if (order == "popular"):
 				notes = Note.objects(__raw__={'tags':query, 'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-takes")
 			else:
-				notes = Note.objects(__raw__={'tags':query,'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("timestamp")
+				notes = Note.objects(__raw__={'tags':query,'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp")
 
 
 
