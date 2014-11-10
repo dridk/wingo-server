@@ -6,7 +6,7 @@ from flask.ext.restful import reqparse, abort
 from bson.objectid import ObjectId
 from bson.errors import *
 import hashlib
-from util import SuccessResponse,ErrorResponse
+from . util import SuccessResponse,ErrorResponse
 from models import Note, User
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
 # It doesnt' work instead ! 
@@ -133,7 +133,7 @@ class NoteCollection(restful.Resource):
 		
 		try:
 			note.save()
-		except Exception, e:
+		except Exception as e:
 			return ErrorResponse(e.message)
 
 		return SuccessResponse(str(note.id))
@@ -143,11 +143,10 @@ class NoteCollection(restful.Resource):
 class NoteResource(restful.Resource):
 	def get(self, note_id):
 
-		print note_id
 	
 		try:
 			note = Note.objects.get(pk=note_id)
-		except InvalidId, e:
+		except InvalidId as e:
 			return ErrorResponse(e.message)
 		except:
 			return ErrorResponse("Cannot find id")			
@@ -181,7 +180,7 @@ class NoteResource(restful.Resource):
 			note_id = ObjectId(note_id)
 			note = Note.objects.get(id=note_id)
 			note.delete()
-		except InvalidId, e:
+		except InvalidId as e:
 			return ErrorResponse(e.message)
 		except:
 			return ErrorResponse("Cannot find id")	

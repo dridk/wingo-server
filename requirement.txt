@@ -5,7 +5,6 @@ Flask-Script==2.0.5
 Flask-Testing==0.4.1
 flask-restful-swagger==0.14
 httpie==0.8.0
-loremipsum==1.0.2
 mongoengine==0.8.7
 simplejson
 requests

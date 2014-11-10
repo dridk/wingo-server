@@ -6,7 +6,7 @@ from flask.ext.restful import reqparse, abort
 import hashlib
 from bson.objectid import ObjectId
 from bson.errors import *
-from util import SuccessResponse,ErrorResponse
+from . util import SuccessResponse,ErrorResponse
 
 
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
@@ -32,7 +32,7 @@ class CommentCollection(restful.Resource):
 		try:
 			note_id = ObjectId(note_id)
 			note = Note.objects.get(pk=note_id)
-		except InvalidId, e:
+		except InvalidId as e:
 			return ErrorResponse(e.message)
 		except:
 			return ErrorResponse("Note doesn't exists")
@@ -48,10 +48,10 @@ class CommentCollection(restful.Resource):
 		startElement = (args["page"] - 1) * countElement
 
 		if config.DEBUG:
-			print "note id      : {0}".format(note_id)
-			print "startElement : {0}".format(startElement)
-			print "countElement : {0}".format(countElement)
-			print "startPage    : {0}".format("-")
+			print ("note id      : {0}".format(note_id))
+			print ("startElement : {0}".format(startElement))
+			print ("countElement : {0}".format(countElement))
+			print ("startPage    : {0}".format("-"))
 
 
 		# Build result
@@ -98,9 +98,9 @@ class CommentCollection(restful.Resource):
 
 
 		if config.DEBUG:
-			print "note id : {0}".format(note_id)
-			print "author  : {0}".format(args["author"])
-			print "comment : {0}".format(args["comment"][0:50] + "(...)")
+			print ("note id : {0}".format(note_id))
+			print ("author  : {0}".format(args["author"]))
+			print ("comment : {0}".format(args["comment"][0:50] + "(...)"))
 
 
 		# Check that user and note exists
@@ -111,7 +111,7 @@ class CommentCollection(restful.Resource):
 		try:
 			note_id = ObjectId(note_id)
 			note = Note.objects.get(pk=note_id)
-		except InvalidId, e:
+		except InvalidId as e:
 			return ErrorResponse(e.message)
 		except:
 			return ErrorResponse("Note doesn't exists")
@@ -124,7 +124,7 @@ class CommentCollection(restful.Resource):
 
 		try:
 			comment.save()
-		except Exception, e:
+		except Exception as e:
 			return ErrorResponse(e.message)
 
 		return SuccessResponse(str(comment.id))
@@ -145,14 +145,14 @@ class CommentResource(restful.Resource):
 		try:
 			comment_id = ObjectId(comment_id)
 			comment = Comment.objects.get(pk=comment_id)
-		except InvalidId, e:
+		except InvalidId as e:
 			return ErrorResponse(e.message)
 		except:
 			return ErrorResponse("Comment doesn't exists")
 
 
 		if config.DEBUG:
-			print "comment id : {0}".format(comment_id)
+			print ("comment id : {0}".format(comment_id))
 
 
 		results  = dict()
@@ -177,9 +177,9 @@ class CommentResource(restful.Resource):
 			comment.delete()
 
 			if config.DEBUG:
-				print "Comment (id ={0}) deleted".format(comment_id)
+				print ("Comment (id ={0}) deleted".format(comment_id))
 
-		except InvalidId, e:
+		except InvalidId as e:
 			return ErrorResponse(e.message)
 		except:
 			return ErrorResponse("Comment doesn't exists")

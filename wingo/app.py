@@ -35,7 +35,7 @@ api = restful.Api(app)
 app.config.from_pyfile("config.py")
 mongo.connect(app.config["DATABASE"])
 
-print "testing :" + str(app.config["DATABASE"])
+print ("testing :" + str(app.config["DATABASE"]))
 
 api.add_resource(NoteCollection, '/notes')
 api.add_resource(NoteResource, '/notes/<string:note_id>')
@@ -51,8 +51,6 @@ def hello():
 
 @app.before_request
 def check_request():
-	print request.headers
-	print  request.headers.get("FROM","nobody")
 	return 
 
 if __name__ == '__main__':

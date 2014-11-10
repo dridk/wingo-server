@@ -3,7 +3,7 @@ from flask import request
 from flask.ext import restful
 from flask.ext.restful import reqparse
 from flask import current_app
-from util import SuccessResponse,ErrorResponse
+from . util import SuccessResponse,ErrorResponse
 from models import Note
 
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
@@ -45,6 +45,8 @@ class TagResource(restful.Resource):
 		for tag in tags:
 			item = {"name":tag, "count":notes.filter(tags__contains=tag).count()}
 			results.append(item)
+			
+ 
 
 
-		return SuccessResponse(sorted(results, reverse=True))
+		return SuccessResponse(sorted(results, key=lambda item: item["count"], reverse=True))
