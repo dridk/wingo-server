@@ -22,3 +22,5 @@ def ErrorResponse(message="Unknown", code="111"):
 
 def tagsFromText(text):
 	return [i for i in a.split(" ") if i.startswith("#")]
+
+

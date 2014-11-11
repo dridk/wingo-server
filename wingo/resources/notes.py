@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from flask import current_app
 from flask.ext import restful
+from flask import send_file
 import os
 from flask.ext.restful import reqparse, abort
 from bson.objectid import ObjectId
@@ -10,6 +11,7 @@ import hashlib
 from . util import SuccessResponse,ErrorResponse
 from models import Note, User
 import werkzeug 
+import uuid, base64
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
 # It doesnt' work instead ! 
 #from common.util import *
@@ -197,5 +199,28 @@ class NoteUploadResource(restful.Resource):
 	def post(self):
 	 	#http -f POST :5000/notes/upload picture@/home/schutz/cv.png
 
+
 		file = request.files["picture"]
-		file.save(os.path.join(current_app.config["UPLOAD_FOLDER"],"upload.png"))
+
+		if file and self.allowed_file(file.filename):
+			filename = werkzeug.secure_filename(file.filename)
+			ext = filename.rsplit('.', 1)[1]
+			uid = uuid.uuid4().hex
+			newName = str(uid) + "." + ext
+			file.save(os.path.join(current_app.config["UPLOAD_FOLDER"],newName))
+			return SuccessResponse({"path":newName})
+
+		else :
+			return ErrorResponse("File are not allowed")
+
+
+	def allowed_file(self,filename):
+	    return '.' in filename and \
+	           filename.rsplit('.', 1)[1] in current_app.config["UPLOAD_ALLOWED_EXTENSIONS"]
+
+
+class NoteDownloadResource(restful.Resource):
+	def get(self, filename):
+		#In production, should be appear on nginx static folder...
+		path = os.path.join("../",current_app.config["UPLOAD_FOLDER"],filename)
+		return send_file(path, mimetype="image/png")
