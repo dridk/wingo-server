@@ -2,12 +2,14 @@ from flask import Flask
 from flask import request
 from flask import current_app
 from flask.ext import restful
+import os
 from flask.ext.restful import reqparse, abort
 from bson.objectid import ObjectId
 from bson.errors import *
 import hashlib
 from . util import SuccessResponse,ErrorResponse
 from models import Note, User
+import werkzeug 
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
 # It doesnt' work instead ! 
 #from common.util import *
@@ -189,8 +191,11 @@ class NoteResource(restful.Resource):
 		return SuccessResponse()	
 
 
-
-
-
-
 #======================================================================================================
+
+class NoteUploadResource(restful.Resource):
+	def post(self):
+	 	#http -f POST :5000/notes/upload picture@/home/schutz/cv.png
+
+		file = request.files["picture"]
+		file.save(os.path.join(current_app.config["UPLOAD_FOLDER"],"upload.png"))
