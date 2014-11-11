@@ -223,4 +223,7 @@ class NoteDownloadResource(restful.Resource):
 	def get(self, filename):
 		#In production, should be appear on nginx static folder...
 		path = os.path.join("../",current_app.config["UPLOAD_FOLDER"],filename)
-		return send_file(path, mimetype="image/png")
+		if os.path.isfile(path): 
+			return send_file(path, mimetype="image/png")
+		else:
+			return ErrorResponse("image doesn't exists")

@@ -35,7 +35,10 @@ api = restful.Api(app)
 app.config.from_pyfile("config.py")
 mongo.connect(app.config["DATABASE"])
 
-print ("testing :" + str(app.config["DATABASE"]))
+
+if not os.path.exists(app.config["UPLOAD_FOLDER"]):
+	os.makedirs(app.config["UPLOAD_FOLDER"])
+
 
 api.add_resource(NoteCollection, '/notes')
 api.add_resource(NoteResource, '/notes/<string:note_id>')
