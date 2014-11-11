@@ -1,5 +1,5 @@
 #!/bin/bash
 
-python wingo/app_test.py $*
+python3 wingo/app_test.py $*
 
 
