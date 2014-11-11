@@ -202,6 +202,7 @@ class NoteUploadResource(restful.Resource):
 
 		file = request.files["picture"]
 
+
 		if file and self.allowed_file(file.filename):
 			filename = werkzeug.secure_filename(file.filename)
 			ext = filename.rsplit('.', 1)[1]
