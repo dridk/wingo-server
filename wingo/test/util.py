@@ -70,4 +70,4 @@ def generate_data():
 
 
 def print_json(data):
-	print highlight(data, JsonLexer(), TerminalFormatter())
+	print (highlight(data, JsonLexer(), TerminalFormatter()))
