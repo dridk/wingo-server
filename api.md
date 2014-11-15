@@ -246,9 +246,10 @@ notes/search?lat=40.74917&lon=-73.98529&order=recent&radius=50&query=cute dogs
 [POST] /users/login
 [POST] /users/logout
 [GET]  /users/me
-[GET] /users/{id}/pockets
+[GET] /users/pockets
+[POST] /users/pockets
 [POST] /users/
-[GET] /users/{id}/pockets
+
 
 
 

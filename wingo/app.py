@@ -6,11 +6,7 @@ from flask import Flask
 from flask.ext import restful
 import mongoengine as mongo
 from flask import render_template
-
-from resources.notes import *
-from resources.comments import *
-from resources.config import *
-from resources.tags import *
+import os
 from models import *
 
 
@@ -40,6 +36,12 @@ if not os.path.exists(app.config["UPLOAD_FOLDER"]):
 	os.makedirs(app.config["UPLOAD_FOLDER"])
 
 
+from resources.notes import *
+from resources.comments import *
+from resources.config import *
+from resources.tags import *
+from resources.users import *
+
 api.add_resource(NoteCollection, '/notes')
 api.add_resource(NoteResource, '/notes/<string:note_id>')
 api.add_resource(NoteUploadResource, '/notes/picture')
@@ -51,9 +53,8 @@ api.add_resource(ConfigResource, '/config')
 api.add_resource(TagResource, '/tags')
 
 
-@app.route("/")
-def hello():
-	return render_template('home.html')
+
+
 
 @app.before_request
 def check_request():
