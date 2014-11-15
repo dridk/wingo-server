@@ -2,7 +2,20 @@ from datetime import datetime
 from mongoengine import *
 import config
 
+class UserNote(EmbeddedDocument):
+	author     = ReferenceField("User", required=True)
+	message    = StringField(required = True, max_length=config.MAX_NOTE_LENGTH)
+	picture    = URLField()
+	timestamp  = DateTimeField(default=datetime.now, required=True)
+	location   = PointField()
 
+	def from_notes(self,note):
+		if isinstance(note,eval("Note")):
+			self.author    = note.author
+			self.message   = note.message
+			self.picture   = note.picture
+			self.timestamp = note.timestamp
+			self.location  = note.location
  
 
 class User(Document):
@@ -10,7 +23,7 @@ class User(Document):
 	password = StringField(required=True)
 	nickname = StringField(required=True)
 	avatar   = URLField()
-	pockets  = ListField(IntField)
+	pockets  = ListField(EmbeddedDocumentField(UserNote))
 
 	def __str__(self):
 		return str(self.nickname)
