@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-python3 wingo/app.py
+python3 wingo/application.py
