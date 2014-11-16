@@ -14,12 +14,14 @@ from models import User
 
 
 class UserLogin(restful.Resource):
-	def post(self):
+	def get(self):
 		parser = reqparse.RequestParser()
 		parser.add_argument('email',    type=str,   help='email is not defined', required = True)
 		parser.add_argument('password',    type=str,   help='Password is not defined', required = True)
 		
 		args = parser.parse_args()
+
+		session['user_id'] = None
 
 		email = args["email"]
 		password = args["password"]
@@ -29,25 +31,27 @@ class UserLogin(restful.Resource):
 			return ErrorResponse("Bas email or password")
 
 		else:
-			session['user'] = "sadsfsfsf"
+			session['user_id'] = str(user.id)
 
-		return SuccessResponse()
+		return SuccessResponse(session['user_id'])
 		
 
 
 
 class UserLogout(restful.Resource):
-	def post(self):
-		return "logout"
+	def get(self):
+		session.clear()
+		return SuccessResponse()
+
 
 
 class UserMe(restful.Resource):
 	def get(self):
-		print(session)
-		if "current_user_id" not in session:
-			return ErrorResponse("not logged")
+		
+		if 'user_id' in session:
+			return SuccessResponse(session["user_id"])
 		else:
-			return SuccessResponse(session["current_user_id"])
+			return ErrorResponse("not connected")
 
 
 class UserNote(restful.Resource):
