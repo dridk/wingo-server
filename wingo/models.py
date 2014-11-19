@@ -1,5 +1,6 @@
 from datetime import datetime
 from mongoengine import *
+from bson.objectid import ObjectId
 import config
 
 class UserNote(EmbeddedDocument):
@@ -24,6 +25,15 @@ class User(Document):
 	nickname = StringField(required=True)
 	avatar   = URLField()
 	pockets  = ListField(EmbeddedDocumentField(UserNote))
+
+	@staticmethod
+	def from_id(user_id):
+		if not ObjectId.is_valid(user_id):
+			return None;
+		
+		user = User.objects(pk=user_id).first()
+		return user
+
 
 	def __str__(self):
 		return str(self.nickname)

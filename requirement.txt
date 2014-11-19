@@ -8,4 +8,4 @@ httpie==0.8.0
 mongoengine==0.8.7
 simplejson
 requests
-flask-login
+flask-script

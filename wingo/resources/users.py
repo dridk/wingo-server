@@ -14,16 +14,14 @@ from models import User
 
 
 class UserLogin(restful.Resource):
-	def get(self):
+	def post(self):
 		parser = reqparse.RequestParser()
 		parser.add_argument('email',    type=str,   help='email is not defined', required = True)
 		parser.add_argument('password',    type=str,   help='Password is not defined', required = True)
 		
 		args = parser.parse_args()
 
-		session['user_id'] = None
-
-		email = args["email"]
+		email    = args["email"]
 		password = args["password"]
 		user = User.objects(email=email, password=password).first()
 	
@@ -39,7 +37,7 @@ class UserLogin(restful.Resource):
 
 
 class UserLogout(restful.Resource):
-	def get(self):
+	def delete(self):
 		session.clear()
 		return SuccessResponse()
 
@@ -49,7 +47,8 @@ class UserMe(restful.Resource):
 	def get(self):
 		
 		if 'user_id' in session:
-			return SuccessResponse(session["user_id"])
+			user = User.from_id(session["user_id"])
+			return SuccessResponse(user.email)
 		else:
 			return ErrorResponse("not connected")
 
