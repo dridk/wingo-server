@@ -38,17 +38,28 @@ class UserLogin(restful.Resource):
 
 class UserLogout(restful.Resource):
 	def delete(self):
-		session.clear()
+		print("delete session",session["user_id"])
+		session.pop("user_id", None)
+		print(session)
+
 		return SuccessResponse()
 
 
 
 class UserMe(restful.Resource):
 	def get(self):
+
+		print(session)
+
 		
 		if 'user_id' in session:
 			user = User.from_id(session["user_id"])
-			return SuccessResponse(user.email)
+
+			results = {}
+			results["email"] = user.email
+			results["nickname"] = user.nickname
+			results["avatar"] = user.avatar
+			return SuccessResponse(results)
 		else:
 			return ErrorResponse("not connected")
 
