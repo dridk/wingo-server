@@ -59,6 +59,7 @@ class UserMe(restful.Resource):
 			results["email"] = user.email
 			results["nickname"] = user.nickname
 			results["avatar"] = user.avatar
+			results["pocket_count"] = len(user.pockets)
 			return SuccessResponse(results)
 		else:
 			return ErrorResponse("not connected")

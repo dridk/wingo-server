@@ -237,7 +237,22 @@ class PocketNoteCollection(restful.Resource):
 	''' get all user's note '''
 	@check_auth
 	def get(self):
-		return SuccessResponse("get notes") 
+		user = current_user()
+		results  = list()
+		for note in user.pockets:
+			r = {}
+			r["message"]    = note.message
+			r["lat"]   = note.location["coordinates"][0]
+			r["lon"]   = note.location["coordinates"][1]
+			r["timestamp"]  = str(note.timestamp)
+			r["parent"]   = str(note.parent)
+			results.append(r)
+
+		return SuccessResponse(results)
+
+
+
+		
 
 	''' Add a notes to the current user pockets'''
 	''' add note_id in posted data '''

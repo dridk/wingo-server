@@ -2,6 +2,7 @@ from datetime import datetime
 from mongoengine import *
 from bson.objectid import ObjectId
 import config
+from itsdangerous import Signer
 
 class PocketNote(EmbeddedDocument):
 	author     = ReferenceField("User", required=True)
@@ -10,6 +11,7 @@ class PocketNote(EmbeddedDocument):
 	timestamp  = DateTimeField(default=datetime.now, required=True)
 	location   = PointField()
 	parent     = ObjectIdField(required=True)
+	signature  = StringField()
 
 	@staticmethod
 	def from_note(note):
@@ -21,8 +23,14 @@ class PocketNote(EmbeddedDocument):
 			pocket.timestamp = note.timestamp
 			pocket.location  = note.location
 			pocket.parent    = note.id
+
+			s = Signer(config.SECRET_KEY)
+			pocket.signature = s.sign(str(note.id))
 			return pocket
 		return None
+
+
+
 
  
 
