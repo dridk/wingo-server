@@ -10,9 +10,11 @@ from bson.errors import *
 import hashlib
 from . util import SuccessResponse,ErrorResponse,check_auth, current_user
 from models import Note, User, PocketNote
+import requests
 import werkzeug 
 import uuid, base64
 from geopy.geocoders import Nominatim 
+import json
 
 
 
@@ -25,9 +27,22 @@ class LocationHereResource(restful.Resource):
 		parser.add_argument('lon',       type=float, help='long is missing or not well defined', required=True)
 		args = parser.parse_args()
 		at = "{},{}".format(args["lat"], args["lon"])
-		geolocator = Nominatim()
-		location = geolocator.reverse(at)
-		return SuccessResponse(location.address)
+	
+		app_id = current_app.config["HERE_APP_ID"]
+		app_code = current_app.config["HERE_APP_CODE"]
+
+		data = {"at":at, "app_id":app_id, "app_code":app_code}
+
+
+		r = requests.get("http://places.cit.api.here.com/places/v1/discover/here", params=data)
+		results = r.json().get("results")
+		if len(results["items"]) > 0:
+			if "vicinity" in results["items"][0]:
+				return SuccessResponse(results["items"][0]["vicinity"])
+		
+		return SuccessResponse("Unknown location")
+
+	
 		
 
 
