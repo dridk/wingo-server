@@ -256,6 +256,10 @@ class PocketNoteCollection(restful.Resource):
 		user = current_user()
 		print("current user: ", user)
 
+		# If user has already the note, return error 
+		if user.has_note(note):
+			return ErrorResponse("User has already this note")
+
 		# Appends pocketNotes to the users
 		user.pockets.append(PocketNote.from_note(note))
 		

@@ -9,6 +9,7 @@ class PocketNote(EmbeddedDocument):
 	picture    = URLField()
 	timestamp  = DateTimeField(default=datetime.now, required=True)
 	location   = PointField()
+	parent     = ObjectIdField(required=True)
 
 	@staticmethod
 	def from_note(note):
@@ -19,8 +20,10 @@ class PocketNote(EmbeddedDocument):
 			pocket.picture   = note.picture
 			pocket.timestamp = note.timestamp
 			pocket.location  = note.location
+			pocket.parent    = note.id
 			return pocket
 		return None
+
  
 
 class User(Document):
@@ -37,6 +40,17 @@ class User(Document):
 		
 		user = User.objects(pk=user_id).first()
 		return user
+
+	def has_note(self, note):
+		if isinstance(note,eval("Note")):
+			for p in self.pockets:
+				if p.parent == note.id:
+					return True
+		return False
+
+
+
+
 
 
 	def __str__(self):
