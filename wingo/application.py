@@ -59,7 +59,7 @@ api.add_resource(NoteDownloadResource, '/notes/picture/<string:filename>')
 api.add_resource(UserLogin, '/users/login')
 api.add_resource(UserLogout, '/users/logout')
 api.add_resource(UserMe, '/users/me')
-api.add_resource(PocketNoteCollection, '/users/pokets')
+api.add_resource(PocketNoteCollection, '/users/pockets')
 
 
 api.add_resource(CommentCollection, '/notes/<string:note_id>/comments')
