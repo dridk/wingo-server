@@ -5,6 +5,7 @@ from flask.ext import restful
 from flask import send_file
 import os
 from flask.ext.restful import reqparse, abort
+from flask import make_response, redirect
 from bson.objectid import ObjectId
 from bson.errors import *
 import hashlib
@@ -12,6 +13,7 @@ from . util import SuccessResponse,ErrorResponse,check_auth, current_user
 from models import Note, User, PocketNote
 import werkzeug 
 import uuid, base64
+import requests
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
 # It doesnt' work instead ! 
 #from common.util import *
@@ -300,4 +302,28 @@ class PocketNoteCollection(restful.Resource):
 class NoteMapResource(restful.Resource):	
 	''' get static map of the current note'''
 	def get(self, note_id):
-		return "map"
+
+		
+
+		app_id   = current_app.config["HERE_APP_ID"]
+		app_code = current_app.config["HERE_APP_CODE"]
+
+		try:
+			note = Note.objects.get(pk=note_id)
+		except InvalidId as e:
+			return ErrorResponse(e.message)
+		except:
+			return ErrorResponse("Cannot find id")	
+
+		at= "{},{}".format(note.location["coordinates"][0], note.location["coordinates"][1])		
+		data = {"c":at, "w":400, "h":400,"app_id":app_id, "app_code":app_code, "z":16}
+
+		r = requests.get("http://image.maps.cit.api.here.com/mia/1.6/mapview", params=data)
+
+		
+		return redirect(r.url)
+	
+		
+
+
+
