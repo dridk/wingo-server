@@ -3,7 +3,7 @@ from mongoengine import *
 from bson.objectid import ObjectId
 import config
 
-class UserNote(EmbeddedDocument):
+class PocketNote(EmbeddedDocument):
 	author     = ReferenceField("User", required=True)
 	message    = StringField(required = True, max_length=config.MAX_NOTE_LENGTH)
 	picture    = URLField()
@@ -24,7 +24,7 @@ class User(Document):
 	password = StringField(required=True)
 	nickname = StringField(required=True)
 	avatar   = URLField()
-	pockets  = ListField(EmbeddedDocumentField(UserNote))
+	pockets  = ListField(EmbeddedDocumentField(PocketNote))
 
 	@staticmethod
 	def from_id(user_id):

@@ -1,4 +1,6 @@
 import json
+from flask import session
+from models import Note, User
 
 
 
@@ -23,4 +25,17 @@ def ErrorResponse(message="Unknown", code="111"):
 def tagsFromText(text):
 	return [i for i in a.split(" ") if i.startswith("#")]
 
+
+
+def check_auth(f):
+	def called(*args, **kargs):
+		if 'user_id' in session:
+			user = User.from_id(session["user_id"])
+			if user is not None:
+				return f(*args, **kargs)
+		return ErrorResponse("authentification is required")
+			
+
+		
+	return called
 

@@ -63,17 +63,3 @@ class UserMe(restful.Resource):
 		else:
 			return ErrorResponse("not connected")
 
-
-class UserNote(restful.Resource):
-	
-	''' get all user's note '''
-	def get(self):
-		pass 
-
-	''' Add a notes to the current user pockets'''
-	''' add note_id in posted data '''
-	def post(self):
-		pass	
-	
-
-

@@ -8,7 +8,7 @@ from flask.ext.restful import reqparse, abort
 from bson.objectid import ObjectId
 from bson.errors import *
 import hashlib
-from . util import SuccessResponse,ErrorResponse
+from . util import SuccessResponse,ErrorResponse, check_auth
 from models import Note, User
 import werkzeug 
 import uuid, base64
@@ -228,3 +228,21 @@ class NoteDownloadResource(restful.Resource):
 			return send_file(path, mimetype="image/png")
 		else:
 			return ErrorResponse("image doesn't exists")
+
+
+#======================================================================================================
+
+
+class PocketNote(restful.Resource):	
+	''' get all user's note '''
+	@check_auth
+	def get(self):
+		return SuccessResponse("get notes") 
+
+	''' Add a notes to the current user pockets'''
+	''' add note_id in posted data '''
+	def post(self):
+		return SuccessResponse("post notes")
+	
+
+
