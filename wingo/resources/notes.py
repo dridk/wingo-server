@@ -8,8 +8,8 @@ from flask.ext.restful import reqparse, abort
 from bson.objectid import ObjectId
 from bson.errors import *
 import hashlib
-from . util import SuccessResponse,ErrorResponse, check_auth
-from models import Note, User
+from . util import SuccessResponse,ErrorResponse,check_auth, current_user
+from models import Note, User, PocketNote
 import werkzeug 
 import uuid, base64
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
@@ -233,7 +233,7 @@ class NoteDownloadResource(restful.Resource):
 #======================================================================================================
 
 
-class PocketNote(restful.Resource):	
+class PocketNoteCollection(restful.Resource):	
 	''' get all user's note '''
 	@check_auth
 	def get(self):
@@ -241,8 +241,38 @@ class PocketNote(restful.Resource):
 
 	''' Add a notes to the current user pockets'''
 	''' add note_id in posted data '''
+	@check_auth
 	def post(self):
-		return SuccessResponse("post notes")
+		parser = reqparse.RequestParser()
+		parser.add_argument('note_id',type=str,   help='Specify note uniq id', required=True)		
+		args = parser.parse_args()
+		note_id = ObjectId(args["note_id"])
+
+		#Get the defined notes
+		note = Note.objects(id=note_id).first()
+		print("current note: ", note)
+
+		#Get the current user
+		user = current_user()
+		print("current user: ", user)
+
+		# Appends pocketNotes to the users
+		user.pockets.append(PocketNote.from_note(note))
+		
+		# Save all modification
+		try:
+			user.save()
+		except Exception as e:
+			return ErrorResponse("cannot save into user pokets")
+
+		try:
+			note.save()
+		except Exception as e:
+			return ErrorResponse("cannot increments note takes count")
+
+		
+		results = {"takes": len(user.pockets)}
+		return SuccessResponse(results)
 	
 
 

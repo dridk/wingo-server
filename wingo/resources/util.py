@@ -34,8 +34,10 @@ def check_auth(f):
 			if user is not None:
 				return f(*args, **kargs)
 		return ErrorResponse("authentification is required")
-			
-
-		
 	return called
 
+
+def current_user():
+	if 'user_id' in session:
+		user = User.from_id(session["user_id"])
+		return user

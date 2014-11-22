@@ -10,13 +10,17 @@ class PocketNote(EmbeddedDocument):
 	timestamp  = DateTimeField(default=datetime.now, required=True)
 	location   = PointField()
 
-	def from_notes(self,note):
+	@staticmethod
+	def from_note(note):
 		if isinstance(note,eval("Note")):
-			self.author    = note.author
-			self.message   = note.message
-			self.picture   = note.picture
-			self.timestamp = note.timestamp
-			self.location  = note.location
+			pocket = PocketNote()
+			pocket.author    = note.author
+			pocket.message   = note.message
+			pocket.picture   = note.picture
+			pocket.timestamp = note.timestamp
+			pocket.location  = note.location
+			return pocket
+		return None
  
 
 class User(Document):
@@ -54,11 +58,12 @@ class Note(Document):
 	timestamp  = DateTimeField(default=datetime.now, required=True)
 	location   = PointField()
 	expiration = DateTimeField()
-	takes      = IntField()
+	takes      = IntField(default=0)
 	limit      = IntField(default=-1)
 	tags       = ListField(StringField())
 	comments   = ListField(EmbeddedDocumentField(Comment))
 	
+
 
 	
 
