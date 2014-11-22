@@ -238,6 +238,7 @@ notes/search?lat=40.74917&lon=-73.98529&order=recent&radius=50&query=cute dogs
 [DELETE] /notes/id
 [GET] /notes/{id}/comments/
 [POST] /notes/{id}/comments/
+[GET] /notes/{id}/map
 [DELETE] /comments/{id}
 [GET] /comments/{id}
 [GET] /tags?radius=50
@@ -249,8 +250,8 @@ notes/search?lat=40.74917&lon=-73.98529&order=recent&radius=50&query=cute dogs
 [GET] /users/pockets
 [POST] /users/pockets
 [POST] /users/
-
-
+[GET] /location/here
+[GET] /location/arround
 
 
 

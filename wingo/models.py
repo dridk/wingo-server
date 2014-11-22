@@ -11,7 +11,7 @@ class PocketNote(EmbeddedDocument):
 	timestamp  = DateTimeField(default=datetime.now, required=True)
 	location   = PointField()
 	parent     = ObjectIdField(required=True)
-	signature  = StringField()
+	signature  = StringField(required=True)
 
 	@staticmethod
 	def from_note(note):

@@ -3,7 +3,7 @@ import json
 import unittest
 from mongoengine import *
 from mongoengine.connection import disconnect
-import app as mainApp
+import application as mainApp
 from models import *
 from test.util import *
 

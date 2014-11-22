@@ -295,3 +295,9 @@ class PocketNoteCollection(restful.Resource):
 	
 
 
+#======================================================================================================
+
+class NoteMapResource(restful.Resource):	
+	''' get static map of the current note'''
+	def get(self, note_id):
+		return "map"

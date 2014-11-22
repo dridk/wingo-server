@@ -9,3 +9,5 @@ mongoengine==0.8.7
 simplejson
 requests
 flask-script
+geopy
+itsdangerous

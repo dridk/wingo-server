@@ -50,16 +50,23 @@ from resources.comments import *
 from resources.config import *
 from resources.tags import *
 from resources.users import *
+from resources.location import *
 
 api.add_resource(NoteCollection, '/notes')
 api.add_resource(NoteResource, '/notes/<string:note_id>')
 api.add_resource(NoteUploadResource, '/notes/picture')
 api.add_resource(NoteDownloadResource, '/notes/picture/<string:filename>')
+api.add_resource(NoteMapResource,'/notes/<string:note_id>/map')
 
 api.add_resource(UserLogin, '/users/login')
 api.add_resource(UserLogout, '/users/logout')
 api.add_resource(UserMe, '/users/me')
 api.add_resource(PocketNoteCollection, '/users/pockets')
+
+api.add_resource(LocationHereResource,'/location/here')
+api.add_resource(LocationArroundResource,'/location/arround')
+
+
 
 
 api.add_resource(CommentCollection, '/notes/<string:note_id>/comments')
