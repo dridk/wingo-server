@@ -90,7 +90,7 @@ class NoteCollection(restful.Resource):
 		return SuccessResponse(results )
 
 #======================================================================================================
-
+	@check_auth
 	def post(self):
 		#http POST :5000/notes at:=[43.82186,-79.42456] anonymous:=false -v
 
@@ -122,16 +122,8 @@ class NoteCollection(restful.Resource):
 		# print "limit:     {}".format(args["limit"])
 
 
-		try:
-			#TIPS.. TO TEST ALPHA VERSION 
-			if (args["author"] == "darwin"):
-				user = User.objects.first()
-			else:
-				user = User.objects.get(pk=args["author"])
-		except:
-			return ErrorResponse("user doesn't exists")
 		
-		note.author    = user
+		note.author    = current_user()
 		note.anonymous = args["anonymous"]
 		note.picture   = args["picture"]
 		note.location  = [args["lat"], args["lon"]]
