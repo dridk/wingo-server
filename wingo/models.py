@@ -24,8 +24,10 @@ class PocketNote(EmbeddedDocument):
 			pocket.location  = note.location
 			pocket.parent    = note.id
 
+			key = str(note.id)
 			s = Signer(config.SECRET_KEY)
-			pocket.signature = s.sign(str(note.id))
+			signing = str(s.sign(bytes(key, "utf-8")))
+			pocket.signature = signing
 			return pocket
 		return None
 
