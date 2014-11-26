@@ -53,6 +53,29 @@ class LocationArroundResource(restful.Resource):
 		parser.add_argument('lat',       type=float, help='lat is missing or not well defined ',required=True)
 		parser.add_argument('lon',       type=float, help='long is missing or not well defined', required=True)
 		args = parser.parse_args()
-		return "map"
+		
+
+		at = "{},{}".format(args["lat"], args["lon"])
+		app_id = current_app.config["HERE_APP_ID"]
+		app_code = current_app.config["HERE_APP_CODE"]
+
+		data = {"at":at, "app_id":app_id, "app_code":app_code}
+
+		r = requests.get("http://places.cit.api.here.com/places/v1/discover/explore", params=data)
+
+		results = []
+
+		for item in r.json().get("results").get("items"):
+			line = {}
+			line["title"] = item["title"]
+			line["distance"] = item["distance"]
+			line["icon"] = item["icon"]
+			line["latitude"] = item["position"][0]
+			line["longitude"] = item["position"][1]
+			results.append(line)
+
+		return SuccessResponse(results)
+
+
 
 

@@ -296,7 +296,7 @@ class NoteMapResource(restful.Resource):
 	''' get static map of the current note'''
 	def get(self, note_id):
 
-		
+		#This method should be have cache , to avoid requests Here each time
 
 		app_id   = current_app.config["HERE_APP_ID"]
 		app_code = current_app.config["HERE_APP_CODE"]
