@@ -14,6 +14,7 @@ from models import Note, User, PocketNote
 import werkzeug 
 import uuid, base64
 import requests
+import io
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
 # It doesnt' work instead ! 
 #from common.util import *
@@ -311,10 +312,12 @@ class NoteMapResource(restful.Resource):
 		data = {"c":at, "w":400, "h":400,"app_id":app_id, "app_code":app_code, "z":16}
 
 		r = requests.get("http://image.maps.cit.api.here.com/mia/1.6/mapview", params=data)
+		img = r.raw.read()
 
-		
-		return redirect(r.url)
-	
+		rep = make_response(r.content)
+		rep.headers['Content-Type'] = 'image/jpeg'
+
+		return rep
 		
 
 
