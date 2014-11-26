@@ -79,4 +79,3 @@ class LocationArroundResource(restful.Resource):
 
 
 
-}
