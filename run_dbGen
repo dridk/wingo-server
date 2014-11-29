@@ -1,5 +1,0 @@
-#!/bin/bash
-
-
-python -m dbtools.main $*
-#python ./dbtools/main.py $*

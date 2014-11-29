@@ -2,7 +2,7 @@ import json
 from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import TerminalFormatter
-from models import User,Note
+from wingo.models import User,Note
 
 # http://universimmedia.pagesperso-orange.fr/geo/loc.htm
 places = [{

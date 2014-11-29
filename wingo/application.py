@@ -45,12 +45,12 @@ def check_request():
 	return
 
 # We want to access app from resources..
-from resources.notes import *
-from resources.comments import *
-from resources.config import *
-from resources.tags import *
-from resources.users import *
-from resources.location import *
+from wingo.resources.notes import *
+from wingo.resources.comments import *
+from wingo.resources.config import *
+from wingo.resources.tags import *
+from wingo.resources.users import *
+from wingo.resources.location import *
 
 api.add_resource(NoteCollection, '/notes')
 api.add_resource(NoteResource, '/notes/<string:note_id>')

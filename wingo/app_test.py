@@ -5,7 +5,7 @@
 import unittest
 import requests 
 import json 
-from test.note_test import *
+from wtest.note_test import *
 
 
 if __name__ == '__main__':

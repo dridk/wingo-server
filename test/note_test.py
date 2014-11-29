@@ -12,7 +12,6 @@ current_location = ["49.17970","-0.36960"]
 class NoteViewTest(unittest.TestCase):
 
 
-
 	def setUp(self):
 		disconnect()
 		connect("wingoTest")
@@ -74,3 +73,6 @@ class NoteViewTest(unittest.TestCase):
 		# db.drop_database('wingoTest')
 
 
+
+if __name__ == '__main__':
+	unittest.main()
