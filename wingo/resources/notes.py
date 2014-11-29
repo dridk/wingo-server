@@ -9,8 +9,8 @@ from flask import make_response, redirect
 from bson.objectid import ObjectId
 from bson.errors import *
 import hashlib
-from . util import SuccessResponse,ErrorResponse,check_auth, current_user
-from models import Note, User, PocketNote
+from wingo.resources.util import SuccessResponse,ErrorResponse,check_auth, current_user
+from wingo.models import Note, User, PocketNote
 import werkzeug 
 import uuid, base64
 import requests

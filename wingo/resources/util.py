@@ -1,6 +1,6 @@
 import json
 from flask import session
-from models import Note, User
+from wingo.models import Note, User
 
 
 

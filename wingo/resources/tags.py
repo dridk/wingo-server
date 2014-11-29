@@ -3,8 +3,8 @@ from flask import request
 from flask.ext import restful
 from flask.ext.restful import reqparse
 from flask import current_app
-from . util import SuccessResponse,ErrorResponse
-from models import Note
+from wingo.resources.util import SuccessResponse,ErrorResponse
+from wingo.models import Note
 
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
 #from models import Note

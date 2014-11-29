@@ -1,8 +1,9 @@
 from datetime import datetime
 from mongoengine import *
 from bson.objectid import ObjectId
-import config
 from itsdangerous import Signer
+import wingo.config as config
+
 
 class PocketNote(EmbeddedDocument):
 	author     = ReferenceField("User", required=True)

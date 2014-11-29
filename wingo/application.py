@@ -6,7 +6,7 @@ from flask import Flask
 from flask.ext import restful
 from flask import render_template
 import mongoengine as mongo
-from models import *
+from wingo.models import *
 
 import os
 

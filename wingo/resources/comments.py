@@ -6,7 +6,7 @@ from flask.ext.restful import reqparse, abort
 import hashlib
 from bson.objectid import ObjectId
 from bson.errors import *
-from . util import SuccessResponse,ErrorResponse
+from wingo.resources.util import SuccessResponse,ErrorResponse
 
 
 # 'wingo' import must be done from root level (app, test, dbGen, ...)

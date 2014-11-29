@@ -6,8 +6,8 @@ from flask.ext.restful import reqparse
 from flask import current_app
 # from flask_login import login_user, current_user 
 
-from . util import SuccessResponse,ErrorResponse
-from models import User
+from wingo.resources.util import SuccessResponse,ErrorResponse
+from wingo.models import User
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
 #from models import Note
 #from common.util import *
