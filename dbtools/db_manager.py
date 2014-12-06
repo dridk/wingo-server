@@ -18,8 +18,8 @@ def drop():
 
 
 
-@manager.option('-lat', '--latitude', help='latitude of the center', default=48.386537)
-@manager.option('-lon', '--longitude', help='longitude of the center', default=-4.490095)
+@manager.option('-lat', '--latitude', help='latitude of the center', default=48.386537, type=float)
+@manager.option('-lon', '--longitude', help='longitude of the center', default=-4.490095, type=float)
 @manager.option('-r', '--radius', help='radius in meter', default=5000)
 @manager.option('-c', '--count', help='number of note', default=100)
 @manager.option('-u', '--userCount', help='number of user', default=10)
