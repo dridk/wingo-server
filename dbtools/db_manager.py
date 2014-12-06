@@ -2,7 +2,6 @@ from flask.ext.script import Manager
 from wingo.application import app
 from wingo.models import *
 import random
-from . generate import *
 from . utils import *
 from progress.bar import *
 from datetime import *
