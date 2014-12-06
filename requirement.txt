@@ -11,3 +11,4 @@ requests
 geopy
 itsdangerous
 progress
+loremipsum
