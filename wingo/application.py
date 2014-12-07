@@ -7,6 +7,7 @@ from flask.ext import restful
 from flask import render_template
 import mongoengine as mongo
 from wingo.models import *
+import time
 
 import os
 
@@ -75,7 +76,9 @@ api.add_resource(ConfigResource, '/config')
 api.add_resource(TagResource, '/tags')
 
 
-
+@app.before_request
+def before_request():
+	time.sleep(1)
 	 
 
 if __name__ == '__main__':
