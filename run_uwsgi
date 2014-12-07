@@ -1,0 +1,3 @@
+#/bin/sh
+uwsgi -s /tmp/uwsgi.sock -w wingo.application:app --uid www-data --gid www-data
+
