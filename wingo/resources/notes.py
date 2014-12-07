@@ -87,6 +87,8 @@ class NoteCollection(restful.Resource):
 			r["takes"]      = note.takes
 			r["limit"]      =note.limit
 			r["tags"]       =note.tags
+			r["picture"]    = note.picture
+
 			results.append(r)
 		return SuccessResponse(results )
 
@@ -164,6 +166,8 @@ class NoteResource(restful.Resource):
 		results["takes"]      = note.takes
 		results["limit"]      =note.limit
 		results["tags"]       =note.tags
+		results["picture"]    =note.picture
+
 
 
 		
@@ -204,7 +208,8 @@ class NoteUploadResource(restful.Resource):
 			uid = uuid.uuid4().hex
 			newName = str(uid) + "." + ext
 			file.save(os.path.join(current_app.config["UPLOAD_FOLDER"],newName))
-			return SuccessResponse({"path":newName})
+			newUrl = "http://"+request.headers['Host']+"/pics/"+newName
+			return SuccessResponse({"path":newUrl})
 
 		else :
 			return ErrorResponse("File are not allowed")
@@ -218,9 +223,11 @@ class NoteUploadResource(restful.Resource):
 class NoteDownloadResource(restful.Resource):
 	def get(self, filename):
 		#In production, should be appear on nginx static folder...
-		path = os.path.join("../",current_app.config["UPLOAD_FOLDER"],filename)
-		if os.path.isfile(path): 
-			return send_file(path, mimetype="image/png")
+		filename = os.path.join(current_app.config["UPLOAD_FOLDER"],filename)
+
+
+		if os.path.exists(filename): 
+			return send_file("../"+filename, mimetype="image/png")
 		else:
 			return ErrorResponse("image doesn't exists")
 
