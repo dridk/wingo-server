@@ -13,7 +13,6 @@ from wingo.models import Note, User, PocketNote
 import requests
 import werkzeug 
 import uuid, base64
-from geopy.geocoders import Nominatim 
 import json
 
 
