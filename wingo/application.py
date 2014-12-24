@@ -7,6 +7,7 @@ from flask.ext import restful
 from flask import render_template
 import mongoengine as mongo
 from wingo.models import *
+import time
 
 import os
 
@@ -55,7 +56,7 @@ from wingo.resources.location import *
 api.add_resource(NoteCollection, '/notes')
 api.add_resource(NoteResource, '/notes/<string:note_id>')
 api.add_resource(NoteUploadResource, '/notes/picture')
-api.add_resource(NoteDownloadResource, '/notes/picture/<string:filename>')
+api.add_resource(NoteDownloadResource, '/pics/<string:filename>')
 api.add_resource(NoteMapResource,'/notes/<string:note_id>/map')
 
 api.add_resource(UserLogin, '/users/login')
@@ -75,7 +76,9 @@ api.add_resource(ConfigResource, '/config')
 api.add_resource(TagResource, '/tags')
 
 
-
+@app.before_request
+def before_request():
+	time.sleep(1)
 	 
 
 if __name__ == '__main__':

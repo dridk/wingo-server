@@ -9,7 +9,7 @@ class PocketNote(EmbeddedDocument):
 	author     = ReferenceField("User", required=True)
 	message    = StringField(required = True, max_length=config.MAX_NOTE_LENGTH)
 	picture    = URLField()
-	timestamp  = DateTimeField(default=datetime.now, required=True)
+	timestamp  = DateTimeField(default=datetime.utcnow, required=True)
 	location   = PointField()
 	parent     = ObjectIdField(required=True)
 	signature  = StringField(required=True)
@@ -72,7 +72,7 @@ class User(Document):
 class Comment(EmbeddedDocument):
 	author    = ReferenceField(User, required=True)
 	message   = StringField()
-	timestamp = DateTimeField(required=True,default=datetime.now)
+	timestamp = DateTimeField(required=True,default=datetime.utcnow)
 
 
 class Note(Document):
@@ -80,7 +80,7 @@ class Note(Document):
 	anonymous  = BooleanField(required=True, default = True)
 	message    = StringField(required = True, max_length=config.MAX_NOTE_LENGTH)
 	picture    = URLField()
-	timestamp  = DateTimeField(default=datetime.now, required=True)
+	timestamp  = DateTimeField(default=datetime.utcnow, required=True)
 	location   = PointField()
 	expiration = DateTimeField()
 	takes      = IntField(default=0)
