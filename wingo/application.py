@@ -74,9 +74,9 @@ api.add_resource(ConfigResource, '/config')
 api.add_resource(TagResource, '/tags')
 
 
-@app.before_request
-def before_request():
-	time.sleep(1)
+# @app.before_request
+# def before_request():
+# 	time.sleep(1)
 	 
 
 if __name__ == '__main__':
