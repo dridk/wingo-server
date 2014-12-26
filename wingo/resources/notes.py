@@ -49,11 +49,11 @@ class NoteCollection(restful.Resource):
 		lon      = args["lon"]
 		location = [lat,lon]
 		
-		# print "radius:    {}".format(radius)
-		# print "latitude:  {}".format(lat)
-		# print "longitude: {}".format(lon)
-		# print "order:     {}".format(order)
-		# print "query:     {}".format(query)
+		print ("radius:    {}".format(radius))
+		print ("latitude:  {}".format(lat))
+		print ("longitude: {}".format(lon))
+		print ("order:     {}".format(order))
+		print ("query:     {}".format(query))
 
 		#Get notes
 
@@ -77,6 +77,7 @@ class NoteCollection(restful.Resource):
 
 			if note.anonymous is False:
 				r["author"] = {"nickname":note.author.nickname, "avatar" :note.author.avatar }
+				
 			r["id"]   		= str(note.id)
 			r["anonymous"]  = note.anonymous
 			r["message"]    = note.message
