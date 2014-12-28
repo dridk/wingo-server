@@ -317,7 +317,7 @@ class NoteMapResource(restful.Resource):
 			return ErrorResponse("Cannot find id")	
 
 		at= "{},{}".format(note.location["coordinates"][0], note.location["coordinates"][1])		
-		data = {"c":at, "w":400, "h":400,"app_id":app_id, "app_code":app_code, "z":16}
+		data = {"c":at, "w":600, "h":600,"app_id":app_id, "app_code":app_code, "z":16}
 
 		r = requests.get("http://image.maps.cit.api.here.com/mia/1.6/mapview", params=data)
 
