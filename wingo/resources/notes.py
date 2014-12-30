@@ -244,6 +244,8 @@ class PocketNoteCollection(restful.Resource):
 			r["lat"]   = note.location["coordinates"][0]
 			r["lon"]   = note.location["coordinates"][1]
 			r["timestamp"]  = str(note.timestamp)
+			r["signature"]  = note.signature
+
 			r["parent"]   = str(note.parent)
 			results.append(r)
 
