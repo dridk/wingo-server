@@ -254,9 +254,6 @@ class PocketNoteCollection(restful.Resource):
 		return SuccessResponse(results)
 
 
-
-		
-
 	''' Add a notes to the current user pockets'''
 	''' add note_id in posted data '''
 	@check_auth
@@ -295,7 +292,46 @@ class PocketNoteCollection(restful.Resource):
 		
 		results = {"takes": len(user.pockets)}
 		return SuccessResponse(results)
+
+
+class PocketNoteResource(restful.Resource):
 	
+	def delete(self,note_id):
+		try:
+			note_id = ObjectId(note_id)
+			note = Note.objects.get(id=note_id)
+			note.delete()
+		except InvalidId as e:
+			return ErrorResponse(e.message)
+		except:
+			return ErrorResponse("Cannot find id")	
+
+					
+		return SuccessResponse()	
+
+
+
+	
+#=================================================MY NOTES ============================================
+
+class MyNoteCollection(restful.Resource):	
+	''' get all user's note '''
+	@check_auth
+	def get(self):
+		user = current_user()
+		results  = list()
+		for note in user.pockets:
+			r = {}
+			r["message"]    = note.message
+			r["lat"]   = note.location["coordinates"][0]
+			r["lon"]   = note.location["coordinates"][1]
+			r["timestamp"]  = str(note.timestamp)
+			r["parent"]   = str(note.parent)
+			results.append(r)
+
+		return SuccessResponse(results)
+
+
 
 
 #======================================================================================================

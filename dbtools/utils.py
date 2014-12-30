@@ -14,7 +14,8 @@ _LOCATION = []
 :return: random text
 '''
 def genText(maxLen=100):
-	return get_paragraph()[:maxLen]
+	return get_paragraph()[:maxLen].replace("'","")
+
 
 
 def genTags(count=4):
