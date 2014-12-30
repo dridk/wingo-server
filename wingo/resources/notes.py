@@ -35,10 +35,6 @@ class NoteCollection(restful.Resource):
 		parser.add_argument('order', type=str,   help='order is missing[recent or popular]',choices=["recent","popular"], default="recent")
 		parser.add_argument('query', type=str,   help='query is missing', default=None)
 		
-
-
-
-
 		args = parser.parse_args()
 
 		#Get args
@@ -320,13 +316,23 @@ class MyNoteCollection(restful.Resource):
 	def get(self):
 		user = current_user()
 		results  = list()
-		for note in user.pockets:
+
+		for note in Note.objects(author=user):
 			r = {}
+			if note.anonymous is False:
+				r["author"] = {"nickname":note.author.nickname, "avatar" :note.author.avatar }
+				
+			r["id"]   		= str(note.id)
+			r["anonymous"]  = note.anonymous
 			r["message"]    = note.message
-			r["lat"]   = note.location["coordinates"][0]
-			r["lon"]   = note.location["coordinates"][1]
+			r["lat"]        = float(note.location["coordinates"][0])
+			r["lon"]        = float(note.location["coordinates"][1])
+			r["expiration"] = str(note.expiration)
 			r["timestamp"]  = str(note.timestamp)
-			r["parent"]   = str(note.parent)
+			r["takes"]      = note.takes
+			r["limit"]      = note.limit
+			r["tags"]       = note.tags
+			r["picture"]    = note.picture
 			results.append(r)
 
 		return SuccessResponse(results)
