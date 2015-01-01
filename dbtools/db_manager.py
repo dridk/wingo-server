@@ -40,6 +40,15 @@ def generate(latitude, longitude, radius, count, userCount):
 	devUser.save()
 
 
+		# Add default dev user 
+	devUser = User(email="eugene@labsquare.org",
+					  password="eugene",
+					  nickname="it-s", 
+					  avatar="http://www.gravatar.com/avatar/da5261bbb6144dafb2517b669800b565?s=90&d=identicon")
+	devUser.save()
+
+
+
 	bar = Bar('Generating users...', max=userCount)
 	for i in range(userCount):
 		users.append(genUser())

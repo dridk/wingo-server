@@ -29,13 +29,15 @@ class CommentCollection(restful.Resource):
 		"""
 		try:
 			note = Note.objects.get(pk=note_id)
-		except InvalidId as e:
-			return ErrorResponse(e.message)
+
 		except:
 			return ErrorResponse("Cannot find id")			
 
 
 		results = []
+
+		# On peut surement faire mieux... Mais j'ai pas trouvé! Genre, on met le model avec un SortList au lieu d'un autre..
+		note.comments.reverse()
 
 		for comment in note.comments:
 			r = {}
@@ -87,7 +89,8 @@ class CommentCollection(restful.Resource):
 			print(note.comments)
 			note.save()
 		except Exception as e:
-			return ErrorResponse(e.message)
+			return "e"
+			# return ErrorResponse(e.message)
 
 		return SuccessResponse("yes")
 

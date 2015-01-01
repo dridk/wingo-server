@@ -74,6 +74,9 @@ class Comment(Document):
 	message   = StringField()
 	timestamp = DateTimeField(required=True,default=datetime.utcnow)
 
+	def __str__(self):
+		return str(self.message)
+
 
 class Note(Document):
 	author     = ReferenceField(User, required=True)
