@@ -47,6 +47,14 @@ def generate(latitude, longitude, radius, count, userCount):
 					  avatar="http://www.gravatar.com/avatar/da5261bbb6144dafb2517b669800b565?s=90&d=identicon")
 	devUser.save()
 
+			# Add default dev user 
+	devUser = User(email="olivier@labsquare.org",
+					  password="olvier",
+					  nickname="ikit", 
+					  avatar="http://www.gravatar.com/avatar/c210cfde7065e9f2a0d184e629013488?s=90&d=identicon")
+	devUser.save()
+
+
 
 
 	bar = Bar('Generating users...', max=userCount)
