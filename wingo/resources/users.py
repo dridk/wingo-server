@@ -56,6 +56,7 @@ class UserMe(restful.Resource):
 			user = User.from_id(session["user_id"])
 
 			results = {}
+			results["id"] = str(user.id)
 			results["email"] = user.email
 			results["nickname"] = user.nickname
 			results["avatar"] = user.avatar

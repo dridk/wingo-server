@@ -64,21 +64,21 @@ api.add_resource(UserLogout, '/users/logout')
 api.add_resource(UserMe, '/users/me')
 api.add_resource(PocketNoteCollection, '/users/pockets')
 
+api.add_resource(MyNoteCollection, '/users/mynotes')
+
 api.add_resource(LocationHereResource,'/location/here')
 api.add_resource(LocationArroundResource,'/location/arround')
 
 
-
-
 api.add_resource(CommentCollection, '/notes/<string:note_id>/comments')
-#api.add_resource(CommentResource, '/comment/<string:comment_id>')
+api.add_resource(CommentResource, '/comments/<string:comment_id>')
 api.add_resource(ConfigResource, '/config')
 api.add_resource(TagResource, '/tags')
 
 
-@app.before_request
-def before_request():
-	time.sleep(1)
+# @app.before_request
+# def before_request():
+# 	time.sleep(1)
 	 
 
 if __name__ == '__main__':

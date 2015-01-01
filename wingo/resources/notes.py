@@ -35,10 +35,6 @@ class NoteCollection(restful.Resource):
 		parser.add_argument('order', type=str,   help='order is missing[recent or popular]',choices=["recent","popular"], default="recent")
 		parser.add_argument('query', type=str,   help='query is missing', default=None)
 		
-
-
-
-
 		args = parser.parse_args()
 
 		#Get args
@@ -49,11 +45,11 @@ class NoteCollection(restful.Resource):
 		lon      = args["lon"]
 		location = [lat,lon]
 		
-		# print "radius:    {}".format(radius)
-		# print "latitude:  {}".format(lat)
-		# print "longitude: {}".format(lon)
-		# print "order:     {}".format(order)
-		# print "query:     {}".format(query)
+		print ("radius:    {}".format(radius))
+		print ("latitude:  {}".format(lat))
+		print ("longitude: {}".format(lon))
+		print ("order:     {}".format(order))
+		print ("query:     {}".format(query))
 
 		#Get notes
 
@@ -77,6 +73,7 @@ class NoteCollection(restful.Resource):
 
 			if note.anonymous is False:
 				r["author"] = {"nickname":note.author.nickname, "avatar" :note.author.avatar }
+				
 			r["id"]   		= str(note.id)
 			r["anonymous"]  = note.anonymous
 			r["message"]    = note.message
@@ -247,14 +244,13 @@ class PocketNoteCollection(restful.Resource):
 			r["lat"]   = note.location["coordinates"][0]
 			r["lon"]   = note.location["coordinates"][1]
 			r["timestamp"]  = str(note.timestamp)
+			r["signature"]  = note.signature
+
 			r["parent"]   = str(note.parent)
 			results.append(r)
 
 		return SuccessResponse(results)
 
-
-
-		
 
 	''' Add a notes to the current user pockets'''
 	''' add note_id in posted data '''
@@ -294,7 +290,56 @@ class PocketNoteCollection(restful.Resource):
 		
 		results = {"takes": len(user.pockets)}
 		return SuccessResponse(results)
+
+
+class PocketNoteResource(restful.Resource):
 	
+	def delete(self,note_id):
+		try:
+			note_id = ObjectId(note_id)
+			note = Note.objects.get(id=note_id)
+			note.delete()
+		except InvalidId as e:
+			return ErrorResponse(e.message)
+		except:
+			return ErrorResponse("Cannot find id")	
+
+					
+		return SuccessResponse()	
+
+
+
+	
+#=================================================MY NOTES ============================================
+
+class MyNoteCollection(restful.Resource):	
+	''' get all user's note '''
+	@check_auth
+	def get(self):
+		user = current_user()
+		results  = list()
+
+		for note in Note.objects(author=user):
+			r = {}
+			if note.anonymous is False:
+				r["author"] = {"nickname":note.author.nickname, "avatar" :note.author.avatar }
+				
+			r["id"]   		= str(note.id)
+			r["anonymous"]  = note.anonymous
+			r["message"]    = note.message
+			r["lat"]        = float(note.location["coordinates"][0])
+			r["lon"]        = float(note.location["coordinates"][1])
+			r["expiration"] = str(note.expiration)
+			r["timestamp"]  = str(note.timestamp)
+			r["takes"]      = note.takes
+			r["limit"]      = note.limit
+			r["tags"]       = note.tags
+			r["picture"]    = note.picture
+			results.append(r)
+
+		return SuccessResponse(results)
+
+
 
 
 #======================================================================================================
@@ -316,7 +361,7 @@ class NoteMapResource(restful.Resource):
 			return ErrorResponse("Cannot find id")	
 
 		at= "{},{}".format(note.location["coordinates"][0], note.location["coordinates"][1])		
-		data = {"c":at, "w":400, "h":400,"app_id":app_id, "app_code":app_code, "z":16}
+		data = {"c":at, "w":600, "h":600,"app_id":app_id, "app_code":app_code, "z":16}
 
 		r = requests.get("http://image.maps.cit.api.here.com/mia/1.6/mapview", params=data)
 

@@ -69,10 +69,13 @@ class User(Document):
 
 
 
-class Comment(EmbeddedDocument):
+class Comment(Document):
 	author    = ReferenceField(User, required=True)
 	message   = StringField()
 	timestamp = DateTimeField(required=True,default=datetime.utcnow)
+
+	def __str__(self):
+		return str(self.message)
 
 
 class Note(Document):
@@ -86,7 +89,7 @@ class Note(Document):
 	takes      = IntField(default=0)
 	limit      = IntField(default=-1)
 	tags       = ListField(StringField())
-	comments   = ListField(EmbeddedDocumentField(Comment))
+	comments   = ListField(ReferenceField(Comment))
 	
 
 
