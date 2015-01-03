@@ -283,6 +283,7 @@ class PocketNoteCollection(restful.Resource):
 			return ErrorResponse("cannot save into user pokets")
 
 		try:
+			note.takes+=1
 			note.save()
 		except Exception as e:
 			return ErrorResponse("cannot increments note takes count")
