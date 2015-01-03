@@ -292,18 +292,26 @@ class PocketNoteCollection(restful.Resource):
 		results = {"takes": len(user.pockets)}
 		return SuccessResponse(results)
 
-
 class PocketNoteResource(restful.Resource):
 	
+	@check_auth
 	def delete(self,note_id):
+		print(note_id)
+		user = current_user()
+
+		note_id = ObjectId(note_id)
+		
+		# Get All pockets notes with parent id. 
+		notes = [n for n in user.pockets if n.parent == note_id]
+
+		if len(notes) == 0:
+			return ErrorResponse("Cannot find id")
+		
 		try:
-			note_id = ObjectId(note_id)
-			note = Note.objects.get(id=note_id)
-			note.delete()
-		except InvalidId as e:
-			return ErrorResponse(e.message)
-		except:
-			return ErrorResponse("Cannot find id")	
+			user.pockets.remove(notes[0])
+			user.save()
+		except Exception as e:
+			return ErrorResponse("cannot remove note from pocket")
 
 					
 		return SuccessResponse()	

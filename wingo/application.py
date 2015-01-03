@@ -63,6 +63,7 @@ api.add_resource(UserLogin, '/users/login')
 api.add_resource(UserLogout, '/users/logout')
 api.add_resource(UserMe, '/users/me')
 api.add_resource(PocketNoteCollection, '/users/pockets')
+api.add_resource(PocketNoteResource, '/users/pockets/<string:note_id>')
 
 api.add_resource(MyNoteCollection, '/users/mynotes')
 
