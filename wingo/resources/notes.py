@@ -100,7 +100,7 @@ class NoteCollection(restful.Resource):
 			results.append(r)
 
 		if len(results) > 0:
-			return SuccessResponse(results, max_id = results[-1]["id"])
+			return SuccessResponse(results, max_id = results[-1]["id"], count_per_page=count_per_page)
 
 		return SuccessResponse(results)
 
