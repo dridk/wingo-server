@@ -4,7 +4,7 @@ from wingo.models import Note, User
 
 
 
-def SuccessResponse(data = None):
+def SuccessResponse(data = None, **args):
 	if data is None:
 		results = {"success":True}
 	else:
@@ -12,6 +12,10 @@ def SuccessResponse(data = None):
 			results = {"success":True, "results":data, "total":len(data)}
 		else:
 			results = {"success":True, "results":data}
+
+	for key in args:
+		results[key] = args[key]
+
 	return results
 
 

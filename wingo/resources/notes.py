@@ -34,7 +34,8 @@ class NoteCollection(restful.Resource):
 		parser.add_argument('lon',   type=float, help='long is missing or not well defined', default=-79.42456)
 		parser.add_argument('order', type=str,   help='order is missing[recent or popular]',choices=["recent","popular"], default="recent")
 		parser.add_argument('query', type=str,   help='query is missing', default=None)
-		
+		parser.add_argument('max_id', type=str,   help='pagination max_id', default=None)
+
 		args = parser.parse_args()
 
 		#Get args
@@ -43,6 +44,7 @@ class NoteCollection(restful.Resource):
 		query    = args["query"]
 		lat      = args["lat"]
 		lon      = args["lon"]
+		max_id   = args["max_id"]
 		location = [lat,lon]
 		
 		print ("radius:    {}".format(radius))
@@ -51,19 +53,28 @@ class NoteCollection(restful.Resource):
 		print ("order:     {}".format(order))
 		print ("query:     {}".format(query))
 
+		# count_per_page = current_app.config["COUNT_PER_PAGE"]
+		count_per_page =10
+
 		#Get notes
 
-		if query is None :
-			if (order == "popular"):
-				notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-takes")
-			else:
-				notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp")
+		# if query is None :
+		# 	if (order == "popular"):
+		# 		notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-takes").limit(count_per_page)
+		# 	else:
 
+		print(max_id)
+		
+		if max_id is None:
+			notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp").limit(count_per_page)
 		else:
-			if (order == "popular"):
-				notes = Note.objects(__raw__={'tags':query, 'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-takes")
-			else:
-				notes = Note.objects(__raw__={'tags':query,'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp")
+			notes = Note.objects(__raw__={'_id':{'$lt': ObjectId(max_id)},  'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp").limit(count_per_page)
+
+		# else:
+		# 	if (order == "popular"):
+		# 		notes = Note.objects(__raw__={'tags':query, 'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-takes").limit(count_per_page)
+		# 	else:
+		# 		notes = Note.objects(__raw__={'tags':query,'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp").limit(count_per_page)
 
 
 
@@ -87,7 +98,11 @@ class NoteCollection(restful.Resource):
 			r["picture"]    = note.picture
 
 			results.append(r)
-		return SuccessResponse(results )
+
+		if len(results) > 0:
+			return SuccessResponse(results, max_id = results[-1]["id"])
+
+		return SuccessResponse(results)
 
 #======================================================================================================
 	@check_auth
@@ -316,8 +331,9 @@ class MyNoteCollection(restful.Resource):
 	''' get all user's note '''
 	@check_auth
 	def get(self):
-		user = current_user()
-		results  = list()
+	
+		user           = current_user()
+		results        = list()
 
 		for note in Note.objects(author=user):
 			r = {}
