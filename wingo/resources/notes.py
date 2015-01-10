@@ -260,6 +260,7 @@ class PocketNoteCollection(restful.Resource):
 			r["lon"]   = note.location["coordinates"][1]
 			r["timestamp"]  = str(note.timestamp)
 			r["signature"]  = note.signature
+			r["picture"]    = note.picture
 
 			r["parent"]   = str(note.parent)
 			results.append(r)
