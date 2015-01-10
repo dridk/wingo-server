@@ -293,7 +293,8 @@ class PocketNoteCollection(restful.Resource):
 		return SuccessResponse(results)
 
 class PocketNoteResource(restful.Resource):
-	
+	#KEEP IN MIND ! TAKES COUNT ONLY INCREMENT ... WHEN YOU DELETE POCKET NOTES , IT SHOULD BE DECREMENT.
+	#ACTUALLY IT DOESNT 
 	@check_auth
 	def delete(self,note_id):
 		print(note_id)

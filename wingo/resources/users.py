@@ -7,7 +7,7 @@ from flask import current_app
 # from flask_login import login_user, current_user 
 
 from wingo.resources.util import SuccessResponse,ErrorResponse
-from wingo.models import User
+from wingo.models import User,Note
 # 'wingo' import must be done from root level (app, test, dbGen, ...)
 #from models import Note
 #from common.util import *
@@ -61,6 +61,8 @@ class UserMe(restful.Resource):
 			results["nickname"] = user.nickname
 			results["avatar"] = user.avatar
 			results["pocket_count"] = len(user.pockets)
+			results["mynote_count"] = Note.objects(author=user).count()
+
 			return SuccessResponse(results)
 		else:
 			return ErrorResponse("not connected")
