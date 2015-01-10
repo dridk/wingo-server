@@ -52,6 +52,7 @@ class NoteCollection(restful.Resource):
 		print ("longitude: {}".format(lon))
 		print ("order:     {}".format(order))
 		print ("query:     {}".format(query))
+		print ("max_id:    {}".format(max_id))
 
 		# count_per_page = current_app.config["COUNT_PER_PAGE"]
 		count_per_page =10
@@ -63,7 +64,6 @@ class NoteCollection(restful.Resource):
 		# 		notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-takes").limit(count_per_page)
 		# 	else:
 
-		print(max_id)
 		
 		if max_id is None:
 			notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp").limit(count_per_page)
