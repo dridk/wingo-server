@@ -64,11 +64,15 @@ class NoteCollection(restful.Resource):
 		# 		notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-takes").limit(count_per_page)
 		# 	else:
 
+		total_count = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp").count()
+
 		
 		if max_id is None:
-			notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp").limit(count_per_page)
+			notes = Note.objects(__raw__={'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp")
+
+
 		else:
-			notes = Note.objects(__raw__={'_id':{'$lt': ObjectId(max_id)},  'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp").limit(count_per_page)
+			notes = Note.objects(__raw__={'_id':{'$lt': ObjectId(max_id)},  'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp")
 
 		# else:
 		# 	if (order == "popular"):
@@ -77,9 +81,8 @@ class NoteCollection(restful.Resource):
 		# 		notes = Note.objects(__raw__={'tags':query,'location':{'$near':{'$geometry':{'type': "Point", 'coordinates': location},'$maxDistance':radius}}}).order_by("-timestamp").limit(count_per_page)
 
 
-
 		results = []
-		for note in notes :
+		for note in notes.limit(count_per_page) :
 			r = dict()
 
 			if note.anonymous is False:
@@ -100,7 +103,7 @@ class NoteCollection(restful.Resource):
 			results.append(r)
 
 		if len(results) > 0:
-			return SuccessResponse(results, max_id = results[-1]["id"], count_per_page=count_per_page)
+			return SuccessResponse(results, max_id = results[-1]["id"], count_per_page=count_per_page, total_count=total_count)
 
 		return SuccessResponse(results)
 
