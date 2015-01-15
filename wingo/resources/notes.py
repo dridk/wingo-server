@@ -263,7 +263,9 @@ class PocketNoteCollection(restful.Resource):
 	def get(self):
 		user = current_user()
 		results  = list()
-		for note in user.pockets:
+		pockets = user.pockets
+		pockets.reverse()
+		for note in pockets:
 			r = {}
 			r["message"]    = note.message
 			r["lat"]   = note.location["coordinates"][0]
