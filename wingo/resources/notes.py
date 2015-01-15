@@ -88,17 +88,19 @@ class NoteCollection(restful.Resource):
 			if note.anonymous is False:
 				r["author"] = {"nickname":note.author.nickname, "avatar" :note.author.avatar }
 				
-			r["id"]   		= str(note.id)
-			r["anonymous"]  = note.anonymous
-			r["message"]    = note.message
-			r["lat"]        = float(note.location["coordinates"][0])
-			r["lon"]       = float(note.location["coordinates"][1])
-			r["expiration"] = str(note.expiration)
-			r["timestamp"]  = str(note.timestamp)
-			r["takes"]      = note.takes
-			r["limit"]      =note.limit
-			r["tags"]       =note.tags
-			r["picture"]    = note.picture
+			r["id"]            = str(note.id)
+			r["anonymous"]     = note.anonymous
+			r["message"]       = note.message
+			r["lat"]           = float(note.location["coordinates"][0])
+			r["lon"]           = float(note.location["coordinates"][1])
+			r["expiration"]    = str(note.expiration)
+			r["timestamp"]     = str(note.timestamp)
+			r["takes"]         = note.takes
+			r["limit"]         = note.limit
+			r["tags"]          = note.tags
+			r["picture"]       = note.picture
+			r["comment_count"] = len(note.comments)
+
 
 			results.append(r)
 
@@ -171,17 +173,18 @@ class NoteResource(restful.Resource):
 		if note.anonymous is False:
 			results["author"] = {"nickname":note.author.nickname, "avatar" :note.author.avatar }
 
-		results["anonymous"]  = note.anonymous
-		results["message"]    = note.message
-		results["message"]    = note.message
-		results["lat"]   = note.location["coordinates"][0]
-		results["lon"]   = note.location["coordinates"][1]
-		results["expiration"] = str(note.expiration)
-		results["timestamp"]  = str(note.timestamp)
-		results["takes"]      = note.takes
-		results["limit"]      =note.limit
-		results["tags"]       =note.tags
-		results["picture"]    =note.picture
+		results["anonymous"]     = note.anonymous
+		results["message"]       = note.message
+		results["message"]       = note.message
+		results["lat"]           = note.location["coordinates"][0]
+		results["lon"]           = note.location["coordinates"][1]
+		results["expiration"]    = str(note.expiration)
+		results["timestamp"]     = str(note.timestamp)
+		results["takes"]         = note.takes
+		results["limit"]         = note.limit
+		results["tags"]          = note.tags
+		results["picture"]       = note.picture
+		results["comment_count"] = len(note.comments)
 
 
 
@@ -268,8 +271,21 @@ class PocketNoteCollection(restful.Resource):
 			r["timestamp"]  = str(note.timestamp)
 			r["signature"]  = note.signature
 			r["picture"]    = note.picture
-
 			r["parent"]   = str(note.parent)
+
+
+			#Find original note ... 
+
+			if Note.objects(pk=note.parent).count() > 0:
+				parentNote = Note.objects(pk=note.parent).first()
+				r["valid"]   = True 
+				r["comment_count"] = len(parentNote.comments)
+
+			else:
+				r["valid"]   = False 
+				r["comment_count"] = 0
+
+
 			results.append(r)
 
 		return SuccessResponse(results)
@@ -369,6 +385,7 @@ class MyNoteCollection(restful.Resource):
 			r["limit"]      = note.limit
 			r["tags"]       = note.tags
 			r["picture"]    = note.picture
+			r["comment_count"] = len(note.comments)
 			results.append(r)
 
 		return SuccessResponse(results)
