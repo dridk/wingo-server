@@ -67,6 +67,8 @@ api.add_resource(PocketNoteResource, '/users/pockets/<string:note_id>')
 
 api.add_resource(MyNoteCollection, '/users/mynotes')
 
+
+
 api.add_resource(LocationHereResource,'/location/here')
 api.add_resource(LocationArroundResource,'/location/arround')
 

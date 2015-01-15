@@ -189,20 +189,24 @@ class NoteResource(restful.Resource):
 		
 
 #======================================================================================================
+	@check_auth
 	def delete(self,note_id):
 		
-		try:
-			note_id = ObjectId(note_id)
-			note = Note.objects.get(id=note_id)
-			note.delete()
-		except InvalidId as e:
-			return ErrorResponse(e.message)
-		except:
-			return ErrorResponse("Cannot find id")	
+		note_id = ObjectId(note_id)
+		note = Note.objects.get(id=note_id)
+		user = current_user()
 
-					
-		return SuccessResponse()	
-
+		if note.author == user: 
+			try:
+				note.delete()
+			except InvalidId as e:
+				return ErrorResponse(e.message)
+			except:
+				return ErrorResponse("Cannot find id")	
+			
+			return SuccessResponse()	
+		else:
+			return ErrorResponse("you are note allowed to delete this note")
 
 #======================================================================================================
 
