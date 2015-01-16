@@ -1,7 +1,7 @@
 DEBUG                     = True
 SECRET_KEY                ="writeyourownsecretkey"
 DATABASE                  ="wingo"
-VERSION                   ="0.2.1"
+VERSION                   ="0.2.2"
 VERSION_NAME              ="Thorfinn"
 ALLOWED_RADIUS            = [100,500,1000,5000000000]
 MAX_NOTE_LENGTH           = 255
