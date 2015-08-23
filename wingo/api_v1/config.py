@@ -11,7 +11,7 @@ def get_config():
 		"version_name" 		: current_app.config.get("VERSION_NAME"),
 		"version" 			: current_app.config.get("VERSION"),
 		"note_per_page" 	: current_app.config.get("NOTE_PER_PAGE"),
-		"debug" 			:current_app.config.get("DEBUG")
+		"debug" 			: current_app.config.get("DEBUG")
 	}
 
 	return jsonify(res)

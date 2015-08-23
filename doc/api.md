@@ -14,6 +14,10 @@
     debug : false
     }
 
+
+[GET] /shema/ 
+
+
 ##NOTES
 [GET] /notes/ 
 
