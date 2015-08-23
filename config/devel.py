@@ -1,0 +1,10 @@
+DEBUG                     = True 
+SECRET_KEY                ="writeyourownsecretkey"
+DATABASE                  ="wingo"
+VERSION                   ="0.3"
+VERSION_NAME              ="Pytheas"
+RADIUS           		  =  {"small":50, "medium":500, "large":5000}
+MAX_NOTE_LENGTH           = 255
+COUNT_PER_PAGE            = 20
+UPLOAD_FOLDER             = "uploads/"
+UPLOAD_ALLOWED_EXTENSIONS = set(["png","jpg","jpeg","gif"])

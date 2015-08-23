@@ -3,8 +3,13 @@ from wingo import create_app
 import dbtools
 from test import suite 
 import unittest 
+import os
 
-app = create_app("")
+#Create application
+#try to use environ variable as config. Use by default devel
+app = create_app(os.environ.get("WINGO_CONFIG","devel"))
+
+
 manager = Manager(app, description="manage wingo application")
 manager.add_command("dbtools", dbtools.manager)
 
