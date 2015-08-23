@@ -158,7 +158,8 @@
         notes_count : 43
     }
 
-[GET] /users/{id}/pockets
+[GET] /users/{id}/takes
+[GET] /users/{id}/notes
 
     Request: {}
 
