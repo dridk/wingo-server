@@ -81,10 +81,10 @@
         location:[47.3590900,3.3852100]
         expiration:2014-08-23T18:05:46Z
         takes: 143
-        takes_limit:200
+        max_takes:200
         tags:["dog","funny"]
-        has_time_limit : true 
-        has_take_limit : true 
+        has_expiration : true 
+        has_takes_limit : true 
         comment_count  : 43
     }
 

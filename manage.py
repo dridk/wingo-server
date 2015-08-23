@@ -1,9 +1,11 @@
-from flask.ext.script import Manager 
+from flask.ext.script import Manager , Shell
 from wingo import create_app
+from wingo import models
 import dbtools
 from test import suite 
 import unittest 
 import os
+import inspect 
 
 #Create application
 #try to use environ variable as config. Use by default devel
@@ -12,6 +14,12 @@ app = create_app(os.environ.get("WINGO_CONFIG","devel"))
 
 manager = Manager(app, description="manage wingo application")
 manager.add_command("dbtools", dbtools.manager)
+
+# def _make_context():
+# 	return dict(User = models.User, Note = models.Note, Comm)
+# manager.add_command("shell", Shell(make_context=_make_context))
+
+
 
 
 @manager.command 
