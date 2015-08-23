@@ -22,3 +22,6 @@ class User(Document):
 
 
 
+class Livre(Document):
+	title	= StringField(required=True)
+	pages	= IntField(required=True)
