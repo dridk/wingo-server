@@ -17,7 +17,7 @@ def create_app(config_name):
 	app.config.from_pyfile(cfg)
 
 	#Connect to database 
-	mongo.connect("wingo")
+	mongo.connect(app.config.DATABASE)
 
 
 	# register api blueprints 
