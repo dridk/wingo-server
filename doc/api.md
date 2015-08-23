@@ -11,19 +11,20 @@
     version_name : "Thorfinn"
     version : "1.0.0"
     note_per_page : 20 
+    debug : false
     }
 
 ##NOTES
-[GET] /notes/search 
+[GET] /notes/ 
 
     Request: 
     {
-        sort: "recent" OR "popular" OR  "distance"
-        filter: "all" OR "timeLimitOnly" OR "takesLimitOnly"
-        lat: 444
-        lon:444
-        radius: "small" OR "medium" OR "large"
-        search:"cute dogs"
+        sort:   "recent" OR "popular" OR  "distance" ("recent")
+        filter: "all" OR "timeLimitOnly" OR "takesLimitOnly" ("all")
+        lat:    444 (required)
+        lon:    444  (required)
+        radius: "small" OR "medium" OR "large" (small)
+        tags:   "cat" (None)
     }
 
     Response:
@@ -38,10 +39,11 @@
         location:[47.3590900,3.3852100]
         expiration:2014-08-23T18:05:46Z
         takes: 143
-        limit:200
+        takes_limit:200
         tags:["dog","funny"]
         has_time_limit : true 
         has_take_limit : true 
+        comment_count  : 43
     }]
 
 
@@ -49,13 +51,13 @@
   
     Request: 
     {
-        author.id : 34242424234
-        message:"There is a cute dog in the place"
-        media:"http://img.wigo/5242424.png"
-        lat:47.3590900
-        lon:3.3852100
-        expiration:2014-08-23T18:05:46Z OR None 
-        limit:200  # 0 or None
+        author.id : 34242424234 ( required )
+        message:"There is a cute dog in the place" ( required )
+        media:"http://img.wigo/5242424.png" ( None )
+        lat:47.3590900 ( required )
+        lon:3.3852100  ( required )
+        expiration:2014-08-23T18:05:46Z ( None ) 
+        limit:200 ( None )
     }
 
     Response:{}
@@ -75,15 +77,15 @@
         location:[47.3590900,3.3852100]
         expiration:2014-08-23T18:05:46Z
         takes: 143
-        limit:200
+        takes_limit:200
         tags:["dog","funny"]
         has_time_limit : true 
         has_take_limit : true 
-
+        comment_count  : 43
     }
 
 
-[DELETE] /notes/id
+[DELETE] /notes/{id}
     
     Request: {}
     Response:{}
@@ -99,6 +101,7 @@
         comment:"This is my commentaire"
         author.name:"ikit"
         author.avatar:"http://gravatar..."
+        timestamp : "2014-08-23T18:05:46Z"
     }]
 
 
@@ -125,24 +128,26 @@
         comment:"This is my commentaire"
         author.name:"ikit"
         author.avatar:"http://gravatar..."
+        timestamp : "2014-08-23T18:05:46Z"
+
     }
 
 [GET] /tags
     
     Request: {
-        lat :43.82186
-        lon:-79.42456
-        radius: 50
+        lat :43.82186 (required)
+        lon:-79.42456 (required)
+        radius: "small" OR "medium" OR "large" ("small")
     }
 
     Response:{
-    [
+    [{
     "name":"dog"
     "count":25
-    ]
     }
   
-
+    ]}
+  
 
 ##USER
 
@@ -158,12 +163,12 @@
         notes_count : 43
     }
 
-[GET] /users/{id}/takes
 [GET] /users/{id}/notes
+[GET] /users/{id}/pocket
 
     Request: {}
 
-    Response:{
+    Response:[{
         author.name: "ikit"
         author.avatar: "http://gravatar.png"
         lat:43.4535
@@ -174,15 +179,16 @@
         location:[47.3590900,3.3852100]
         expiration:2014-08-23T18:05:46Z
         takes: 143
-        limit:200
+        takes_limit:200
         tags:["dog","funny"]
         has_time_limit : true 
         has_take_limit : true 
+        comment_count  : 43
 
         ref: 54242403242
         code:213123131312312312324234324
 
-    }
+    }]
 
 
 WEBSOCKETS : 
