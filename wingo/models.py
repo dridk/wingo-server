@@ -37,6 +37,14 @@ class Comment(EmbeddedDocument):
 	message   = StringField()
 	timestamp = DateTimeField(required=True,default=datetime.now)
 
+	def export_data(self):
+		return {
+		"message"     : self.message,
+		"name "       : self.author.name,
+		"avatar"      : self.author.avatar,
+		"timestamp"   : self.timestamp
+		}
+
 #=======================================================================
 
 class Note(Document):
@@ -77,8 +85,9 @@ class Note(Document):
 
 		return res
 
-
-
+	''' Extract tags when saving note. This is a parent methods '''
+	def clean(self):
+		self.tags = [i for i in self.message.split(" ") if i.startswith("#")]
 
 	def import_data(self, data):
 		pass
