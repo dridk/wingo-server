@@ -36,3 +36,6 @@ class Note(Document):
 	message= StringField(required=True)
 
 
+class Livre(Document):
+	title	= StringField(required=True)
+	pages	= IntField(required=True)
