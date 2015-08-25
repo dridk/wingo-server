@@ -1,12 +1,23 @@
 from wingo import create_app
 from wingo.models import * 
 from flask.ext.script import Manager
+from dbtools.utils import *
 
 manager = Manager(usage="Perform database operations")
 
 @manager.command
 def drop():
 	User.drop_collection()
+	Note.drop_collection()
+	Comment.drop_collection()
+
+
+# @manager.option('-c', '--count', help='generate users ', default=1, type=int)
+# def generate_user(int count):
+
+
+
+
 
 
 
@@ -19,6 +30,18 @@ def drop():
 def generate(latitude, longitude, radius, count, userCount, verbose):
 
 	print("generate ")
-	user = User(name="dridk", password="password", email="dridk@wingo.fr")
-	user.save()
+
+	User.drop_collection()
+	Note.drop_collection()
+
+	
+	for i in range(10):
+		user = genUser()
+		user.save()
+
+		for j in range(5):
+			note = genNote(user)
+			note.save()
+
+
 
