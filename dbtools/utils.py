@@ -27,7 +27,9 @@ def genText(maxLen=100):
 # 			return '#'+' #'.join(_TAGS[:count])
 
 
-
+def dropAll():
+	User.drop_collection()
+	Note.drop_collection()
 
 
 
@@ -83,14 +85,8 @@ def genUser():
 def genNote(author, latitude=48.4000000 , longitude= -4.4833300, max_distance = 5000):
 	
 	note           = Note()
-	pos            = computeNewPointFrom(latitude, longitude, randint(0,359), randint(0,max_distance))
-
-	print(pos)
-
-	note.latitude  = pos[0]
-	note.longitude = pos[1]
+	note.location  = computeNewPointFrom(latitude, longitude, randint(0,359), randint(0,max_distance))
 	note.message   = genText()
-
 	note.author    = author
 
 	return note

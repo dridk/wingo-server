@@ -30,6 +30,10 @@ class User(Document):
 			raise ValidationError("Invalid User: missing " + e.args[0])
 
 
+	def __str__(self):
+		return self.name
+
+
 #=======================================================================
 
 class Comment(EmbeddedDocument):
@@ -49,7 +53,7 @@ class Comment(EmbeddedDocument):
 
 class Note(Document):
 	author      = ReferenceField(User, required=True)
-	location    = PointField(required=True, default=(48.4000000,-4.4833300))
+	location    = GeoPointField(required=True)
 	message     = StringField(required=True)
 	media       = URLField()
 	timestamp   = DateTimeField(default=datetime.now, required=True)
@@ -92,12 +96,25 @@ class Note(Document):
 	def import_data(self, data):
 		pass
 
-
+	@property
 	def latitude(self):
-		return float(self.location["coordinates"][0])
+		return float(self.location[0])
 
-
+	@property
 	def longitude(self):
-		return float(self.location["coordinates"][1])
+		return float(self.location[1])
 
+	@latitude.setter
+	def latitude(self, v):
+		self.location[0] = v 
+
+	@longitude.setter
+	def longitude(self, v):
+		self.location[1] = v 
+
+
+
+
+	def __str__(self):
+		return self.message[:10] + "..."
 
