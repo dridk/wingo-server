@@ -26,10 +26,10 @@ class User(Document):
 
 	def import_data(self, data):
 		try:
-			self.name     = data["name"]
-			self.email    = data["email"]
-			self.password = data["password"]
-			self.avatar   = data["avatar"]
+			self.name     = data.get("name")
+			self.email    = data.get("email","none@none.fr")
+			self.password = data.get("password")
+			self.avatar   = data.get("avatar",None)
 		except KeyError as e: 
 			raise ValidationError("Invalid User: missing " + e.args[0])
 
