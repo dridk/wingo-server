@@ -4,7 +4,7 @@ from wingo.exceptions import ValidationError
 
 @api.app_errorhandler(404)  # this has to be an app-wide handler
 def not_found(e):
-    response = jsonify({'status': 404, 'error': 'not found',
+    response = jsonify({'status': 404, 'error': 'not found', "success": False,
                         'message': 'invalid resource URI'})
     response.status_code = 404
     return response
@@ -12,7 +12,7 @@ def not_found(e):
 
 @api.errorhandler(405)
 def method_not_supported(e):
-    response = jsonify({'status': 405, 'error': 'method not supported',
+    response = jsonify({'status': 405, 'error': 'method not supported',"success": False,
                         'message': 'the method is not supported'})
     response.status_code = 405
     return response
@@ -20,7 +20,7 @@ def method_not_supported(e):
 
 @api.app_errorhandler(500)  # this has to be an app-wide handler
 def internal_server_error(e):
-    response = jsonify({'status': 500, 'error': 'internal server error',
+    response = jsonify({'status': 500, 'error': 'internal server error',"success": False,
                         'message': e.args[0]})
     response.status_code = 500
     return response
@@ -28,7 +28,7 @@ def internal_server_error(e):
 
 @api.errorhandler(ValidationError)
 def bad_request(e):
-    response = jsonify({'status': 400, 'error': 'bad request',
+    response = jsonify({'status': 400, 'error': 'bad request',"success": False,
                         'message': e.args[0]})
     response.status_code = 400
     return response

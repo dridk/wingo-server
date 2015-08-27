@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 from wingo.exceptions import ValidationError
 
 
+
 #=======================================================================
 
 class User(Document):
@@ -15,6 +16,7 @@ class User(Document):
 
 	def export_data(self):
 		return {
+			"id"	   : str(self.id),
 			"name"     : self.name,
 			"email"    : self.email,
 			"avatar"   : self.avatar
@@ -65,6 +67,7 @@ class Note(Document):
 
 	def export_data(self):
 		res =  {
+			"id"	   			: str(self.id),
 			"author.name"      	: self.author.name,
 			"author.avatar"    	: self.author.avatar,
 			"lon"			   	: self.longitude() ,

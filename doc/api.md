@@ -71,6 +71,7 @@
     Request: {}
    
     Body: {
+        id: 323243
         author.name: "ikit"
         author.avatar: "http://gravatar.png"
         lat:43.4535
@@ -86,6 +87,7 @@
         has_expiration : true 
         has_takes_limit : true 
         comment_count  : 43
+        uri : http://wingo.fr/api/note/tr542RTCTT524CR
     }
 
 
@@ -102,7 +104,7 @@
 
 
     Response:[{
-        comment:"This is my commentaire"
+        message:"This is my commentaire"
         author.name:"ikit"
         author.avatar:"http://gravatar..."
         timestamp : "2014-08-23T18:05:46Z"
