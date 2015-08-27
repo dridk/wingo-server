@@ -2,6 +2,7 @@ from mongoengine import *
 from datetime import datetime
 from bson.objectid import ObjectId
 from wingo.exceptions import ValidationError
+from flask import url_for
 
 
 
@@ -19,7 +20,8 @@ class User(Document):
 			"id"	   : str(self.id),
 			"name"     : self.name,
 			"email"    : self.email,
-			"avatar"   : self.avatar
+			"avatar"   : self.avatar,
+			"uri"	   : url_for('api.get_user', id=self.id, _external=True)
  		}
 
 	def import_data(self, data):

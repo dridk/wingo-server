@@ -4,7 +4,7 @@ from wingo.models import User
 from wingo.exceptions import ValidationError
 from wingo.utils import toJson
 @api.route("/users/<id>", methods=['GET'])
-def get_users(id):
+def get_user(id):
 	try:
 		user = User.objects.get(id = id);
 	except :
