@@ -40,5 +40,11 @@ def generate(latitude, longitude, radius, noteCount, userCount, verbose):
 			note = genNote(user,latitude=latitude , longitude= longitude, max_distance = radius)
 			note.save()
 
+			for c in range(randint(0, 5)):
+				comment = genComment(user)
+				note.comments.append(comment)
+				note.save()
+
+
 
 

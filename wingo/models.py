@@ -53,6 +53,9 @@ class Comment(EmbeddedDocument):
 		"timestamp"   : self.timestamp
 		}
 
+	def __str__(self):
+		return self.message
+
 #=======================================================================
 
 class Note(Document):

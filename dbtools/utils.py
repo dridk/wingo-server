@@ -28,9 +28,11 @@ def genText(maxLen=100):
 
 
 def dropAll():
-	User.drop_collection()
-	Note.drop_collection()
-
+	try:
+		User.drop_collection()
+		Note.drop_collection()
+	except :
+		print("cannot drop. No table")
 
 
 
@@ -90,6 +92,26 @@ def genNote(author, latitude=48.4000000 , longitude= -4.4833300, max_distance = 
 	note.author    = author
 
 	return note
+
+
+
+def genComment(author, message = None):
+
+	comment = Comment()
+	if message is None:
+		comment.message = genText(30)
+	else :
+		comment.message  = message 
+	comment.author = author 
+
+	return comment 
+
+
+
+
+
+
+
 
 
 
