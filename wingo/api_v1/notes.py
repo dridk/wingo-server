@@ -4,7 +4,7 @@ from wingo.models import Note
 from wingo.utils import toJson
 
 
-@api.route("/notes/<id>/", methods=['GET'])
+@api.route("/notes/<id>", methods=['GET'])
 def get_note(id):
 	try:
 		note = Note.objects.get(id = id);
@@ -14,13 +14,13 @@ def get_note(id):
 	return toJson(note.export_data())
 
 
-@api.route("/notes/", methods=['GET'])
+@api.route("/notes", methods=['GET'])
 def get_notes_list():
 	items = [n.export_data() for n in Note.objects.all()]
 	return toJson(items[0:10])
 
 
-@api.route("/notes/", methods=['POST'])
+@api.route("/notes", methods=['POST'])
 def create_note():
 
 	note = Note();

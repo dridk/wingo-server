@@ -5,7 +5,7 @@ from wingo.models import Comment, Note
 
 
 
-@api.route("/notes/<id>/comments/", methods=['GET'])
+@api.route("/notes/<id>/comments", methods=['GET'])
 def get_comments_list(id):
 	
 	note  = Note.objects(pk=id).first()
@@ -13,13 +13,13 @@ def get_comments_list(id):
 	return toJson(items)
 
 
-@api.route("/notes/<note_id>/comments/<int:comment_id>/", methods=['GET'])
+@api.route("/notes/<note_id>/comments/<int:comment_id>", methods=['GET'])
 def get_comment(note_id, comment_id):
 	note = Note.objects.get(pk = note_id)
 	return toJson(note.comments[comment_id].export_data())
 
 
-@api.route("/notes/<id>/comments/", methods=['POST'])
+@api.route("/notes/<id>/comments", methods=['POST'])
 def create_comment(id):
 	note = Note.objects.get(pk = id);
 	comment = Comment()
