@@ -83,7 +83,7 @@ class Note(Document):
 	takes_limit = IntField()
 	tags        = ListField(StringField())
 	comments    = ListField(EmbeddedDocumentField(Comment))
-	expired     = BooleanField(required=True , default=False)
+	die         = BooleanField(required=True , default=False)
 
 	def export_data(self):
 		res =  {
@@ -100,7 +100,7 @@ class Note(Document):
 			"tags"				: self.tags,
 			"has_max_takes"		: False,
 			"has_expiration"	: False, 
-			"expired"           : self.expired,
+			"die"               : self.die,
 			"uri"	            : url_for('api.get_note', id=self.id, _external=True)
 
  		}
