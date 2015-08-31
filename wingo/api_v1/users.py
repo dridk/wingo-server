@@ -1,11 +1,11 @@
 from flask import jsonify, request 
 from wingo.api_v1 import api 
-from wingo.models import User
+from wingo.models import User, Note
 from wingo.exceptions import ValidationError
 from wingo.utils import toJson
 
 
-@api.route("/users/<id>", methods=['GET'])
+@api.route("/users/<id>/", methods=['GET'])
 def get_user(id):
 	try:
 		user = User.objects.get(id = id);
@@ -30,4 +30,24 @@ def create_user():
 	user.save()
 
 	return toJson({"id": str(user.id)})
+
+
+
+@api.route("/users/<id>/notes/", methods=['GET'])
+def get_user_notes(id):
+	user = User.objects.get(id = id)
+	items = [i.export_data() for i in user.notes]
+	return toJson(items)
+
+
+
+@api.route("/users/<id>/pocket/", methods=['GET'])
+def get_user_pocket(id):
+	user = User.objects.get(id = id)
+	items = [i.export_data() for i in user.pocket_notes]
+	return toJson(items)
+
+
+
+
 

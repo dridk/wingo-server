@@ -10,18 +10,24 @@ from flask import url_for
 
 class User(Document):
 	""" User Model Object """ 
-	email    = EmailField(required =True)
-	password = StringField(required=True)
-	name     = StringField(required=True)
-	avatar   = URLField()
+	email        = EmailField(required =True)
+	password     = StringField(required=True)
+	name         = StringField(required=True)
+	avatar       = URLField()
+	verified     = BooleanField(default=False , required=True)
+	pocket_notes = ListField(ReferenceField("Note"))
+	notes        = ListField(ReferenceField("Note"))
 
 	def export_data(self):
 		return {
-			"id"	   : str(self.id),
-			"name"     : self.name,
-			"email"    : self.email,
-			"avatar"   : self.avatar,
-			"uri"	   : url_for('api.get_user', id=self.id, _external=True)
+			"id"	       : str(self.id),
+			"name"         : self.name,
+			"email"        : self.email,
+			"avatar"       : self.avatar,
+			"verified"     : self.verified,
+			"note_count"   : len(self.notes),
+			"pocket_count" : len(self.pocket_notes),
+			"uri"	       : url_for('api.get_user', id=self.id, _external=True)
  		}
 
 	def import_data(self, data):
@@ -53,6 +59,14 @@ class Comment(EmbeddedDocument):
 		"timestamp"   : self.timestamp
 		}
 
+	def import_data(self, data):
+		try:
+			self.message     = data.get("message")
+			self.author      = User.objects.first() # Current user replace
+		except KeyError as e: 
+			raise ValidationError("Invalid Comment: missing " + e.args[0])
+
+
 	def __str__(self):
 		return self.message
 
@@ -69,14 +83,15 @@ class Note(Document):
 	takes_limit = IntField()
 	tags        = ListField(StringField())
 	comments    = ListField(EmbeddedDocumentField(Comment))
+	expired     = BooleanField(required=True , default=False)
 
 	def export_data(self):
 		res =  {
 			"id"	   			: str(self.id),
 			"author.name"      	: self.author.name,
 			"author.avatar"    	: self.author.avatar,
-			"lon"			   	: self.longitude() ,
-			"lat" 				: self.latitude(),
+			"lon"			   	: self.longitude ,
+			"lat" 				: self.latitude,
 			"message"			: self.message,
 			"media"				: self.media ,
 			"timestamp"			: self.timestamp ,
@@ -84,7 +99,10 @@ class Note(Document):
 			"comment_count"     : len(self.comments),
 			"tags"				: self.tags,
 			"has_max_takes"		: False,
-			"has_expiration"	: False
+			"has_expiration"	: False, 
+			"expired"           : self.expired,
+			"uri"	            : url_for('api.get_note', id=self.id, _external=True)
+
  		}
 
 		if self.takes_limit is not None:
@@ -93,7 +111,7 @@ class Note(Document):
 
 		if self.expiration is not None:
  			res["has_expiration"] = True 
- 			res["expiration"]      = self.takes_limit
+ 			res["expiration"]     = self.takes_limit
 
 		return res
 
