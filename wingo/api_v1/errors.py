@@ -1,7 +1,7 @@
 from flask import jsonify
 from wingo.api_v1 import api 
-from wingo.exceptions import ValidationError
-import mongoengine
+from wingo.exceptions import CustomError
+from mongoengine.errors import ValidationError
 
 @api.app_errorhandler(404)  # this has to be an app-wide handler
 def not_found(e):
@@ -19,12 +19,12 @@ def method_not_supported(e):
     return response
 
 
-@api.app_errorhandler(500)  # this has to be an app-wide handler
-def internal_server_error(e):
-    response = jsonify({'status': 500, 'error': 'internal server error',"success": False,
-                        'message': e.args[0]})
-    response.status_code = 500
-    return response
+# @api.app_errorhandler(500)  # this has to be an app-wide handler
+# def internal_server_error(e):
+#     response = jsonify({'status': 500, 'error': 'internal server error',"success": False,
+#                         'message': e.args[0]})
+#     response.status_code = 500
+#     return response
 
 
 
@@ -38,13 +38,22 @@ def internal_server_error(e):
     return response
 
 
+# Mongoengine validation error 
+@api.app_errorhandler(ValidationError)
+def bad_request(e):
+    response = jsonify({'status': 400, 'error': 'mongo error',"success": False,
+                        'message': ",".join(e.to_dict().values())})
+    response.status_code = 400
+    return response
 
-# @api.errorhandler(ValidationError)
-# def bad_request(e):
-#     response = jsonify({'status': 400, 'error': 'bad request',"success": False,
-#                         'message': e.args[0]})
-#     response.status_code = 400
-#     return response
+# Custom error 
+@api.app_errorhandler(CustomError)
+def bad_request(e):
+    response = jsonify({'status': 400, 'error': 'custom error',"success": False,
+                        'message': e.args[0]})
+    response.status_code = 400
+    return response
+
 
 
 

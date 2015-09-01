@@ -1,7 +1,7 @@
 from mongoengine import * 
 from datetime import datetime
 from bson.objectid import ObjectId
-from wingo.exceptions import ValidationError
+from wingo.exceptions import CustomError
 from flask import url_for
 
 
@@ -31,14 +31,11 @@ class User(Document):
  		}
 
 	def import_data(self, data):
-		try:
-			self.name     = data.get("name")
-			self.email    = data.get("email","none@none.fr")
-			self.password = data.get("password")
-			self.avatar   = data.get("avatar",None)
-		except Exception as e: 
-			raise ValidationError("Invalid User: missing " + e.args[0])
-
+		self.name     = data["name"]
+		self.email    = data["email"]
+		self.password = data["password"]
+		self.avatar   = data["avatar"]
+	
 
 	def __str__(self):
 		return self.name
@@ -64,7 +61,7 @@ class Comment(EmbeddedDocument):
 			self.message     = data.get("message")
 			self.author      = User.objects.first() # Current user replace
 		except KeyError as e: 
-			raise ValidationError("Invalid Comment: missing " + e.args[0])
+			raise CustomError("Invalid Comment: missing " + e.args[0])
 
 
 	def __str__(self):

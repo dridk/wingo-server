@@ -2,9 +2,6 @@ from flask import jsonify, request
 from wingo.api_v1 import api 
 from wingo.models import Note
 from wingo.utils import toJson, selectNotes
-from webargs.flaskparser import use_args
-from webargs import Arg
-
 
 @api.route("/notes/<id>", methods=['GET'])
 def get_note(id):
@@ -17,7 +14,6 @@ def get_note(id):
 
 
 @api.route("/notes", methods=['GET'])
-@use_args({'radius': Arg(int, required=True)})
 def get_notes_list(args):
 
 

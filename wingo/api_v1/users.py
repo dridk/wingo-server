@@ -1,8 +1,12 @@
 from flask import jsonify, request 
 from wingo.api_v1 import api 
 from wingo.models import User, Note
-from wingo.exceptions import ValidationError
+from wingo.exceptions import CustomError
 from wingo.utils import toJson
+from webargs.flaskparser import use_args
+from webargs import Arg
+
+
 
 
 @api.route("/users/<id>", methods=['GET'])
@@ -10,7 +14,7 @@ def get_user(id):
 	try:
 		user = User.objects.get(id = id);
 	except :
-		raise ValidationError("not valid id")
+		raise CustomError("not a valid id")
 
 	return toJson(user.export_data())
 
@@ -23,10 +27,17 @@ def get_users_list():
 
 
 @api.route("/users", methods=['POST'])
-def create_user():
+@use_args({
+	'name'    : Arg(str, required=True),
+	'email'   : Arg(str, required=True),
+	'password': Arg(str, required=True),
+	'avatar'  : Arg(str, required=False, default=None)
+	})
+def create_user(args):
 	user = User();
-	user.import_data(request.json)
-	user.save()	
+	user.import_data(args)
+	user.save()
+
 	return toJson({"id": str(user.id)})
 
 

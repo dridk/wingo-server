@@ -1,2 +1,2 @@
-class ValidationError(ValueError):
+class CustomError(Exception):
     pass
