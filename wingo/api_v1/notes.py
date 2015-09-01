@@ -1,7 +1,9 @@
 from flask import jsonify, request 
 from wingo.api_v1 import api 
 from wingo.models import Note
-from wingo.utils import toJson
+from wingo.utils import toJson, selectNotes
+from webargs.flaskparser import use_args
+from webargs import Arg
 
 
 @api.route("/notes/<id>", methods=['GET'])
@@ -15,9 +17,27 @@ def get_note(id):
 
 
 @api.route("/notes", methods=['GET'])
-def get_notes_list():
-	items = [n.export_data() for n in Note.objects.all()]
-	return toJson(items[0:10])
+@use_args({'radius': Arg(int, required=True)})
+def get_notes_list(args):
+
+
+	try:
+		radius = args.get("radius")
+	except:
+		raise ValidationError("hahah")
+	# lat  = args.get("lat")
+	# lon  = args.get("lon")
+	# search    = args.get("search",None)
+	# nfilter = args.get("filter", "all")
+
+
+	lat = 48.37073444524586
+	lon = -4.479504229956185
+
+	notes = selectNotes((lat,lon), radius)
+
+	items = [n.export_data() for n in notes]
+	return toJson(items)
 
 
 @api.route("/notes", methods=['POST'])

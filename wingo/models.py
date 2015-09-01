@@ -36,7 +36,7 @@ class User(Document):
 			self.email    = data.get("email","none@none.fr")
 			self.password = data.get("password")
 			self.avatar   = data.get("avatar",None)
-		except KeyError as e: 
+		except Exception as e: 
 			raise ValidationError("Invalid User: missing " + e.args[0])
 
 

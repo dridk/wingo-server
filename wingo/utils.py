@@ -14,12 +14,12 @@ def toJson(data):
 
 
 
-def getNotes(center, radius = 10000 , keyword = None):
+def selectNotes(center, radius = 10000 , search = None):
 
-	if keyword is None: 
+	if search is None: 
 		queryset = 	Note.objects(location__near=center , location__max_distance=radius)
 	else:
-		queryset =  Note.objects(location__near=center , location__max_distance=radius, tags__contains=keyword)
+		queryset =  Note.objects(location__near=center , location__max_distance=radius, tags__contains=search)
 
 
 	return queryset

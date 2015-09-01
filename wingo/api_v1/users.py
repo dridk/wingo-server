@@ -24,11 +24,9 @@ def get_users_list():
 
 @api.route("/users", methods=['POST'])
 def create_user():
-
 	user = User();
 	user.import_data(request.json)
-	user.save()
-
+	user.save()	
 	return toJson({"id": str(user.id)})
 
 

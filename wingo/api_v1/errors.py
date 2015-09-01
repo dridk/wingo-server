@@ -1,6 +1,7 @@
 from flask import jsonify
 from wingo.api_v1 import api 
 from wingo.exceptions import ValidationError
+import mongoengine
 
 @api.app_errorhandler(404)  # this has to be an app-wide handler
 def not_found(e):
@@ -26,9 +27,26 @@ def internal_server_error(e):
     return response
 
 
-@api.errorhandler(ValidationError)
-def bad_request(e):
-    response = jsonify({'status': 400, 'error': 'bad request',"success": False,
-                        'message': e.args[0]})
-    response.status_code = 400
+
+@api.app_errorhandler(422)  # this has to be an app-wide handler
+def internal_server_error(e):
+
+    data = getattr(e, 'data')
+    response = jsonify({'status': 422, 'error400': 'internal server error',"success": False,
+                        'message': data['message']})
+    response.status_code = 422
     return response
+
+
+
+# @api.errorhandler(ValidationError)
+# def bad_request(e):
+#     response = jsonify({'status': 400, 'error': 'bad request',"success": False,
+#                         'message': e.args[0]})
+#     response.status_code = 400
+#     return response
+
+
+
+
+
