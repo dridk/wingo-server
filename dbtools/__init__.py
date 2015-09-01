@@ -23,7 +23,7 @@ def drop():
 @manager.option('-lon', '--longitude', help='longitude of the center', default=-4.490095, type=float)
 @manager.option('-r', '--radius', help='radius in meter', default=5000)
 @manager.option('-c', '--noteCount', help='number of note', default=100)
-@manager.option('-u', '--userCount', help='number of user', default=10)
+@manager.option('-u', '--userCount', help='number of user', default=3)
 @manager.option('-v', '--verbose', help='show output', default=True)
 def generate(latitude, longitude, radius, noteCount, userCount, verbose):
 

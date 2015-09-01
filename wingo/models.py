@@ -74,7 +74,7 @@ class Comment(EmbeddedDocument):
 
 class Note(Document):
 	author      = ReferenceField(User, required=True)
-	location    = GeoPointField(required=True)
+	location    = PointField(required=True, auto_index=False)
 	message     = StringField(required=True)
 	media       = URLField()
 	timestamp   = DateTimeField(default=datetime.now, required=True)
@@ -84,6 +84,12 @@ class Note(Document):
 	tags        = ListField(StringField())
 	comments    = ListField(EmbeddedDocumentField(Comment))
 	die         = BooleanField(required=True , default=False)
+
+
+	meta = {
+        'indexes': [[("location", "2dsphere"), ("timestamp", 1)]]
+        # 'ordering' : ['timestamp']
+    }
 
 	def export_data(self):
 		res =  {
@@ -124,19 +130,31 @@ class Note(Document):
 
 	@property
 	def latitude(self):
-		return float(self.location[0])
+		if isinstance(self.location, dict):
+			return float(self.location["coordinates"][0])
+		else:
+			return float(self.location[0])
 
 	@property
 	def longitude(self):
-		return float(self.location[1])
+		if isinstance(self.location, dict):
+			return float(self.location["coordinates"][1])
+		else:
+			return float(self.location[1])
 
 	@latitude.setter
 	def latitude(self, v):
-		self.location[0] = v 
+		if isinstance(self.location, dict):
+			self.location["coordinates"][0] = v
+		else:
+			self.location[0] = v 
 
 	@longitude.setter
 	def longitude(self, v):
-		self.location[1] = v 
+		if isinstance(self.location, dict):
+			self.location["coordinates"][1] = v
+		else:
+			self.location[1] = v 
 
 
 
