@@ -81,3 +81,11 @@ def login(email, password):
 def logout():
 	session.pop("user_id")
 	return toJson({"message": "logout"})
+
+
+''' Get current user information  ''' 
+@api.route("/users/me", methods=['GET'])
+@check_auth
+def get_me():
+	user = current_user()
+	return toJson(user.export_data())

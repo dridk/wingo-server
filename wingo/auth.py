@@ -1,19 +1,21 @@
 from wingo.models import User
 from wingo.exceptions import CustomError
 from flask import session
+import functools
 
 ''' Authentification decorator using session ''' 
 def check_auth(f):
-	def called(*args, **kargs):
-		print("session")
+
+	@functools.wraps(f)
+	def wrapped(*args, **kargs):
 		if 'user_id' in session:
 			user = User.from_id(session["user_id"])
 			if user is not None:
 				return f(*args, **kargs)
 		else:	
-			print("n'est pas la ")
-			raise CustomError("authentification is required")
-	return called
+			raise CustomError("authentification required")
+
+	return wrapped
 
 
 ''' Return current user from session ''' 

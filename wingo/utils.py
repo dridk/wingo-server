@@ -1,5 +1,6 @@
 from flask import jsonify
 from wingo.models import Note
+from webargs import Arg
 
 def toJson(data):
 
