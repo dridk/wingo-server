@@ -1,5 +1,5 @@
 DEBUG                     = True 
-SECRET_KEY                ="writeyourownsecretkey"
+SECRET_KEY                ="5L9g2Yrlaoc3X4z3N2WBtcDMul1453PW"
 DATABASE                  ="wingo"
 VERSION                   ="0.3"
 VERSION_NAME              ="Pytheas"

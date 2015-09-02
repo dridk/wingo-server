@@ -35,6 +35,15 @@ class User(Document):
 		self.email    = data["email"]
 		self.password = data["password"]
 		self.avatar   = data["avatar"]
+
+
+	@staticmethod
+	def from_id(user_id):
+		if not ObjectId.is_valid(user_id):
+			return None;
+		
+		user = User.objects.get(pk=user_id)
+		return user
 	
 
 	def __str__(self):

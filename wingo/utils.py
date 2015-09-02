@@ -2,14 +2,15 @@ from flask import jsonify
 from wingo.models import Note
 
 def toJson(data):
-	if isinstance(data, dict):
-		return jsonify({"success":True, "results": data})
 
 	if isinstance(data, list):
 		return jsonify({"success":True, "results":data, "total":len(data)})
 
-	return jsonify({'status': 500, 'error': 'internal server error',"success": False,
-                        'message': 'Bad python object parsing'})
+	else:
+		return jsonify({"success":True, "results": data})
+
+
+
 
 
 
@@ -23,3 +24,6 @@ def selectNotes(center, radius = 10000 , search = None):
 
 
 	return queryset
+
+
+
