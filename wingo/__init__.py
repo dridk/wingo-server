@@ -20,7 +20,6 @@ def create_app(config_name):
 	mongo.connect(app.config["DATABASE"])
 
 
-	print("CONFIG NAME ",config_name)
 
 	# register api blueprints 
 	from wingo.api_v1 import api 

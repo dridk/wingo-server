@@ -22,7 +22,6 @@ def check_success(obj):
 class TestAPI(unittest.TestCase):
 
 	def setUp(self):
-		print("test begin")
 		self.app = create_app(os.environ.get("WINGO_CONFIG","testing")).test_client()
 
 		if Note.objects.count() == 0:
@@ -30,12 +29,11 @@ class TestAPI(unittest.TestCase):
 
 
 	def tearDown(self):
-		print("test end")
-
+		pass
 
 	def test_user(self):
 		uri = "/api/v1/users"
 		data = self.app.get(uri).data.decode("utf-8") 
-		print(data)
+		# print(data)
 		results = check_json(data)
 		check_success(results)
