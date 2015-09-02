@@ -93,7 +93,7 @@ class Note(Document):
 
 
 	meta = {
-        'indexes': [[("location", "2dsphere"), ("timestamp", 1)]]
+        'indexes': [[("location", "2dsphere"), ("timestamp", 1), ("takes",1)]]
         # 'ordering' : ['timestamp']
     }
 

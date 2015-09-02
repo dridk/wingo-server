@@ -19,15 +19,20 @@ def get_note(id):
 	'lat'    : Arg(float, required=True),
 	'lon'    : Arg(float, required=True),
 	'sort'   : Arg(str,   required=False, default = "recent",
-						  validate=lambda w: w in ["recent", "distance","popular"]),
+						  validate=lambda w: w in ["recent", "distance","popular"],
+						  error   = "sort can be recent, distance or popular"),
 
 	'radius' : Arg(str,   required = True,
 						  validate=lambda w: w in ["small", "medium","large"] , 
 						  error="radius should be small, medium or large"),
+
 	'filter' : Arg(str,   required = False, default=None,
-						  validate=lambda w: w in ["has_max_takes", "has_expiration"]),
-	'search' : Arg(float, required=False, default=None)
+						  validate=lambda w: w in ["has_max_takes", "has_expiration"],
+						  error   = "filter can be has_max_takes or has_expiration"),
+
+	'search' : Arg(str, required=False, default=None)
 	})
+
 def get_notes_list(lat,lon,sort,radius,filter,search):
 
 	radius = current_app.config["RADIUS"][radius]
