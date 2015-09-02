@@ -26,25 +26,6 @@ def drop():
 @manager.option('-u', '--userCount', help='number of user', default=3)
 @manager.option('-v', '--verbose', help='show output', default=True)
 def generate(latitude, longitude, radius, noteCount, userCount, verbose):
-
-	print("generate ")
-
-	dropAll()
-
-	
-	for i in range(userCount):
-		user = genUser()
-		user.save()
-
-		for j in range(noteCount):
-			note = genNote(user,latitude=latitude , longitude= longitude, max_distance = radius)
-			note.save()
-
-			for c in range(randint(0, 5)):
-				comment = genComment(user)
-				note.comments.append(comment)
-				note.save()
-
-
+	genAll(latitude, longitude, radius, noteCount, userCount, verbose)
 
 

@@ -2,7 +2,6 @@ from flask.ext.script import Manager , Shell
 from wingo import create_app
 from wingo import models
 import dbtools
-from test import suite 
 import unittest 
 import os
 import inspect 
@@ -12,7 +11,7 @@ from datetime import timedelta
 #try to use environ variable as config. Use by default devel
 app = create_app(os.environ.get("WINGO_CONFIG","devel"))
 
-#app.permanent_session_lifetime = timedelta(minutes=1)
+# app.permanent_session_lifetime = timedelta(minutes=1)
 
 manager = Manager(app, description="manage wingo application")
 manager.add_command("dbtools", dbtools.manager)
@@ -24,9 +23,7 @@ manager.add_command("dbtools", dbtools.manager)
 
 
 
-@manager.command 
-def test():
-	unittest.TextTestRunner(verbosity=2).run(suite)
+
 
 
 

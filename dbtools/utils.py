@@ -67,7 +67,7 @@ def computeNewPointFrom(lat, lon, bearing, distance):
 :return: Wingo User
 '''
 def genUser():
-	data = requests.get("http://api.randomuser.me")
+	data = requests.get("http://api.randomuser.me/0.5/")
 	data = data.json()["results"][0]["user"]
 
 	user          = User()
@@ -108,6 +108,23 @@ def genComment(author, message = None):
 
 
 
+
+def genAll(latitude, longitude, radius, noteCount, userCount, verbose = False):
+
+	print("generate ")
+	dropAll()
+	for i in range(userCount):
+		user = genUser()
+		user.save()
+
+	for j in range(noteCount):
+		note = genNote(user,latitude=latitude , longitude= longitude, max_distance = radius)
+		note.save()
+
+		for c in range(randint(0, 5)):
+			comment = genComment(user)
+			note.comments.append(comment)
+			note.save()
 
 
 
