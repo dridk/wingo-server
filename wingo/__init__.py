@@ -2,6 +2,8 @@ from flask import Flask, jsonify
 import mongoengine as mongo
 import os 
 from wingo.models import *
+from flask.ext.cors import CORS, cross_origin
+from flask_swagger import swagger
 
 def create_app(config_name):
 	""" 
@@ -15,7 +17,8 @@ def create_app(config_name):
 	#Create Application instance and set configuration
 	app = Flask(__name__)
 	app.config.from_pyfile(cfg)
-
+	cors = CORS(app)
+	app.config['CORS_HEADERS'] = 'Content-Type'
 	#Connect to database 
 	mongo.connect(app.config["DATABASE"])
 
@@ -24,6 +27,18 @@ def create_app(config_name):
 	# register api blueprints 
 	from wingo.api_v1 import api 
 	app.register_blueprint(api, url_prefix='/api/v1')
+
+
+
+	''' Get current user information  ''' 
+	@app.route("/spec", methods=['GET'])
+	@cross_origin()
+	def spec():
+		swag = swagger(current_app)
+		swag['info']['version'] = "1.0"
+		swag['info']['title'] = "My API"
+		return jsonify(swag)
+
 
 
 
