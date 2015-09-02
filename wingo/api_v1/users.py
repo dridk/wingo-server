@@ -89,3 +89,6 @@ def logout():
 def get_me():
 	user = current_user()
 	return toJson(user.export_data())
+
+
+

@@ -2,8 +2,12 @@ from flask import jsonify, request , current_app
 from wingo.api_v1 import api 
 from wingo.models import Note
 from wingo.utils import toJson, selectNotes
+from wingo.auth import check_auth, current_user
 from webargs import Arg
 from webargs.flaskparser import use_args, use_kwargs
+
+''' Get note by id ''' 
+
 @api.route("/notes/<id>", methods=['GET'])
 def get_note(id):
 	try:
@@ -13,6 +17,7 @@ def get_note(id):
 
 	return toJson(note.export_data())
 
+''' Get note list using lat, lon, sort , radius, filter and search arguments ''' 
 
 @api.route("/notes", methods=['GET'])
 @use_kwargs({
@@ -32,6 +37,7 @@ def get_note(id):
 
 	'search' : Arg(str, required=False, default=None)
 	})
+
 
 def get_notes_list(lat,lon,sort,radius,filter,search):
 
@@ -60,11 +66,43 @@ def get_notes_list(lat,lon,sort,radius,filter,search):
 	return toJson(items)
 
 
-@api.route("/notes", methods=['POST'])
-def create_note():
+''' Create a new note ''' 
 
+@api.route("/notes", methods=['POST'])
+@check_auth
+@use_args({
+	'lat'       : Arg(float, required=True),
+	'lon'       : Arg(float, required=True),
+	'message'   : Arg(str,   required=True),
+	'media'     : Arg(str, required = False, default=None)
+	})
+
+def create_note(args):
+
+	print(args)
 	note = Note();
-	note.import_data(request.json)
+	
+	note.import_data(args)
+	note.author = current_user()  
+
 	note.save()
 
 	return toJson({"id": str(note.id)})
+
+
+
+''' Take a note for the current user ''' 
+
+@api.route("/notes/take/<id>", methods=['POST'])
+@check_auth
+def take_note(id):
+
+	note = Note.objects.get(pk= id);
+	user = current_user()
+
+	user.pocket_notes.append(note)
+	note.takes+= 1 
+	note.save()
+	user.save()
+
+	return toJson({"id": str(note.id)+ " has been taken"})

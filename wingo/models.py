@@ -89,7 +89,7 @@ class Note(Document):
 	takes_limit = IntField()
 	tags        = ListField(StringField())
 	comments    = ListField(EmbeddedDocumentField(Comment))
-	die         = BooleanField(required=True , default=False)
+	disabled    = BooleanField(required=True , default=False)
 
 
 	meta = {
@@ -112,7 +112,7 @@ class Note(Document):
 			"tags"				: self.tags,
 			"has_max_takes"		: False,
 			"has_expiration"	: False, 
-			"die"               : self.die,
+			"disabled"          : self.disabled,
 			"uri"	            : url_for('api.get_note', id=self.id, _external=True)
 
  		}
@@ -132,7 +132,11 @@ class Note(Document):
 		self.tags = [i for i in self.message.split(" ") if i.startswith("#")]
 
 	def import_data(self, data):
-		pass
+		self.location  = (data["lat"], data["lon"])
+		self.message   = data["message"]
+		self.media     = data["media"]
+
+		
 
 	@property
 	def latitude(self):

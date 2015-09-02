@@ -41,8 +41,9 @@ def internal_server_error(e):
 # Mongoengine validation error 
 @api.app_errorhandler(ValidationError)
 def bad_request(e):
+    print(e.to_dict())
     response = jsonify({'status': 400, 'error': 'mongo error',"success": False,
-                        'message': ",".join(e.to_dict().values())})
+                        'message': e.to_dict().values()})
     response.status_code = 400
     return response
 
