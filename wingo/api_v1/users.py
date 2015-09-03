@@ -6,7 +6,7 @@ from wingo.utils import toJson
 from wingo.auth import check_auth, current_user
 from webargs.flaskparser import use_args, use_kwargs
 from webargs import Arg
-from flask_swagger import swagger
+from flasgger.utils import swag_from
 
 ''' Get user id ''' 
 @api.route("/users/<id>", methods=['GET'])
@@ -65,17 +65,6 @@ def get_user_pocket(id):
 	'password': Arg(str, required = True)
 	})
 def login(email, password):
-	"""
-        login to the user 
-        ---
-        tags:
-          - users
-
-    """
-
-
-
- 
 	try:
 		user = User.objects.get(email=email, password=password)
 	except :
@@ -100,15 +89,5 @@ def logout():
 def get_me():
 	user = current_user()
 	return toJson(user.export_data())
-
-
-
-''' Get current user information  ''' 
-@api.route("/spec", methods=['GET'])
-def spec():
-	swag = swagger(current_app)
-	swag['info']['version'] = "1.0"
-	swag['info']['title'] = "My API"
-	return jsonify(swag)
 
 

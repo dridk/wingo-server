@@ -51,7 +51,7 @@ def get_notes_list(lat,lon,sort,radius,filter,search):
 		query = query;
 
 	if sort == "popular":
-		query = query.order_by("takes")
+		query = query.order_by("-takes")
 
 
 	if filter is not None :
