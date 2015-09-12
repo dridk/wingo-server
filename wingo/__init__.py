@@ -34,7 +34,7 @@ def create_app(config_name):
 	app.register_blueprint(api, url_prefix='/api/v1')
 
 
-	@app.route("/swagger")
+	@app.route("/")
 	def root():
 		print("SACHA", request.url_root)
 		return render_template("index.html", url_root = request.url_root+"/spec")

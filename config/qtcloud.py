@@ -1,6 +1,6 @@
 DEBUG                     = True 
 SECRET_KEY                ="5L9g2Yrlaoc3X4z3N2WBtcDMul1453PW"
-DB_NAME                   ="wingo"
+DB_NAME                   ="wingodb"
 DB_HOST                   ="10.0.113.75"
 DB_PORT                   = 49415
 DB_USERNAME               ="admin"
