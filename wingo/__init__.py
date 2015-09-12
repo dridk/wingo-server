@@ -21,7 +21,7 @@ def create_app(config_name):
 	app.config['CORS_HEADERS'] = 'Content-Type'
 	app.config["CONFIG_NAME"]  = config_name
 	#Connect to database 
-	mongo.connect(pp.config["DB_NAME"],
+	mongo.connect(app.config["DB_NAME"],
 				  host     = app.config["DB_HOST"],
 				  port     = app.config["DB_PORT"],
 				  username = app.config["DB_USERNAME"],
