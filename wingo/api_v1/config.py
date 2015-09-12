@@ -17,7 +17,14 @@ def get_config():
 		"version" 			: current_app.config.get("VERSION"),
 		"note_per_page" 	: current_app.config.get("NOTE_PER_PAGE"),
 		"debug" 			: current_app.config.get("DEBUG"),
-		"configuration"     : current_app.config.get("CONFIG_NAME")
+		"configuration"     : current_app.config.get("CONFIG_NAME"),
+		"db_host" 	        : current_app.config.get("DB_HOST"),
+		"db_port" 			: current_app.config.get("DB_PORT"),
+		"db_name"           : current_app.config.get("DB_NAME"),
+		"db_username"       : current_app.config.get("DB_USERNAME"),
+	    "db_password"       : current_app.config.get("DB_PASSWORD")
+
+
 	}
 
 	return jsonify(res)
