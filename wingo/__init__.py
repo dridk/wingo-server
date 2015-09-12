@@ -20,7 +20,11 @@ def create_app(config_name):
 	cors = CORS(app)
 	app.config['CORS_HEADERS'] = 'Content-Type'
 	#Connect to database 
-	mongo.connect(app.config["DATABASE"])
+	mongo.connect(app.config["DB_NAME"],
+				  host     = app.config["DB_HOST"],
+				  port     = app.config["DB_PORT"],
+				  username = app.config["DB_USERNAME"],
+				  password = app.config["DB_PASSWORD"]) 
 
 
 

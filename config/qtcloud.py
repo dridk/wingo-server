@@ -1,10 +1,10 @@
 DEBUG                     = True 
 SECRET_KEY                ="5L9g2Yrlaoc3X4z3N2WBtcDMul1453PW"
 DB_NAME                   ="wingo"
-DB_HOST                   ="localhost"
-DB_PORT                   = 27017
-DB_USERNAME               =""
-DB_PASSWORD               =""
+DB_HOST                   ="10.0.113.75"
+DB_PORT                   = 49415
+DB_USERNAME               ="admin"
+DB_PASSWORD               ="5JaRSxwTsTs4TZthRRsHXqLH"
 VERSION                   ="0.3"
 VERSION_NAME              ="Pytheas"
 RADIUS           		  =  {"small":100, "medium":1000, "large":10000}

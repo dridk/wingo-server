@@ -6,7 +6,6 @@ from wingo.utils import toJson
 from wingo.auth import check_auth, current_user
 from webargs.flaskparser import use_args, use_kwargs
 from webargs import Arg
-from flasgger.utils import swag_from
 
 #=====================================================
 @api.route("/users/<id>", methods=['GET'])
