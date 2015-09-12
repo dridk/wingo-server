@@ -19,6 +19,7 @@ def create_app(config_name):
 	app.config.from_pyfile(cfg)
 	cors = CORS(app)
 	app.config['CORS_HEADERS'] = 'Content-Type'
+	app.config["CONFIG_NAME"]  = config_name
 	#Connect to database 
 	mongo.connect(app.config["DB_NAME"],
 				  host     = app.config["DB_HOST"],
