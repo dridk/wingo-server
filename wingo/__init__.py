@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, redirect, url_for
+from flask import Flask, jsonify, redirect, url_for, render_template, request
 import mongoengine as mongo
 import os 
 from wingo.models import *
@@ -31,7 +31,8 @@ def create_app(config_name):
 
 	@app.route("/swagger")
 	def root():
-		return redirect(url_for('static', filename='swagger/index.html'))
+		print("SACHA", request.url_root)
+		return render_template("index.html", url_root = request.url_root+"/spec")
 
 
 	''' Get current user information  ''' 

@@ -8,9 +8,15 @@ from webargs.flaskparser import use_args, use_kwargs
 from webargs import Arg
 from flasgger.utils import swag_from
 
-''' Get user id ''' 
+#=====================================================
 @api.route("/users/<id>", methods=['GET'])
 def get_user(id):
+	""" 
+	Get a user from ID 
+	---
+	tags:
+		- users 
+	"""
 	try:
 		user = User.objects.get(id = id);
 	except :
@@ -18,16 +24,23 @@ def get_user(id):
 
 	return toJson(user.export_data())
 
-''' Get user list ''' 
+#=====================================================
+
 @api.route("/users", methods=['GET'])
 @check_auth
 def get_users_list():
+	""" 
+	Get a user list 
+	---
+	tags:
+		- users 
+	"""
 	users = User.objects.all()
 	results = [u.export_data() for u in users]
 	return toJson(results)
 
+#=====================================================
 
-''' Create a new user ''' 
 @api.route("/users", methods=['POST'])
 @use_args({
 	'name'    : Arg(str, required=True),
@@ -36,35 +49,59 @@ def get_users_list():
 	'avatar'  : Arg(str, required=False, default=None)
 	})
 def create_user(args):
+	""" 
+	Create a new user 
+	---
+	tags:
+		- users 
+	"""
 	user = User();
 	user.import_data(args)
 	user.save()
-
 	return toJson({"id": str(user.id)})
 
+#=====================================================
 
-''' Get all published note from a user ''' 
 @api.route("/users/<id>/notes", methods=['GET'])
 def get_user_notes(id):
+	""" 
+	Get all published note of a user 
+	---
+	tags:
+		- notes 
+	"""
 	user = User.objects.get(id = id)
 	items = [i.export_data() for i in user.notes]
 	return toJson(items)
 
+#=====================================================
 
-''' Get all pocket note from a user ''' 
 @api.route("/users/<id>/pocket", methods=['GET'])
 def get_user_pocket(id):
+	""" 
+	Get all pocket note of a user 
+	---
+	tags:
+		- notes 
+	"""
 	user = User.objects.get(id = id)
 	items = [i.export_data() for i in user.pocket_notes]
 	return toJson(items)
 
-''' Login a create a session token ''' 
+#=====================================================
+
 @api.route("/users/login", methods=['POST'])
 @use_kwargs({
 	'email'   : Arg(str, required = True),
 	'password': Arg(str, required = True)
 	})
 def login(email, password):
+	""" 
+	Login 
+	---
+	tags:
+		- users 
+	"""
 	try:
 		user = User.objects.get(email=email, password=password)
 	except :
@@ -75,18 +112,30 @@ def login(email, password):
 		session["user_id"] = str(user.id)
 	return toJson({"message": "logged"})
 
+#=====================================================
 
-''' Logout and destroy the session token ''' 
 @api.route("/users/logout", methods=['DELETE'])
 def logout():
+	""" 
+	Logout
+	---
+	tags:
+		- users 
+	"""
 	session.pop("user_id")
 	return toJson({"message": "logout"})
 
+#=====================================================
 
-''' Get current user information  ''' 
 @api.route("/users/me", methods=['GET'])
 @check_auth
 def get_me():
+	""" 
+	Get current user  
+	---
+	tags:
+		- users 
+	"""
 	user = current_user()
 	return toJson(user.export_data())
 

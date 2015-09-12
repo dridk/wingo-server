@@ -6,10 +6,17 @@ from wingo.auth import check_auth, current_user
 from webargs import Arg
 from webargs.flaskparser import use_args, use_kwargs
 
-''' Get note by id ''' 
+
+#=================================================================
 
 @api.route("/notes/<id>", methods=['GET'])
 def get_note(id):
+	""" 
+	Get a note from ID 
+	---
+	tags:
+		- notes 
+	"""
 	try:
 		note = Note.objects.get(id = id);
 	except :
@@ -18,6 +25,8 @@ def get_note(id):
 	return toJson(note.export_data())
 
 ''' Get note list using lat, lon, sort , radius, filter and search arguments ''' 
+
+#=================================================================
 
 @api.route("/notes", methods=['GET'])
 @use_kwargs({
@@ -38,9 +47,13 @@ def get_note(id):
 	'search' : Arg(str, required=False, default=None)
 	})
 
-
 def get_notes_list(lat,lon,sort,radius,filter,search):
-
+	""" 
+	Get a note list
+	---
+	tags:
+		- notes 
+	"""
 	radius = current_app.config["RADIUS"][radius]
 	query  = selectNotes(center=(lat,lon), radius = radius, search = search)
 
@@ -65,8 +78,7 @@ def get_notes_list(lat,lon,sort,radius,filter,search):
 	items = [n.export_data() for n in query]
 	return toJson(items)
 
-
-''' Create a new note ''' 
+#=================================================================
 
 @api.route("/notes", methods=['POST'])
 @check_auth
@@ -78,7 +90,12 @@ def get_notes_list(lat,lon,sort,radius,filter,search):
 	})
 
 def create_note(args):
-
+	""" 
+	Create a new note 
+	---
+	tags:
+		- notes 
+	"""
 	print(args)
 	note = Note();
 	
@@ -89,14 +106,17 @@ def create_note(args):
 
 	return toJson({"id": str(note.id)})
 
-
-
-''' Take a note for the current user ''' 
+#=================================================================
 
 @api.route("/notes/take/<id>", methods=['POST'])
 @check_auth
 def take_note(id):
-
+	""" 
+	Take a note 
+	---
+	tags:
+		- notes 
+	"""
 	note = Note.objects.get(pk= id);
 	user = current_user()
 
@@ -106,3 +126,5 @@ def take_note(id):
 	user.save()
 
 	return toJson({"id": str(note.id)+ " has been taken"})
+
+#=================================================================

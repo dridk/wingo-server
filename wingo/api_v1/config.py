@@ -4,7 +4,12 @@ from wingo.models import User
 
 @api.route("/config/", methods=['GET'])
 def get_config():
-
+	""" 
+	Get API information
+	---
+	tags:
+		- config 
+	"""
 	res = { 
 		"radius" 			: current_app.config.get("RADIUS"),
 		"max_note_length" 	: current_app.config.get("MAX_NOTE_LENGTH"),
