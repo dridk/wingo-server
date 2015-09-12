@@ -21,11 +21,18 @@ def create_app(config_name):
 	app.config['CORS_HEADERS'] = 'Content-Type'
 	app.config["CONFIG_NAME"]  = config_name
 	#Connect to database 
-	mongo.connect(app.config["DB_NAME"],
-				  host     = app.config["DB_HOST"],
-				  port     = app.config["DB_PORT"],
-				  username = app.config["DB_USERNAME"],
-				  password = app.config["DB_PASSWORD"]) 
+	# mongo.connect(app.config["DB_NAME"],
+	# 			  host     = app.config["DB_HOST"],
+	# 			  port     = app.config["DB_PORT"],
+	# 			  username = app.config["DB_USERNAME"],
+	# 			  password = app.config["DB_PASSWORD"]) 
+
+
+	mongo.connect("wingo",
+				  host     = "10.0.113.75",
+				  port     = 49415,
+				  username = "admin",
+				  password = "5JaRSxwTsTs4TZthRRsHXqLH") 
 
 
 
