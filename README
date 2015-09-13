@@ -1,0 +1,70 @@
+CONTENTS OF THIS FILE
+---------------------
+   
+ * Introduction
+ * Requirements
+ * Installation
+ * Configuration
+ * Troubleshooting
+ * Maintainers
+
+INTRODUCTION
+------------
+
+Wingo server is a the backend API for wingo application. This is a python3 web application using Flask library. For a full description, visit the gitlab.labsquare.org/wingo-server . 
+
+REQUIREMENTS
+------------
+Wingo server required python 3 and several library avaible from requirements.txt.
+Mongo Database is required. Install it by following instruction from https://www.mongodb.org/.
+
+INSTALLATION
+------------
+* Setup virtualenv 
+From the repertory, create a virtual environement for python3 using virtualenv command : 
+
+	virtualenv -p /usr/bin/python3 venv 
+
+Activate the virtual environement by runing "activate" from venv directory 
+
+	source venv/bin/activate 
+
+Check if you have the right python version, which must be Python 3.4
+
+	python --version 
+
+* Install dependency using pip. All libary will installed into your virtual environement
+
+	pip install -r requirements.txt 
+
+CONFIGURATION
+------------
+
+* Setup mongo database connexion
+First check if you have a mongodb instance running. You can use the software robomongo avaible from http://robomongo.org/. 
+By default, wingo server use devel settings avaible in config/devel. You can edit it to setup the database connexion.  
+
+* Fill database 
+To fill the database with fake data , just type : 
+
+	python manage.py generate 
+
+* Run the wingo server 
+To launch the server, just type : 
+
+	python manage.py runserver 
+
+
+TROUBLESHOOTING
+---------------
+If you get any error during this process step, please create a new issue from http://gitlab.labsquare.org 
+
+
+MAINTAINERS
+-----------
+
+Current maintainers:
+ * Sacha Schutz (dridk) 
+ * Olivier Gueudelot (ikit) 
+ * Eugene Trounev (its)
+ 
