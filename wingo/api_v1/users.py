@@ -8,13 +8,20 @@ from webargs.flaskparser import use_args, use_kwargs
 from webargs import Arg
 
 #=====================================================
-@api.route("/users/<id>", methods=['GET'])
+@api.route("/users/<string:id>", methods=['GET'])
 def get_user(id):
 	""" 
-	Get a user from ID 
+	Get a user from Id 
 	---
 	tags:
 		- users 
+	parameters:
+	 - name: id 
+	   in: path
+	   required: true
+	   type: string
+	   description: User id 
+
 	"""
 	try:
 		user = User.objects.get(id = id);
@@ -53,6 +60,28 @@ def create_user(args):
 	---
 	tags:
 		- users 
+	parameters:
+		- in: body 
+		  name: body 
+		  schema:
+		  	id: User 
+		  	required:
+		  		- name
+		  		- email
+		  		- password 
+		  	properties:
+		  		name:
+		  			type: string
+		  			description: User name  
+		  		email: 
+		  			type: string
+		  			description: email 
+				password:
+					type: string 
+					description: string
+				avatar:
+					type: string
+					description: avatar
 	"""
 	user = User();
 	user.import_data(args)
@@ -64,10 +93,16 @@ def create_user(args):
 @api.route("/users/<id>/notes", methods=['GET'])
 def get_user_notes(id):
 	""" 
-	Get all published note of a user 
+	Get all published note for the user 
 	---
 	tags:
 		- notes 
+	parameters:
+		- name: id 
+		  in: path 
+		  description: User id 
+		  required: true 
+		  type: string 
 	"""
 	user = User.objects.get(id = id)
 	items = [i.export_data() for i in user.notes]
@@ -78,10 +113,16 @@ def get_user_notes(id):
 @api.route("/users/<id>/pocket", methods=['GET'])
 def get_user_pocket(id):
 	""" 
-	Get all pocket note of a user 
+	Get all pocket note for the user 
 	---
 	tags:
 		- notes 
+	parameters:
+		- name: id 
+		  in: path 
+		  description: User id 
+		  required: true 
+		  type: string 
 	"""
 	user = User.objects.get(id = id)
 	items = [i.export_data() for i in user.pocket_notes]
@@ -100,6 +141,23 @@ def login(email, password):
 	---
 	tags:
 		- users 
+	parameters:
+		- in: body 
+		  name: body 
+		  schema:
+		  	id: Login
+		 	required:
+		  	  - email
+		  	  - password 
+		  	properties:
+		  		email:
+		  			type: string
+		  			description: email 
+		  		password:
+		  			type: string
+		  			description: password
+
+
 	"""
 	try:
 		user = User.objects.get(email=email, password=password)
@@ -137,5 +195,32 @@ def get_me():
 	"""
 	user = current_user()
 	return toJson(user.export_data())
+
+
+#=====================================================
+
+@api.route("/users/<id>", methods=['DELETE'])
+@check_auth
+def del_user(id):
+	""" 
+	delete user  
+	---
+	tags:
+		- users
+	parameters:
+		- name: id 
+		  in: path 
+		  description: User id
+		  required: true
+		  type: string
+	"""
+	try:
+		user = User.objects.get(id = id);
+	except :
+		raise CustomError("not a valid id")
+
+	user.delete()
+
+	return toJson({"message" : "user deleted"})
 
 

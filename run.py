@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from wingo import create_app 
+
 app = create_app("qtcloud")
 
 

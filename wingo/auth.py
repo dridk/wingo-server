@@ -25,6 +25,10 @@ def check_auth(f):
 
 ''' Return current user from session ''' 
 def current_user():
+
+	if current_app.config["DEBUG"] is True :
+		return User.objects.first();
+
 	if 'user_id' in session:
 		user = User.from_id(session["user_id"])
 		return user

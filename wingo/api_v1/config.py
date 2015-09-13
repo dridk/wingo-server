@@ -11,7 +11,9 @@ def get_config():
 		- config 
 	"""
 	res = { 
-		"radius" 			: current_app.config.get("RADIUS"),
+		"small_radius" 		: current_app.config.get("SMALL_RADIUS"),
+		"medium_radius" 	: current_app.config.get("MEDIUM_RADIUS"),
+		"large_radius" 	    : current_app.config.get("LARGE_RADIUS"),
 		"max_note_length" 	: current_app.config.get("MAX_NOTE_LENGTH"),
 		"version_name" 		: current_app.config.get("VERSION_NAME"),
 		"version" 			: current_app.config.get("VERSION"),
@@ -20,9 +22,7 @@ def get_config():
 		"configuration"     : current_app.config.get("CONFIG_NAME"),
 		"db_host" 	        : current_app.config.get("DB_HOST"),
 		"db_port" 			: current_app.config.get("DB_PORT"),
-		"db_name"           : current_app.config.get("DB_NAME"),
-		"db_username"       : current_app.config.get("DB_USERNAME"),
-	    "db_password"       : current_app.config.get("DB_PASSWORD")
+		"db_name"           : current_app.config.get("DB_NAME")
 
 
 	}

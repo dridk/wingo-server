@@ -86,3 +86,31 @@ def create_comment(id):
 	note.comments.append(comment)
 	note.save()
 	return toJson({"id": str(note.id)})
+
+	#=====================================================
+
+@api.route("/notes/<string:note_id>/comments/<int:comment_id>", methods=['DELETE'])
+def del_comment(note_id, comment_id):
+	""" 
+	Delete comment from note  
+	---
+	tags:
+		- comments 
+	parameters:
+		- name: note_id
+		  in: path 
+		  description: note id 
+		  required: true 
+		  type: string 
+		- name: comment_id
+		  in: path 
+		  description: comment id 
+		  required: true 
+		  type: integer 
+	"""
+	note = Note.objects.get(pk = note_id)
+	if comment_id >= len(note.comments):
+		raise CustomError("comment id out of range")
+	else:
+		del(note.comments[comment_id])
+		return toJson({"message":"comment has been removed"})

@@ -3,6 +3,7 @@ from wingo.api_v1 import api
 from wingo.models import Note
 from wingo.utils import toJson, selectNotes
 from wingo.auth import check_auth, current_user
+from wingo.exceptions import CustomError
 from webargs import Arg
 from webargs.flaskparser import use_args, use_kwargs
 
@@ -16,6 +17,12 @@ def get_note(id):
 	---
 	tags:
 		- notes 
+	parameters:
+		- name: id 
+		  in: path 
+		  description: Note id 
+		  required: true 
+		  type: string 
 	"""
 	try:
 		note = Note.objects.get(id = id);
@@ -53,8 +60,49 @@ def get_notes_list(lat,lon,sort,radius,filter,search):
 	---
 	tags:
 		- notes 
+	parameters:
+		- name: lat 
+		  in: query 
+		  required: true 
+		  type: string
+		  description: latitude
+		  default: 48.4000000
+		- name: lon 
+		  in: query 
+		  required: true 
+		  type: string
+		  description: longitude
+		  default: -4.4833300
+		- name: radius 
+		  in: query 
+		  type: string
+		  required: true
+		  description: (small or medium or large) 	
+		  default: small
+		- name: sort 
+		  in: query 
+		  type: string
+		  description: (recent or distance or popular)		  
+		- name: filter 
+		  in: query 
+		  type: string
+		  description: (has_max_takes or has_expiration)	
+		- name: search 
+		  in: query 
+		  type: string
+		  description: tag keyword				  	
 	"""
-	radius = current_app.config["RADIUS"][radius]
+
+	if radius == "small":
+		radius = current_app.config["SMALL_RADIUS"]
+
+	if radius == "medium":
+		radius = current_app.config["MEDIUM_RADIUS"]
+	
+	if radius == "large":
+		radius = current_app.config["LARGE_RADIUS"]
+	
+
 	query  = selectNotes(center=(lat,lon), radius = radius, search = search)
 
 	if sort == "recent": 
@@ -95,7 +143,34 @@ def create_note(args):
 	---
 	tags:
 		- notes 
+	parameters:
+		- in: body 
+		  name: body 
+		  schema:
+		  	id: Note 
+		  	required:
+		  		- lat
+		  		- lon
+		  		- message 
+		  	properties:
+		  		lat:
+		  			type: string
+		  			description: latitude
+		  			default: 48.4000000
+		  		lon: 
+		  			type: string
+		  			description: longitude 
+		  			default: -4.4833300
+
+				message:
+					type: string 
+					description: message
+					default: This is a message
+				media:
+					type: string
+					description: media url 
 	"""
+
 	print(args)
 	note = Note();
 	
@@ -116,6 +191,12 @@ def take_note(id):
 	---
 	tags:
 		- notes 
+	parameters:
+		- name: id 
+		  in: path
+		  description: Note id 
+		  required: true
+		  type: string
 	"""
 	note = Note.objects.get(pk= id);
 	user = current_user()
@@ -126,5 +207,58 @@ def take_note(id):
 	user.save()
 
 	return toJson({"id": str(note.id)+ " has been taken"})
-
 #=================================================================
+
+@api.route("/notes/untake/<id>", methods=['POST'])
+@check_auth
+def untake_note(id):
+	""" 
+	Untake a note 
+	---
+	tags:
+		- notes 
+	parameters:
+		- name: id 
+		  in: path
+		  description: Note id 
+		  required: true
+		  type: string
+	"""
+	note = Note.objects.get(pk= id);
+	user = current_user()
+
+	if note in user.pocket_notes:
+		user.pocket_notes.remove(note)
+		note.takes-=1
+		note.save()
+		user.save()
+		return toJson({"id": str(note.id)+ " has been untaken"})
+	else:
+		raise CustomError("This note has not been taken by " + user.name)
+#=================================================================
+
+@api.route("/notes/<id>", methods=['DELETE'])
+def del_note(id):
+	""" 
+	Delete a note from ID 
+	---
+	tags:
+		- notes 
+	parameters:
+		- name: id 
+		  in: path 
+		  description: Note id 
+		  required: true 
+		  type: string 
+	"""
+	try:
+		note = Note.objects.get(id = id);
+	except :
+		raise ValidationError("not valid id")
+
+	# Do note remove it ! Make it disable 
+	# note.delete()
+	note.disabled = True 
+	note.save()
+
+	return toJson({"message": "Not has been disabled"})
